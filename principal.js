@@ -1,7 +1,20 @@
 // ===== SISTEMA DE VERIFICAÇÃO DE USUÁRIO =====
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Sistema InfoMorita iniciado!');
-    
+
+
+    const API_BASE = "https://lfomorita.onrender.com";
+
+async function login(rm, senha) {
+  const response = await fetch(`${API_BASE}/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ rm, senha })
+  });
+  const data = await response.json();
+  console.log(data);
+}
+
     // Verificar se o usuário está logado
     checkAuthentication();
     
@@ -718,4 +731,5 @@ window.addEventListener('load', function() {
             showNotification('Bem-vindo ao InfoMorita! 🌟', 'info');
         }
     }, 1000);
+
 });
