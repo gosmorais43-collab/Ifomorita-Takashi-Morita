@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfoMorita - ETEC Takashi Morita</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="principal.css">
+</head>
+<body>
+    <!-- Header Oficial CPS ATUALIZADO -->
+    <header class="cps-header">
+        <!-- Faixa do Governo SP -->
+        <div class="governo-sp-banner">
+            <div class="governo-banner-container">
+                <div class="governo-content">
+                    <div class="governo-logo-container">
+                        <img src="logo-governo-do-estado-sp.png" 
+                             alt="Governo do Estado de São Paulo" class="governo-logo">
+                    </div>
+                    <span class="governo-text">Governo do Estado de São Paulo</span>
+                </div>
+                
+                <!-- Controles de Redes Sociais e Zoom -->
+                <div class="header-controls">
+                    <div class="social-icons">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" id="zoom-out" title="Diminuir zoom">
+                            <i class="fas fa-search-minus"></i>
+                        </button>
+                        <button class="zoom-btn" id="zoom-in" title="Aumentar zoom">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Header Principal CPS -->
+        <div class="cps-main-header">
+            <div class="container">
+                <div class="header-main-content">
+                    <!-- Logos CPS + ETEC -->
+                    <div class="logos-container">
+                        <a href="https://www.cps.sp.gov.br" class="logo-link">
+                            <img src="centro-paula-souza-logo.svg" 
+                                 alt="Centro Paula Souza" class="cps-logo">
+                        </a>
+
+                        <div class="divider"></div>
+
+                        <a href="#" class="logo-link">
+                            <img src="Etec.png" alt="ETEC Takashi Morita" class="etec-logo">
+                        </a>
+                    </div>
+
+                    <!-- Barra de Pesquisa -->
+                    <div class="search-container">
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="Pesquisar no site...">
+                            <button class="search-btn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SELEÇÃO DE TEMA -->
+    <div class="theme-selector">
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+            <span>Modo Escuro</span>
+        </button>
+    </div>
+
+    <!-- CONTEÚDO DO ALUNO -->
+    <div class="layout-container" id="studentLayout">
+        <!-- Sidebar de Navegação -->
+        <nav class="cps-sidebar">
+            <div class="school-logo">
+                <img src="Etec.png" alt="ETEC Takashi Morita" class="etec-logo-sidebar">
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-item active" data-target="inicio">
+                    <i class="fas fa-home"></i>
+                    <span>Início</span>
+                </div>
+                <div class="menu-item" data-target="cursos">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Informações Acadêmicas</span>
+                </div>
+                <div class="menu-item" data-target="biblioteca">
+                    <i class="fas fa-book"></i>
+                    <span>Biblioteca</span>
+                </div>
+                <div class="menu-item" data-target="configuracoes">
+                    <i class="fas fa-cog"></i>
+                    <span>Configurações</span>
+                </div>
+                <div class="menu-item logout-item" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1 id="site-title">InfoMorita</h1>
+                <div class="user-info">
+                    <!-- Informações do usuário serão carregadas via JS -->
+                </div>
+            </div>
+
+            <!-- Seção Início -->
+            <section class="content-section active" id="inicio">
+                <div class="dashboard-grid">
+                    <div class="cps-card" onclick="navigateTo('horario')">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <h3>Horário</h3>
+                        </div>
+                        <div class="card-body">
+                            <p id="horario-desc">Novo</p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="cps-button primary" onclick="window.open('HORARIO ETIM 2025_09 DE 28 a 30 DE ABRIL.pdf', '_blank')">
+                                Ver Horário
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="cps-card" onclick="navigateTo('noticias')">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-newspaper"></i>
+                            </div>
+                            <h3>Eventos e Notícias</h3>
+                        </div>
+                        <div class="card-body">
+                            <p id="eventos-desc">Bem vindos</p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="cps-button primary" onclick="window.open('noticias.html', '_blank')">
+                                Ver Notícias
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="cps-card" onclick="navigateTo('chat')">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h3>Chat</h3>
+                        </div>
+                        <div class="card-body">
+                            <p id="chat-desc">Fale com o suporte</p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="cps-button primary" onclick="window.open('chat.html', '_blank')">
+                                Abrir Chat
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mensagem de boas-vindas editável -->
+                <div class="welcome-message" id="welcome-message">
+                    <p>Boas vindas ao Infomorita, nosso novo site informativo</p>
+                </div>
+
+                <!-- Seção de Recados para Alunos -->
+                <div class="recados-aluno-section">
+                    <h2 class="section-title">Recados Recentes</h2>
+                    <div class="recados-aluno-container" id="recadosAlunoContainer">
+                        <!-- Recados serão carregados via JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção Informações Acadêmicas -->
+            <section class="content-section" id="cursos">
+                <h2 class="section-title">Informações Acadêmicas</h2>
+                <div class="courses-grid">
+                    <div class="cps-card">
+                        <div class="card-header">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <h3>Professores</h3>
+                        </div>
+                        <div class="card-body">
+                            <p id="professores-desc">Lista de professores e contatos</p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="cps-button primary" onclick="window.open('professores.html', '_blank')">
+                                Ver Detalhes
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="cps-card">
+                        <div class="card-header">
+                            <i class="fas fa-calendar-alt"></i>
+                            <h3>Calendário</h3>
+                        </div>
+                        <div class="card-body">
+                            <p id="calendario-desc">Datas importantes e eventos</p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="cps-button primary" onclick="window.open('Etec Takashi Morita 2025.pdf', '_blank')">
+                                Ver Calendário
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção Biblioteca -->
+            <section class="content-section" id="biblioteca">
+                <h2 class="section-title">Biblioteca</h2>
+                <div class="courses-grid">
+                    <div class="cps-card">
+                        <div class="card-header">
+                            <i class="fas fa-book-open"></i>
+                            <h3>Acervo Digital</h3>
+                        </div>
+                        <div class="card-body">
+                            <p id="biblioteca-desc">Biblioexa</p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="cps-button primary" onclick="window.open('livros.html', '_blank')">
+                                Acessar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção Configurações -->
+            <section class="content-section" id="configuracoes">
+                <h2 class="section-title">Configurações</h2>
+                <div class="courses-grid">
+                    <div class="cps-card">
+                        <div class="card-header">
+                            <i class="fas fa-user-cog"></i>
+                            <h3>Perfil</h3>
+                        </div>
+                        <div class="card-body">
+                            <p id="perfil-desc">Configurações</p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="cps-button primary" onclick="window.open('configuracao.html', '_blank')">
+                                Editar Perfil
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- PAINEL ADMINISTRATIVO -->
+    <div class="admin-layout-container" id="adminLayout" style="display: none;">
+        <!-- Sidebar Admin -->
+        <nav class="admin-sidebar">
+            <div class="admin-logo">
+                <img src="Etec.png" alt="ETEC Takashi Morita" class="admin-logo-img">
+                <div class="admin-badge">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Administrador</span>
+                </div>
+            </div>
+            
+            <div class="admin-menu">
+                <div class="admin-menu-item active" data-target="admin-dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </div>
+                
+                <!-- Links para páginas como administrador -->
+                
+                <div class="admin-menu-item" onclick="openPageAsAdmin('noticias')">
+                    <i class="fas fa-newspaper"></i>
+                    <span>Eventos/Notícias (Admin)</span>
+                </div>
+                <div class="admin-menu-item" onclick="openPageAsAdmin('chat')">
+                    <i class="fas fa-comments"></i>
+                    <span>Chat (Admin)</span>
+                </div>
+                <div class="admin-menu-item" onclick="openPageAsAdmin('professores')">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>Professores (Admin)</span>
+                </div>
+                <div class="admin-menu-item" onclick="openPageAsAdmin('biblioteca')">
+                    <i class="fas fa-book"></i>
+                    <span>Biblioteca (Admin)</span>
+                </div>
+                
+
+                <div class="admin-menu-item" data-target="admin-conteudo">
+                    <i class="fas fa-edit"></i>
+                    <span>Editar Conteúdo</span>
+                </div>
+                
+                <div class="admin-menu-item" data-target="admin-recados">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Enviar Recados</span>
+                </div>
+                
+                <div class="admin-menu-item logout-item" id="adminLogoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Conteúdo Admin -->
+        <main class="admin-main-content">
+            <div class="admin-header">
+                <h1>Painel Administrativo</h1>
+                <div class="admin-actions">
+                    <button class="cps-button success" id="saveAllBtn">
+                        <i class="fas fa-save"></i> Salvar Tudo
+                    </button>
+                    <button class="cps-button secondary" id="viewStudentBtn">
+                        <i class="fas fa-eye"></i> Ver como Aluno
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Admin -->
+            <section class="admin-content-section active" id="admin-dashboard">
+                <div class="admin-stats-grid">
+                    
+                </div>
+
+                <div class="admin-quick-actions">
+                    <h3>Ações Rápidas</h3>
+                    <div class="actions-grid">
+                        <button class="action-btn" onclick="openPageAsAdmin('chat')">
+                            <i class="fas fa-comments"></i>
+                            <span>Gerenciar Chat</span>
+                        </button>
+                        <button class="action-btn" onclick="openPageAsAdmin('noticias')">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Gerenciar Notícias</span>
+                        </button>
+                        <button class="action-btn" data-target="admin-conteudo">
+                            <i class="fas fa-edit"></i>
+                            <span>Editar Conteúdo</span>
+                        </button>
+                        <button class="action-btn" data-target="admin-recados">
+                            <i class="fas fa-bullhorn"></i>
+                            <span>Enviar Recados</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Editar Conteúdo -->
+            <section class="admin-content-section" id="admin-conteudo">
+                <h2>Editar Conteúdo do Site</h2>
+                <div class="admin-form-container">
+                    <form class="admin-form">
+                        <div class="form-group">
+                            <label for="adminSiteTitle">Título do Site</label>
+                            <input type="text" id="adminSiteTitle" class="cps-input" placeholder="Título do site">
+                        </div>
+                        <div class="form-group">
+                            <label for="adminWelcomeMessage">Mensagem de Boas-Vindas</label>
+                            <textarea id="adminWelcomeMessage" rows="4" class="cps-textarea" placeholder="Mensagem de boas-vindas"></textarea>
+                        </div>
+                        
+                        <h3 style="margin: 20px 0 10px 0;">Descrições dos Cards</h3>
+                        
+                        <div class="form-group">
+                            <label for="adminHorarioDesc">Descrição do Horário</label>
+                            <input type="text" id="adminHorarioDesc" class="cps-input" placeholder="Descrição do card de horário">
+                        </div>
+                        <div class="form-group">
+                            <label for="adminEventosDesc">Descrição de Eventos</label>
+                            <input type="text" id="adminEventosDesc" class="cps-input" placeholder="Descrição do card de eventos">
+                        </div>
+                        <div class="form-group">
+                            <label for="adminChatDesc">Descrição do Chat</label>
+                            <input type="text" id="adminChatDesc" class="cps-input" placeholder="Descrição do card de chat">
+                        </div>
+                        <div class="form-group">
+                            <label for="adminBibliotecaDesc">Descrição da Biblioteca</label>
+                            <input type="text" id="adminBibliotecaDesc" class="cps-input" placeholder="Descrição do card de biblioteca">
+                        </div>
+                        
+                        <button type="button" class="cps-button primary" id="saveContentBtn">
+                            <i class="fas fa-save"></i> Salvar Conteúdo
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Enviar Recados -->
+            <section class="admin-content-section" id="admin-recados">
+                <h2>Enviar Recado para Todos os Usuários</h2>
+                <div class="admin-form-container">
+                    <div class="recado-form">
+                        <div class="form-group">
+                            <label for="recadoTitulo">Título do Recado</label>
+                            <input type="text" id="recadoTitulo" class="cps-input" placeholder="Ex: Aviso Importante">
+                        </div>
+                        <div class="form-group">
+                            <label for="recadoMensagem">Mensagem</label>
+                            <textarea id="recadoMensagem" rows="6" class="cps-textarea" placeholder="Digite a mensagem que será exibida para todos os usuários..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="recadoTipo">Tipo de Recado</label>
+                            <select id="recadoTipo" class="cps-select">
+                                <option value="info">Informação</option>
+                                <option value="aviso">Aviso</option>
+                                <option value="urgente">Urgente</option>
+                                <option value="evento">Evento</option>
+                            </select>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="cps-button primary" id="enviarRecadoBtn">
+                                <i class="fas fa-paper-plane"></i> Enviar Recado
+                            </button>
+                            <button type="button" class="cps-button secondary" id="previewRecadoBtn">
+                                <i class="fas fa-eye"></i> Visualizar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="recados-preview" style="margin-top: 30px;">
+                        <h3>Pré-visualização do Recado</h3>
+                        <div class="preview-container" id="previewContainer">
+                            <div class="recado-preview-item info">
+                                <div class="recado-header">
+                                    <span class="recado-titulo">Título do Recado</span>
+                                    <span class="recado-data">Data de hoje</span>
+                                </div>
+                                <div class="recado-mensagem">
+                                    Esta é uma pré-visualização de como o recado será exibido para os usuários.
+                                </div>
+                                <div class="recado-tipo">Informação</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recados-enviados" style="margin-top: 40px;">
+                        <h3>Recados Enviados Recentemente</h3>
+                        <div class="recados-list" id="recadosList">
+                            <!-- Lista de recados será carregada via JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gerenciar Usuários -->
+            <section class="admin-content-section" id="admin-usuarios">
+                <h2>Gerenciar Usuários</h2>
+                <div class="admin-form-container">
+                    <div class="users-stats">
+                        <div class="users-grid">
+                            <div class="user-stat-card">
+                                <h3>Total de Alunos</h3>
+                                <div class="stat-number" id="totalStudents">0</div>
+                            </div>
+                            <div class="user-stat-card">
+                                <h3>Administradores</h3>
+                                <div class="stat-number" id="totalAdmins">0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="users-list-section">
+                        <h3>Lista de Usuários</h3>
+                        <div class="users-table-container">
+                            <table class="users-table" id="usersTable">
+                                <thead>
+                                    <tr>
+                                        <th>RM</th>
+                                        <th>Nome</th>
+                                        <th>Email</th>
+                                        <th>Tipo</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTableBody">
+                                    <!-- Dados dos usuários serão carregados via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+   
+
+    <!-- Sistema de Notificações -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <script src="principal.js"></script>
+</body>
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETEC Takashi Morita - Centro Paula Souza</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="menu2.css">
+</head>
+<body>
+    <!-- Header Oficial CPS Padrão -->
+    <header class="cps-header">
+        <!-- Faixa do Governo SP -->
+        <div class="governo-sp-banner">
+            <div class="governo-banner-container">
+                <div class="governo-content">
+                    <div class="governo-logo-container">
+                        <img src="logo-governo-do-estado-sp.png" 
+                             alt="Governo do Estado de São Paulo" class="governo-logo">
+                    </div>
+                    <span class="governo-text">Governo do Estado de São Paulo</span>
+                </div>
+                
+                <!-- Controles de Redes Sociais e Zoom -->
+                <div class="header-controls">
+                    <div class="social-icons">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" id="zoom-out" title="Diminuir zoom">
+                            <i class="fas fa-search-minus"></i>
+                        </button>
+                        <button class="zoom-btn" id="zoom-in" title="Aumentar zoom">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Header Principal CPS -->
+        <div class="cps-main-header">
+            <div class="container">
+                <div class="header-main-content">
+                    <!-- Logos CPS + ETEC -->
+                    <div class="logos-container">
+                        <a href="https://www.cps.sp.gov.br" class="logo-link">
+                            <img src="centro-paula-souza-logo.svg" 
+                                 alt="Centro Paula Souza" class="cps-logo">
+                        </a>
+                        <div class="divider"></div>
+                        <a href="#" class="logo-link">
+                            <img src="Etec.png" alt="ETEC Takashi Morita" class="etec-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Barra de Navegação -->
+    <nav class="cps-navigation">
+        <div class="container">
+            <ul class="nav-menu">
+                <li class="nav-item active">
+                    <a href="#login" class="nav-link" data-tab="login">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Login</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#history" class="nav-link" data-tab="history">
+                        <i class="fas fa-history"></i>
+                        <span>História</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#courses" class="nav-link" data-tab="courses">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Cursos</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Modal de Seleção de Usuário -->
+            <div class="modal" id="userTypeModal">
+                <div class="modal-content">
+                    <h3>Selecione seu Tipo de Acesso</h3>
+                    <div class="user-type-options">
+                        <button class="user-type-card" data-type="student">
+                            <div class="user-icon">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <h4>Aluno</h4>
+                            <p>Acesso ao portal do aluno</p>
+                        </button>
+                        <button class="user-type-card" data-type="admin">
+                            <div class="user-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <h4>Diretoria</h4>
+                            <p>Acesso administrativo</p>
+                        </button>
+                    </div>
+                    <button class="cps-button secondary close-modal">Cancelar</button>
+                </div>
+            </div>
+
+            <!-- Modal Login Administrativo -->
+            <div class="modal" id="adminLoginModal">
+                <div class="modal-content">
+                    <h3>Acesso da Diretoria</h3>
+                    <form id="adminLoginForm" class="cps-form">
+                        <div class="form-group">
+                            <label for="adminPassword">Senha Administrativa</label>
+                            <input type="password" id="adminPassword" required class="cps-input">
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="cps-button primary">
+                                <i class="fas fa-lock"></i> Acessar
+                            </button>
+                            <button type="button" class="cps-button secondary close-modal">
+                                <i class="fas fa-times"></i> Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+</div>
+            <!-- Aba Login -->
+            <section class="content-tab active" id="login">
+                <div class="tab-header">
+                    <h2>Acesso ao Portal</h2>
+                </div>
+                
+                <div class="login-section">
+                    <form class="cps-form login-form" id="loginForm">
+                        <div class="form-group">
+                            <label for="username">Usuário/RM</label>
+                            <input type="text" id="username" required class="cps-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Senha</label>
+                            <input type="password" id="password" required class="cps-input">
+                        </div>
+                        
+                        <div class="form-options">
+                            <label class="remember-me">
+                                <input type="checkbox" id="rememberMe">
+                                <span>Lembrar-me</span>
+                            </label>
+                            
+                            <a href="senha.html" class="forgot-password-link" id="forgotPasswordLink">
+                                <i class="fas fa-question-circle"></i> Esqueceu a senha?
+                            </a>
+                        </div>
+                        
+                        <button type="submit" class="cps-button primary full-width">
+                            <i class="fas fa-sign-in-alt"></i> Acessar
+                        </button>
+                    </form>
+
+                    <div class="register-section">
+                        <div class="section-toggle" id="registerToggle">
+                            <span>Não tem conta? <strong>Cadastre-se aqui</strong></span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        
+                        <div class="register-form" id="registerForm">
+                            <h3>Cadastrar Novo Aluno</h3>
+                            <form id="studentRegisterForm" class="cps-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="rm">RM *</label>
+                                        <input type="text" id="rm" required class="cps-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="registerPassword">Senha *</label>
+                                        <input type="password" id="registerPassword" required minlength="6" class="cps-input">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="fullName">Nome Completo *</label>
+                                        <input type="text" id="fullName" required class="cps-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email *</label>
+                                        <input type="email" id="email" required class="cps-input">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="phone">Telefone</label>
+                                        <input type="tel" id="phone" class="cps-input" placeholder="(11) 99999-9999">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cpf">CPF</label>
+                                        <input type="text" id="cpf" class="cps-input" placeholder="000.000.000-00">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="birthDate">Data de Nascimento</label>
+                                        <input type="date" id="birthDate" class="cps-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="turma">Turma *</label>
+                                        <select id="turma" required class="cps-select">
+                                            <option value="">Selecione a turma</option>
+                                            <option value="1">1º Ano - Automação</option>
+                                            <option value="2">2º Ano - Automação</option>
+                                            <option value="3">3º Ano - Automação</option>
+                                            <option value="4">1º Ano - Eletrônica</option>
+                                            <option value="5">2º Ano - Eletrônica</option>
+                                            <option value="6">3º Ano - Eletrônica</option>
+                                            <option value="7">1º Ano - Administração</option>
+                                            <option value="8">2º Ano - Administração</option>
+                                            <option value="9">3º Ano - Administração</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="responsibleName">Nome do Responsável</label>
+                                        <input type="text" id="responsibleName" class="cps-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="emergencyPhone">Telefone de Emergência</label>
+                                        <input type="tel" id="emergencyPhone" class="cps-input" placeholder="(11) 99999-9999">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="address">Endereço</label>
+                                    <textarea id="address" rows="3" class="cps-textarea"></textarea>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="allergies">Alergias</label>
+                                        <textarea id="allergies" rows="2" class="cps-textarea" placeholder="Liste as alergias do aluno"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="medications">Medicamentos</label>
+                                        <textarea id="medications" rows="2" class="cps-textarea" placeholder="Medicamentos de uso contínuo"></textarea>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="cps-button success">
+                                        <i class="fas fa-user-plus"></i> Cadastrar Aluno
+                                    </button>
+                                    <button type="button" id="cancelRegister" class="cps-button secondary">
+                                        <i class="fas fa-times"></i> Cancelar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Aba História -->
+            <section class="content-tab" id="history">
+                <div class="tab-header">
+                    <h2>Nossa História</h2>
+                </div>
+                
+                <div class="timeline">
+                    <div class="timeline-event">
+                        <div class="event-marker">
+                            <div class="event-year">.</div>
+                        </div>
+                        <div class="event-content">
+                            <h3>Conquistas</h3>
+                            <p>Estamos entre as unidades com os melhores resultados no SARESP 2022 ETEC apresenta desempenho acima da média no PISA 2022 Empregabilidade Alto índice de aprovação em Universidades de primeira linha.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-event">
+                        <div class="event-marker">
+                            <div class="event-year">.</div>
+                        </div>
+                        <div class="event-content">
+                            <h3>Expansão</h3>
+                            <p>CEUs Alvarenga e Parelheiros e nas classes descentralizadas das parcerias SEE Professor Luiz Simione Sobrinho e Professor Alberto Conte.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-event">
+                        <div class="event-marker">
+                            <div class="event-year">.</div>
+                        </div>
+                        <div class="event-content">
+                            <h3>Objetivo</h3>
+                            <p>Priorizar o conhecimento critico, a descoberta e a construção da cidadania Desenvolver competências, habilidades e autonomia para que estejam aptos a competir por vagas no mercado de trabalho bem como em universidades de primeira linha ou ocupar vagas de trabalho em boas empresas.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Aba Cursos -->
+            <section class="content-tab" id="courses">
+                <div class="tab-header">
+                    <h2>Nossos Cursos</h2>
+                </div>
+                
+                <div class="courses-grid">
+                    <div class="course-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h3>Automação Industrial</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Domine as tecnologias da Indústria 4.0 com robótica, CLPs e sistemas automatizados.</p>
+                            <ul class="course-features">
+                                <li><i class="fas fa-check"></i> Robótica Industrial</li>
+                                <li><i class="fas fa-check"></i> CLPs e SCADA</li>
+                                <li><i class="fas fa-check"></i> IoT Industrial</li>
+                            </ul>
+                        </div>
+                        <div class="card-footer">
+                            <button class="cps-button primary">Saiba Mais</button>
+                        </div>
+                    </div>
+                    
+                    <div class="course-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h3>Eletrônica</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Aprenda a projetar e manter circuitos eletrônicos e sistemas embarcados.</p>
+                            <ul class="course-features">
+                                <li><i class="fas fa-check"></i> Circuitos Eletrônicos</li>
+                                <li><i class="fas fa-check"></i> Microcontroladores</li>
+                                <li><i class="fas fa-check"></i> Sistemas Embarcados</li>
+                            </ul>
+                        </div>
+                        <div class="card-footer">
+                            <button class="cps-button primary">Saiba Mais</button>
+                        </div>
+                    </div>
+                    
+                    <div class="course-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>Administração</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Gerencie negócios com técnicas modernas e visão estratégica.</p>
+                            <ul class="course-features">
+                                <li><i class="fas fa-check"></i> Gestão Empresarial</li>
+                                <li><i class="fas fa-check"></i> Marketing Digital</li>
+                                <li><i class="fas fa-check"></i> Finanças</li>
+                            </ul>
+                        </div>
+                        <div class="card-footer">
+                            <button class="cps-button primary">Saiba Mais</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="cps-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contato</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Av. Mário Lopes Leão, 1050 A - Santo Amaro, São Paulo (cidade), 04754-010.</p>
+                    <p><i class="fas fa-phone"></i> (11) 5521-0636</p>
+                    <p><i class="fas fa-envelope"></i> e200acad@cps.sp.gov.br</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- 2. CRYPTOJS (para criptografia do CPF) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    
+    <script src="menu2.js"></script>
+</body>
+</html>

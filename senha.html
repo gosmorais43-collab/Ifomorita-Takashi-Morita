@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redefinir Senha - ETEC Takashi Morita</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="menu2.css"> <!-- Mesmo CSS do menu principal -->
+</head>
+<body>
+    <!-- Header Oficial CPS Padrão -->
+    <header class="cps-header">
+        <!-- Faixa do Governo SP -->
+        <div class="governo-sp-banner">
+            <div class="governo-banner-container">
+                <div class="governo-content">
+                    <div class="governo-logo-container">
+                        <img src="logo-governo-do-estado-sp.png" 
+                             alt="Governo do Estado de São Paulo" class="governo-logo">
+                    </div>
+                    <span class="governo-text">Governo do Estado de São Paulo</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Header Principal CPS -->
+        <div class="cps-main-header">
+            <div class="container">
+                <div class="header-main-content">
+                    <!-- Logos CPS + ETEC -->
+                    <div class="logos-container">
+                        <a href="https://www.cps.sp.gov.br" class="logo-link">
+                            <img src="centro-paula-souza-logo.svg" 
+                                 alt="Centro Paula Souza" class="cps-logo">
+                        </a>
+                        <div class="divider"></div>
+                        <a href="index.html" class="logo-link">
+                            <img src="Etec.png" alt="ETEC Takashi Morita" class="etec-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <div class="container">
+            <div class="tab-header">
+                <h2>Redefinir Senha</h2>
+                <p>Preencha seus dados para criar uma nova senha</p>
+            </div>
+            
+            <div class="login-section">
+                <form class="cps-form" id="passwordResetForm">
+                    <div class="form-group">
+                        <label for="rm">RM (Registro do Aluno) *</label>
+                        <input type="text" id="rm" required class="cps-input" placeholder="Digite seu RM">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cpf">CPF *</label>
+                        <input type="text" id="cpf" required class="cps-input" placeholder="000.000.000-00">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newPassword">Nova Senha *</label>
+                        <input type="password" id="newPassword" required class="cps-input" placeholder="Digite a nova senha" minlength="6">
+                        <small class="form-text">Mínimo 6 caracteres</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirmar Nova Senha *</label>
+                        <input type="password" id="confirmPassword" required class="cps-input" placeholder="Confirme a nova senha" minlength="6">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="cps-button primary full-width">
+                            <i class="fas fa-key"></i> Redefinir Senha
+                        </button>
+                        <a href="index.html" class="cps-button secondary full-width" style="margin-top: 10px;">
+                            <i class="fas fa-arrow-left"></i> Voltar para Login
+                        </a>
+                    </div>
+                    
+                    <div class="password-recovery-info">
+                        <p><i class="fas fa-info-circle"></i> <strong>Instruções:</strong></p>
+                        <ul>
+                            <li>Digite seu RM e CPF cadastrados</li>
+                            <li>Crie uma nova senha (mínimo 6 caracteres)</li>
+                            <li>Confirme a nova senha</li>
+                            <li>Após redefinir, faça login com sua nova senha</li>
+                        </ul>
+                    </div>
+                </form>
+                
+                <!-- Mensagem de sucesso (inicialmente oculta) -->
+                <div id="successMessage" class="success-message-container" style="display: none;">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3 style="color: var(--cps-verde);">Senha Redefinida com Sucesso!</h3>
+                    <p>Sua senha foi alterada com sucesso. Agora você pode fazer login com sua nova senha.</p>
+                    <a href="index.html" class="cps-button primary" style="margin-top: 20px;">
+                        <i class="fas fa-sign-in-alt"></i> Ir para Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="cps-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contato</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Av. Mário Lopes Leão, 1050 A - Santo Amaro, São Paulo (cidade), 04754-010.</p>
+                    <p><i class="fas fa-phone"></i> (11) 5521-0636</p>
+                    <p><i class="fas fa-envelope"></i> e200acad@cps.sp.gov.br</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="senha.js"></script>
+</body>
+</html>

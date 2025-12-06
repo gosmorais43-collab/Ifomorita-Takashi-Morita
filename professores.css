@@ -1,0 +1,871 @@
+/* ===== VARIÁVEIS OFICIAIS CPS ===== */
+:root {
+    /* Cores Oficiais CPS */
+    --cps-azul-escuro: #004A80;
+    --cps-azul-medio: #0066B3;
+    --cps-azul-claro: #0078D7;
+    --cps-laranja: #F36F21;
+    --cps-amarelo: #FFB900;
+    --cps-verde: #107C10;
+    --cps-vermelho: #D13438;
+    
+    /* Tons de cinza */
+    --cps-cinza-escuro: #333333;
+    --cps-cinza-medio: #666666;
+    --cps-cinza-claro: #CCCCCC;
+    --cps-cinza-muito-claro: #F5F5F5;
+    --cps-branco: #FFFFFF;
+    --cps-preto: #000000;
+    
+    /* Cores de texto */
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --text-light: #FFFFFF;
+    
+    /* Espaçamento */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    
+    /* Bordas */
+    --border-radius: 4px;
+    --border-color: #DDDDDD;
+}
+
+/* ===== ESTILOS GERAIS ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background-color: var(--cps-branco);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-sm);
+}
+
+/* ===== HEADER OFICIAL CPS ===== */
+.cps-header {
+    background: var(--cps-branco);
+    border-bottom: 1px solid var(--cps-cinza-claro);
+}
+
+/* ===== BANNER DO GOVERNO AJUSTADO ===== */
+.governo-sp-banner {
+    background: var(--cps-branco);
+    padding: 0;
+    border-bottom: 1px solid var(--cps-cinza-claro);
+    width: 100%;
+    position: relative;
+    height: 70px;
+    display: flex;
+    align-items: center;
+}
+
+/* Container do governo SEM limitação */
+.governo-banner-container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+/* Conteúdo do governo colado totalmente à esquerda */
+.governo-content {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+/* Logo container com bordas arredondadas apenas no lado direito */
+.governo-logo-container {
+    background: var(--cps-preto);
+    padding: 0 25px;
+    display: flex;
+    align-items: center;
+    height: 70px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    box-shadow: 8px 0 8px rgba(0, 0, 0, 0.15);
+    position: relative;
+    margin: 0;
+}
+
+.governo-logo {
+    height: 45px;
+    width: auto;
+}
+
+.governo-text {
+    color: var(--cps-preto);
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 10px;
+}
+
+/* ===== CONTROLES DO HEADER (redes sociais e zoom) ===== */
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-right: 20px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 12px;
+}
+
+.social-link {
+    color: var(--cps-cinza-medio);
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.social-link:hover {
+    background: var(--cps-cinza-muito-claro);
+    transform: translateY(-1px);
+}
+
+.zoom-controls {
+    display: flex;
+    gap: 5px;
+    background: var(--cps-cinza-muito-claro);
+    padding: 4px;
+    border-radius: 20px;
+    border: 1px solid var(--cps-cinza-claro);
+}
+
+.zoom-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: var(--cps-branco);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: var(--cps-cinza-medio);
+}
+
+.zoom-btn:hover {
+    background: var(--cps-azul-claro);
+    color: var(--cps-branco);
+    transform: scale(1.05);
+}
+
+/* ===== HEADER PRINCIPAL CPS ===== */
+.cps-main-header {
+    padding: 15px 0;
+    background: var(--cps-branco);
+}
+
+.cps-main-header .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-sm);
+}
+
+.header-main-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logos-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.logo-link:hover {
+    opacity: 0.8;
+}
+
+.cps-logo {
+    height: 65px;
+    width: auto;
+}
+
+.etec-logo {
+    height: 60px;
+    width: auto;
+}
+
+.divider {
+    width: 1px;
+    height: 35px;
+    background: var(--cps-cinza-claro);
+}
+
+/* ===== RESPONSIVIDADE HEADER ===== */
+@media (max-width: 768px) {
+    .header-main-content {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        text-align: center;
+    }
+    
+    .logos-container {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .divider {
+        height: 2px;
+        width: 100px;
+        margin: var(--spacing-xs) 0;
+    }
+    
+    .cps-logo, .etec-logo {
+        height: 35px;
+    }
+    
+    .governo-content {
+        justify-content: flex-start;
+        text-align: left;
+    }
+    
+    .governo-logo-container {
+        padding: 10px 20px 10px 15px;
+        height: 50px;
+    }
+    
+    .governo-logo {
+        height: 30px;
+    }
+    
+    .governo-text {
+        font-size: 0.8rem;
+    }
+    
+    .header-controls {
+        margin-right: 15px;
+        gap: 15px;
+    }
+    
+    .social-icons {
+        gap: 8px;
+    }
+    
+    .social-link {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+    
+    .zoom-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 var(--spacing-xs);
+    }
+    
+    .governo-banner-container {
+        padding: 0;
+    }
+    
+    .governo-logo-container {
+        padding: 8px 15px 8px 12px;
+        height: 45px;
+    }
+    
+    .governo-logo {
+        height: 25px;
+    }
+    
+    .governo-text {
+        font-size: 0.7rem;
+    }
+    
+    .header-controls {
+        margin-right: 10px;
+        gap: 10px;
+    }
+    
+    .social-icons {
+        gap: 6px;
+    }
+    
+    .social-link {
+        width: 24px;
+        height: 24px;
+        font-size: 0.9rem;
+    }
+    
+    .zoom-controls {
+        padding: 3px;
+    }
+    
+    .zoom-btn {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+    }
+}
+
+/* ===== ESTILOS PARA O CONTEÚDO DA PÁGINA ===== */
+.main-content {
+    padding: var(--spacing-xl) 0;
+    min-height: 60vh;
+}
+
+.school-info {
+    text-align: center;
+    margin-top: var(--spacing-md);
+}
+
+.school-info h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--cps-azul-escuro);
+    margin-bottom: var(--spacing-xs);
+}
+
+.school-info p {
+    font-size: 1.1rem;
+    color: var(--cps-cinza-medio);
+    font-weight: 400;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.page-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--cps-azul-escuro);
+    margin-bottom: var(--spacing-xs);
+}
+
+.page-header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+/* ===== BARRA DE PESQUISA ===== */
+.search-section {
+    background: var(--cps-cinza-muito-claro);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    margin-bottom: var(--spacing-lg);
+}
+
+.search-container {
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.search-input {
+    width: 100%;
+    padding: var(--spacing-sm);
+    padding-left: 45px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background: var(--cps-branco);
+    color: var(--text-primary);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--cps-azul-claro);
+    box-shadow: 0 0 0 3px rgba(0, 120, 215, 0.1);
+}
+
+.search-icon {
+    position: absolute;
+    left: var(--spacing-sm);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--cps-cinza-medio);
+}
+
+/* ===== CONTROLES DE ADMINISTRAÇÃO ===== */
+.admin-controls {
+    background: var(--cps-cinza-muito-claro);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+}
+
+.admin-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.add-btn {
+    background: var(--cps-verde);
+    color: var(--cps-branco);
+}
+
+.add-btn:hover {
+    background: #0d6b0d;
+    transform: translateY(-2px);
+}
+
+.edit-btn {
+    background: var(--cps-laranja);
+    color: var(--cps-branco);
+}
+
+.edit-btn:hover {
+    background: #e05a1a;
+    transform: translateY(-2px);
+}
+
+.delete-btn {
+    background: var(--cps-vermelho);
+    color: var(--cps-branco);
+    padding: 5px 10px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+    background: #b82a2e;
+}
+
+.edit-row-btn {
+    background: var(--cps-azul-claro);
+    color: var(--cps-branco);
+    padding: 5px 10px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    margin-right: 5px;
+}
+
+.edit-row-btn:hover {
+    background: var(--cps-azul-medio);
+}
+
+/* ===== TABELA DE PROFESSORES ===== */
+.teachers-table-container {
+    background: var(--cps-cinza-muito-claro);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    margin-bottom: var(--spacing-lg);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.teachers-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--cps-branco);
+}
+
+.teachers-table th {
+    background: var(--cps-azul-escuro);
+    color: var(--cps-branco);
+    padding: var(--spacing-md);
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-bottom: 3px solid var(--cps-laranja);
+}
+
+.teachers-table td {
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.teachers-table tr:last-child td {
+    border-bottom: none;
+}
+
+.teachers-table tr {
+    transition: background-color 0.3s ease;
+}
+
+.teachers-table tr:hover {
+    background: var(--cps-cinza-muito-claro);
+}
+
+/* ===== LINKS ===== */
+.email-link {
+    color: var(--cps-azul-claro);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.email-link:hover {
+    color: var(--cps-azul-escuro);
+    text-decoration: underline;
+}
+
+.external-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: 6px 12px;
+    background: var(--cps-laranja);
+    color: var(--cps-branco);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.external-link:hover {
+    background: var(--cps-azul-escuro);
+    transform: translateY(-1px);
+}
+
+.text-secondary {
+    color: var(--text-secondary);
+}
+
+/* ===== MENSAGEM SEM RESULTADOS ===== */
+.no-results {
+    text-align: center;
+    padding: var(--spacing-xl);
+    color: var(--text-secondary);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    background: var(--cps-cinza-muito-claro);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+.no-results i {
+    font-size: 3rem;
+    color: var(--cps-cinza-medio);
+    margin-bottom: var(--spacing-md);
+}
+
+/* ===== MODAL ===== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background-color: var(--cps-branco);
+    margin: 5% auto;
+    padding: 0;
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+    background: var(--cps-azul-escuro);
+    color: var(--cps-branco);
+    padding: var(--spacing-md);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.close {
+    color: var(--cps-branco);
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: var(--cps-cinza-claro);
+}
+
+.modal-body {
+    padding: var(--spacing-lg);
+}
+
+.form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--cps-cinza-escuro);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-family: 'Open Sans', sans-serif;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--cps-azul-claro);
+    box-shadow: 0 0 0 2px rgba(0, 120, 215, 0.1);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-lg);
+}
+
+.btn-cancel {
+    padding: 10px 20px;
+    background: var(--cps-cinza-claro);
+    color: var(--cps-cinza-escuro);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background: var(--cps-cinza-medio);
+    color: var(--cps-branco);
+}
+
+.btn-save {
+    padding: 10px 20px;
+    background: var(--cps-verde);
+    color: var(--cps-branco);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-save:hover {
+    background: #0d6b0d;
+}
+
+/* ===== FOOTER OFICIAL CPS ===== */
+.cps-footer {
+    background: var(--cps-azul-escuro);
+    color: var(--cps-branco);
+    padding: var(--spacing-xl) 0 var(--spacing-md);
+    margin-top: var(--spacing-xl);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+}
+
+.footer-section h4 {
+    color: var(--cps-laranja);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.1rem;
+}
+
+.footer-section p {
+    margin-bottom: var(--spacing-xs);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7);
+    font-size: 0.9rem;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--spacing-sm);
+    }
+    
+    .logos-container {
+        justify-content: center;
+    }
+    
+    .teachers-table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .teachers-table th,
+    .teachers-table td {
+        min-width: 150px;
+    }
+    
+    .page-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .admin-controls {
+        flex-direction: column;
+    }
+    
+    .admin-btn {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 var(--spacing-xs);
+    }
+    
+    .school-info h1 {
+        font-size: 1.3rem;
+    }
+    
+    .page-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .teachers-table {
+        font-size: 0.85rem;
+    }
+    
+    .teachers-table th,
+    .teachers-table td {
+        padding: var(--spacing-sm);
+    }
+
+    .logos-container {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+}
+
+/* ===== ANIMAÇÕES ===== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.teachers-table tr {
+    animation: fadeIn 0.3s ease;
+}
+
+/* ===== MENSAGENS DE NOTIFICAÇÃO ===== */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--cps-azul-claro);
+    color: white;
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 10000;
+    animation: slideInRight 0.3s ease;
+    max-width: 400px;
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOutRight {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+}

@@ -1,0 +1,1435 @@
+/* ===== VARIÁVEIS OFICIAIS CPS ===== */
+:root {
+    /* Cores Oficiais CPS */
+    --cps-azul-escuro: #004A80;
+    --cps-azul-medio: #0066B3;
+    --cps-azul-claro: #0078D7;
+    --cps-laranja: #F36F21;
+    --cps-amarelo: #FFB900;
+    --cps-verde: #107C10;
+    --cps-vermelho: #D13438;
+    
+    /* Tons de cinza */
+    --cps-cinza-escuro: #333333;
+    --cps-cinza-medio: #666666;
+    --cps-cinza-claro: #CCCCCC;
+    --cps-cinza-muito-claro: #F5F5F5;
+    --cps-branco: #FFFFFF;
+    --cps-preto: #000000;
+    
+    /* Cores para modo CLARO */
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F8F9FA;
+    --bg-tertiary: #E9ECEF;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --text-light: #FFFFFF;
+    --border-color: #DEE2E6;
+    --shadow-color: rgba(0,0,0,0.1);
+    
+    /* Espaçamento */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    
+    /* Bordas */
+    --border-radius: 8px;
+}
+
+/* ===== ESTILOS GERAIS ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-sm);
+}
+
+/* ===== HEADER OFICIAL CPS ===== */
+/* ===== BANNER DO GOVERNO AJUSTADO ===== */
+.governo-sp-banner {
+    background: var(--cps-branco);
+    padding: 0;
+    border-bottom: 1px solid var(--cps-cinza-claro);
+    width: 100%;
+    position: relative;
+    height: 70px;
+    display: flex;
+    align-items: center;
+}
+
+/* Container do governo SEM limitação */
+.governo-banner-container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+/* Conteúdo do governo colado totalmente à esquerda */
+.governo-content {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+/* Logo container com fundo preto */
+.governo-logo-container {
+    background: var(--cps-preto);
+    padding: 0 25px;
+    display: flex;
+    align-items: center;
+    height: 70px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    box-shadow: 8px 0 8px rgba(0, 0, 0, 0.15);
+    position: relative;
+    margin: 0;
+}
+
+.governo-logo {
+    height: 45px;
+    width: auto;
+}
+
+.governo-text {
+    color: var(--cps-preto);
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 10px;
+}
+
+/* ===== CONTROLES DO HEADER (redes sociais e zoom) ===== */
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-right: 20px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 12px;
+}
+
+.social-link {
+    color: var(--cps-cinza-medio);
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.social-link:hover {
+    background: var(--cps-cinza-muito-claro);
+    transform: translateY(-1px);
+}
+
+.zoom-controls {
+    display: flex;
+    gap: 5px;
+    background: var(--cps-cinza-muito-claro);
+    padding: 4px;
+    border-radius: 20px;
+    border: 1px solid var(--cps-cinza-claro);
+}
+
+.zoom-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: var(--cps-branco);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: var(--cps-cinza-medio);
+}
+
+.zoom-btn:hover {
+    background: var(--cps-azul-claro);
+    color: var(--cps-branco);
+    transform: scale(1.05);
+}
+
+/* ===== HEADER PRINCIPAL CPS ===== */
+.cps-header {
+    background: var(--cps-branco);
+    border-bottom: 1px solid var(--cps-cinza-claro);
+}
+
+.cps-main-header {
+    padding: 15px 0;
+    background: var(--cps-branco);
+}
+
+.cps-main-header .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-sm);
+}
+
+.header-main-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logos-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.logo-link:hover {
+    opacity: 0.8;
+}
+
+.cps-logo {
+    height: 65px;
+    width: auto;
+}
+
+.etec-logo {
+    height: 60px;
+    width: auto;
+}
+
+.divider {
+    width: 1px;
+    height: 35px;
+    background: var(--cps-cinza-claro);
+}
+
+/* ===== LAYOUT CONTAINER ===== */
+.layout-container {
+    min-height: calc(100vh - 140px);
+    background: var(--bg-primary);
+}
+
+/* ===== CONTEÚDO PRINCIPAL ===== */
+.library-main-content {
+    padding: var(--spacing-xl);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.library-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+.library-header h1 {
+    color: var(--cps-azul-escuro);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+}
+
+.library-header h1 i {
+    color: var(--cps-laranja);
+}
+
+.library-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+/* ===== CARDS CPS ===== */
+.cps-card {
+    background: var(--bg-primary);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.cps-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+/* ===== BOTÕES CPS ===== */
+.cps-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: none;
+    border-radius: var(--border-radius);
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    justify-content: center;
+}
+
+.cps-btn-primary {
+    background: var(--cps-azul-claro);
+    color: var(--text-light);
+    box-shadow: 0 2px 8px rgba(0, 120, 215, 0.3);
+}
+
+.cps-btn-primary:hover {
+    background: var(--cps-azul-medio);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 120, 215, 0.4);
+}
+
+.cps-btn-secondary {
+    background: transparent;
+    color: var(--cps-azul-claro);
+    border: 1px solid var(--cps-azul-claro);
+}
+
+.cps-btn-secondary:hover {
+    background: rgba(0, 120, 215, 0.1);
+    transform: translateY(-2px);
+}
+
+/* ===== FORMULÁRIOS CPS ===== */
+.cps-label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 600;
+    color: var(--cps-azul-escuro);
+    font-size: 0.9rem;
+}
+
+.cps-input, .cps-select {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+.cps-input:focus, .cps-select:focus {
+    outline: none;
+    border-color: var(--cps-azul-claro);
+    box-shadow: 0 0 0 3px rgba(0, 120, 215, 0.1);
+}
+
+/* ===== BADGES CPS ===== */
+.cps-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--cps-azul-claro);
+    color: var(--text-light);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ===== CORES DE FUNDO CPS ===== */
+.cps-bg-azul { background: linear-gradient(135deg, var(--cps-azul-escuro), var(--cps-azul-claro)); }
+.cps-bg-laranja { background: linear-gradient(135deg, var(--cps-laranja), #FF8C00); }
+.cps-bg-verde { background: linear-gradient(135deg, var(--cps-verde), #00CC66); }
+
+/* ===== SEÇÃO DE ESTATÍSTICAS ===== */
+.stats-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--cps-azul-claro);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    font-size: 1.5rem;
+}
+
+.stat-info h3 {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-info p {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--cps-azul-escuro);
+}
+
+/* ===== CONTROLES DE ADMINISTRAÇÃO ===== */
+.admin-controls {
+    background: var(--cps-cinza-muito-claro);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.admin-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.add-book-btn {
+    background: var(--cps-verde);
+    color: var(--cps-branco);
+}
+
+.add-book-btn:hover {
+    background: #0d6b0d;
+    transform: translateY(-2px);
+}
+
+.edit-mode-btn {
+    background: var(--cps-azul-claro);
+    color: var(--cps-branco);
+}
+
+.edit-mode-btn:hover {
+    background: var(--cps-azul-medio);
+    transform: translateY(-2px);
+}
+
+/* ===== SEÇÃO DE FILTROS ===== */
+.filters-section {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--spacing-lg);
+    align-items: end;
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.search-container {
+    position: relative;
+}
+
+.search-container .cps-input {
+    padding-left: 45px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--cps-cinza-medio);
+}
+
+/* ===== CONTAINER DE LIVROS ===== */
+.books-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.book-card {
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.book-cover {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+}
+
+.subject-icon {
+    font-size: 3rem;
+}
+
+.book-content {
+    padding: var(--spacing-md);
+}
+
+.book-category {
+    margin-bottom: var(--spacing-sm);
+}
+
+.book-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    line-height: 1.3;
+    color: var(--text-primary);
+}
+
+.book-author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
+    font-size: 0.9rem;
+}
+
+.book-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-md);
+}
+
+.book-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.book-description {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: var(--spacing-md);
+}
+
+.book-actions {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.book-actions .cps-btn {
+    flex: 1;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+
+/* ===== BOTÕES DE AÇÃO NOS LIVROS ===== */
+.book-admin-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: var(--spacing-sm);
+    padding-top: var(--spacing-sm);
+    border-top: 1px solid var(--border-color);
+}
+
+.edit-book-btn, .delete-book-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.edit-book-btn {
+    background: var(--cps-azul-claro);
+    color: var(--cps-branco);
+}
+
+.edit-book-btn:hover {
+    background: var(--cps-azul-medio);
+}
+
+.delete-book-btn {
+    background: var(--cps-vermelho);
+    color: var(--cps-branco);
+}
+
+.delete-book-btn:hover {
+    background: #b82a2e;
+}
+
+/* ===== STATUS DO ARQUIVO ===== */
+.file-available {
+    color: var(--cps-verde);
+    background: rgba(16, 124, 16, 0.1);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.file-unavailable {
+    color: var(--cps-vermelho);
+    background: rgba(209, 52, 56, 0.1);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.book-actions button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.book-actions button:disabled:hover {
+    transform: none;
+    background: var(--cps-azul-claro);
+}
+
+/* ===== MODAL ===== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.modal.show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: var(--bg-primary);
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius);
+    box-shadow: 0 20px 40px var(--shadow-color);
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--cps-azul-escuro);
+    background: none;
+    border: none;
+    line-height: 1;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-modal:hover {
+    color: var(--cps-vermelho);
+}
+
+/* ===== FORMULÁRIOS MODAIS ===== */
+.form-group {
+    margin-bottom: var(--spacing-md);
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--cps-cinza-escuro);
+}
+
+.form-group label i {
+    margin-right: 8px;
+    color: var(--cps-azul-claro);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    background: var(--bg-secondary);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--cps-azul-claro);
+    box-shadow: 0 0 0 2px rgba(0, 120, 215, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.file-help {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    margin-top: 4px;
+    display: block;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-lg);
+}
+
+.btn-cancel {
+    padding: 10px 20px;
+    background: var(--cps-cinza-claro);
+    color: var(--cps-cinza-escuro);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background: var(--cps-cinza-medio);
+    color: var(--cps-branco);
+}
+
+.btn-save {
+    padding: 10px 20px;
+    background: var(--cps-verde);
+    color: var(--cps-branco);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-save:hover {
+    background: #0d6b0d;
+}
+
+/* ===== PDF VIEWER ===== */
+.pdf-viewer {
+    padding: var(--spacing-md);
+}
+
+.pdf-placeholder {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: var(--spacing-lg);
+}
+
+.pdf-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+    color: var(--cps-azul-claro);
+}
+
+.pdf-url {
+    background: var(--bg-secondary);
+    padding: 10px;
+    border-radius: var(--border-radius);
+    font-family: monospace;
+    font-size: 0.9rem;
+    word-break: break-all;
+    margin: 15px 0;
+    color: var(--cps-azul-escuro);
+    border: 1px solid var(--border-color);
+}
+
+/* ===== NOTIFICAÇÕES ===== */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--cps-verde);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideInRight 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    max-width: 300px;
+}
+
+.notification.error { background: var(--cps-vermelho); }
+.notification.warning { background: var(--cps-laranja); }
+.notification.info { background: var(--cps-azul-claro); }
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notification-icon {
+    font-size: 1.2rem;
+}
+
+/* ===== ANIMAÇÕES ===== */
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOutRight {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.book-card {
+    animation: fadeIn 0.6s ease;
+}
+
+.modal-open {
+    overflow: hidden;
+}
+
+/* ===== MENSAGEM SEM RESULTADOS ===== */
+.no-results-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: var(--spacing-xl);
+    background: var(--bg-secondary);
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 1024px) {
+    .filters-section {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+}
+
+@media (max-width: 768px) {
+    .library-main-content {
+        padding: var(--spacing-md);
+    }
+    
+    .library-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .books-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-content {
+        margin: 5% auto;
+        width: 95%;
+        padding: var(--spacing-md);
+    }
+    
+    /* Header Responsivo */
+    .header-main-content {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        text-align: center;
+    }
+    
+    .logos-container {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .divider {
+        height: 2px;
+        width: 100px;
+        margin: var(--spacing-xs) 0;
+    }
+    
+    .cps-logo, .etec-logo {
+        height: 35px;
+    }
+    
+    .governo-content {
+        justify-content: flex-start;
+        text-align: left;
+    }
+    
+    .governo-logo-container {
+        padding: 10px 20px 10px 15px;
+        height: 50px;
+    }
+    
+    .governo-logo {
+        height: 30px;
+    }
+    
+    .governo-text {
+        font-size: 0.8rem;
+    }
+    
+    .header-controls {
+        margin-right: 15px;
+        gap: 15px;
+    }
+    
+    .social-icons {
+        gap: 8px;
+    }
+    
+    .social-link {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+    
+    .zoom-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+    
+    .stats-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .admin-controls {
+        flex-direction: column;
+    }
+    
+    .admin-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .book-actions {
+        flex-direction: column;
+    }
+    
+    .book-admin-actions {
+        flex-direction: column;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 var(--spacing-xs);
+    }
+    
+    .library-main-content {
+        padding: var(--spacing-sm);
+    }
+    
+    .library-header {
+        padding: var(--spacing-md);
+    }
+    
+    .book-actions {
+        flex-direction: column;
+    }
+    
+    .modal-content {
+        padding: var(--spacing-lg);
+    }
+    
+    /* Header Mobile */
+    .governo-banner-container {
+        padding: 0;
+    }
+    
+    .governo-logo-container {
+        padding: 8px 15px 8px 12px;
+        height: 45px;
+    }
+    
+    .governo-logo {
+        height: 25px;
+    }
+    
+    .governo-text {
+        font-size: 0.7rem;
+    }
+    
+    .header-controls {
+        margin-right: 10px;
+        gap: 10px;
+    }
+    
+    .social-icons {
+        gap: 6px;
+    }
+    
+    .social-link {
+        width: 24px;
+        height: 24px;
+        font-size: 0.9rem;
+    }
+    
+    .zoom-controls {
+        padding: 3px;
+    }
+    
+    .zoom-btn {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+    }
+
+    /* ===== NOVOS ESTILOS PARA PDF VIEWER ===== */
+.modal-content.large {
+    max-width: 95%;
+    max-height: 95vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 15px 20px;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+.pdf-viewer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 600px;
+}
+
+.pdf-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+}
+
+.pdf-controls .cps-btn {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+}
+
+#pageInfo {
+    margin: 0 10px;
+    font-weight: 500;
+}
+
+#zoomLevel {
+    min-width: 50px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.pdf-container {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    background: #f5f5f5;
+}
+
+#pdfCanvas {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    max-width: 100%;
+}
+
+/* Status do arquivo */
+.file-info {
+    margin-top: 5px;
+    padding: 8px;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.file-info i {
+    margin-right: 5px;
+    color: var(--cps-azul-claro);
+}
+
+/* Botões de admin adicionais */
+.backup-btn {
+    background: var(--cps-amarelo);
+    color: var(--cps-branco);
+}
+
+.backup-btn:hover {
+    background: #e6a700;
+    transform: translateY(-2px);
+}
+
+.restore-btn {
+    background: var(--cps-laranja);
+    color: var(--cps-branco);
+}
+
+.restore-btn:hover {
+    background: #e65c00;
+    transform: translateY(-2px);
+}
+
+/* Responsividade para o visualizador */
+@media (max-width: 768px) {
+    .pdf-controls {
+        justify-content: center;
+    }
+    
+    .pdf-controls .cps-btn {
+        padding: 6px 8px;
+        font-size: 0.8rem;
+    }
+    
+    .pdf-controls span {
+        font-size: 0.9rem;
+    }
+}
+
+/* Estilo para loading */
+.pdf-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-secondary);
+}
+
+.pdf-loading i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: var(--cps-azul-claro);
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Mensagem de PDF não disponível */
+.pdf-unavailable {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-secondary);
+}
+
+.pdf-unavailable i {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    color: var(--cps-vermelho);
+}
+
+/* ===== ESTILOS PARA O GERENCIADOR DE ARQUIVOS ===== */
+.modal-content.large {
+    max-width: 800px;
+    max-height: 90vh;
+}
+
+.modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    max-height: calc(90vh - 120px);
+}
+
+.file-manager-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.files-section {
+    margin-bottom: 30px;
+}
+
+.files-section h3 {
+    color: var(--cps-azul-escuro);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.files-list {
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    transition: background 0.3s ease;
+}
+
+.file-item:last-child {
+    border-bottom: none;
+}
+
+.file-item:hover {
+    background: var(--bg-tertiary);
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.file-icon {
+    color: var(--cps-vermelho);
+    font-size: 1.2rem;
+}
+
+.file-name {
+    font-weight: 500;
+    word-break: break-all;
+}
+
+.file-size {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    white-space: nowrap;
+    margin-left: 10px;
+}
+
+.file-actions {
+    display: flex;
+    gap: 5px;
+    margin-left: 15px;
+}
+
+.file-actions button {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+}
+
+.help-section {
+    background: var(--cps-cinza-muito-claro);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    margin-top: 20px;
+}
+
+.help-section h4 {
+    color: var(--cps-azul-claro);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.help-section p {
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.help-section p:last-child {
+    margin-bottom: 0;
+}
+
+/* ===== ESTILOS PARA O VISUALIZADOR RÁPIDO ===== */
+.pdf-viewer-frame {
+    width: 100%;
+    height: 600px;
+    border: none;
+    border-radius: var(--border-radius);
+    background: white;
+}
+
+/* ===== ESTILOS PARA O SELECT DE ARQUIVOS ===== */
+select#bookFile {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+select#bookFile:focus {
+    outline: none;
+    border-color: var(--cps-azul-claro);
+    box-shadow: 0 0 0 2px rgba(0, 120, 215, 0.1);
+}
+
+/* ===== BOTÃO DE GERENCIAR ARQUIVOS ===== */
+.manage-files-btn {
+    background: var(--cps-amarelo);
+    color: var(--cps-branco);
+}
+
+.manage-files-btn:hover {
+    background: #e6a700;
+    transform: translateY(-2px);
+}
+
+/* ===== MENSAGEM DE ARQUIVO NÃO ENCONTRADO ===== */
+.no-files-message {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-secondary);
+}
+
+.no-files-message i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: var(--cps-cinza-claro);
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 768px) {
+    .modal-content.large {
+        width: 95%;
+        margin: 2.5% auto;
+    }
+    
+    .file-manager-controls {
+        flex-direction: column;
+    }
+    
+    .file-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .file-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+    
+    .pdf-viewer-frame {
+        height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .pdf-viewer-frame {
+        height: 300px;
+    }
+}
+}

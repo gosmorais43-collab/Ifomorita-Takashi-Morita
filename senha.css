@@ -1,0 +1,241 @@
+/* ===== ESTILOS PARA A PÁGINA DE REDEFINIÇÃO DE SENHA ===== */
+
+/* A página senha.html usa a mesma estrutura do menu principal, 
+   então aproveitamos as classes existentes com alguns ajustes */
+
+/* Ajustes para o formulário de redefinição de senha */
+.password-recovery-info {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(0, 120, 215, 0.1);
+    border-radius: 4px;
+    border-left: 4px solid var(--cps-azul-claro);
+}
+
+.password-recovery-info p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    color: var(--cps-azul-escuro);
+    font-weight: 600;
+}
+
+.password-recovery-info ul {
+    list-style: none;
+    margin-left: 15px;
+}
+
+.password-recovery-info li {
+    margin-bottom: 8px;
+    padding-left: 15px;
+    position: relative;
+    color: var(--text-secondary);
+}
+
+.password-recovery-info li:before {
+    content: "•";
+    color: var(--cps-azul-claro);
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+/* Estilo para a mensagem de sucesso */
+.success-message-container {
+    text-align: center;
+    padding: 20px;
+    background: rgba(16, 124, 16, 0.1);
+    border-radius: 4px;
+    border-left: 4px solid var(--cps-verde);
+    margin-top: 20px;
+}
+
+.success-icon {
+    font-size: 3rem;
+    color: var(--cps-verde);
+    margin-bottom: 15px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Ajustes responsivos para a página de senha */
+@media (max-width: 768px) {
+    .password-recovery-info {
+        padding: 12px;
+    }
+    
+    .success-icon {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .password-recovery-info {
+        padding: 10px;
+    }
+    
+    .success-icon {
+        font-size: 2rem;
+    }
+}
+
+/* ===== MENSAGENS POPUP ===== */
+.message-popup {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px;
+    border-radius: 4px;
+    color: white;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: slideInRight 0.3s ease;
+    max-width: 400px;
+}
+
+.message-popup.success {
+    background: var(--cps-verde);
+}
+
+.message-popup.error {
+    background: var(--cps-vermelho);
+}
+
+.message-popup.info {
+    background: var(--cps-azul-claro);
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Estilos específicos para a página senha.html */
+body {
+    background-color: var(--cps-branco);
+}
+
+.main-content {
+    padding: 40px 0;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+}
+
+.login-section {
+    background: var(--cps-cinza-muito-claro);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.tab-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.tab-header h2 {
+    font-size: 2rem;
+    color: var(--cps-azul-escuro);
+    margin-bottom: 10px;
+}
+
+.tab-header p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+/* Botões específicos */
+.cps-button.full-width {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.cps-button.secondary {
+    background: var(--cps-cinza-medio);
+    color: var(--cps-branco);
+    border: none;
+    padding: 12px 24px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.cps-button.secondary:hover {
+    background: var(--cps-cinza-escuro);
+    transform: translateY(-1px);
+}
+
+/* Melhorias para inputs */
+.cps-input:focus {
+    border-color: var(--cps-azul-claro);
+    box-shadow: 0 0 0 3px rgba(0, 120, 215, 0.1);
+    outline: none;
+}
+
+.cps-input::placeholder {
+    color: var(--cps-cinza-claro);
+}
+
+/* Estilo para o form-group na página de senha */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.form-group small.form-text {
+    display: block;
+    margin-top: 5px;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+/* Ajuste para telas pequenas */
+@media (max-width: 768px) {
+    .login-section {
+        padding: 20px;
+    }
+    
+    .tab-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .tab-header p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 20px 0;
+    }
+    
+    .login-section {
+        padding: 15px;
+    }
+    
+    .cps-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}

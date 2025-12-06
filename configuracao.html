@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações do Aluno - ETEC Takashi Morita</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="configuracao.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Header Oficial CPS Atualizado -->
+    <header class="cps-header">
+        <!-- Faixa do Governo SP -->
+        <div class="governo-sp-banner">
+            <div class="governo-banner-container">
+                <div class="governo-content">
+                    <div class="governo-logo-container">
+                        <img src="logo-governo-do-estado-sp.png" 
+                             alt="Governo do Estado de São Paulo" class="governo-logo">
+                    </div>
+                    <span class="governo-text">Governo do Estado de São Paulo</span>
+                </div>
+                
+                <!-- Controles de Redes Sociais e Zoom -->
+                <div class="header-controls">
+                    <div class="social-icons">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" id="zoom-out" title="Diminuir zoom">
+                            <i class="fas fa-search-minus"></i>
+                        </button>
+                        <button class="zoom-btn" id="zoom-in" title="Aumentar zoom">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Header Principal CPS -->
+        <div class="cps-main-header">
+            <div class="container">
+                <div class="header-main-content">
+                    <!-- Logos CPS + ETEC -->
+                    <div class="logos-container">
+                        <a href="https://www.cps.sp.gov.br" class="logo-link">
+                            <img src="centro-paula-souza-logo.svg" 
+                                 alt="Centro Paula Souza" class="cps-logo">
+                        </a>
+
+                        <div class="divider"></div>
+
+                        <a href="#" class="logo-link">
+                            <img src="Etec.png" alt="ETEC Takashi Morita" class="etec-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="layout-container">
+        <!-- Conteúdo Principal -->
+        <main class="config-main-content">
+            <div class="config-header">
+                <h1>
+                    <i class="fas fa-user-cog"></i>
+                    Configurações do Aluno
+                </h1>
+                <p class="config-subtitle">Gerencie suas informações pessoais e configurações da conta</p>
+            </div>
+
+            <div class="config-interface">
+                <!-- Menu Lateral -->
+                <nav class="config-sidebar">
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">
+                            <i class="fas fa-sliders-h"></i>
+                            Configurações
+                        </h3>
+                        <div class="sidebar-menu">
+                            <button class="menu-item active" data-section="pessoais">
+                                <i class="fas fa-user"></i>
+                                <span>Informações Pessoais</span>
+                            </button>
+                            
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- Área de Conteúdo -->
+                <section class="config-content">
+                    <!-- Seção Informações Pessoais -->
+                    <div class="content-section active" id="pessoais">
+                        <div class="section-header">
+                            <h2>
+                                <i class="fas fa-id-card"></i>
+                                Informações Pessoais
+                            </h2>
+                            <p>Dados cadastrais e informações básicas do aluno</p>
+                        </div>
+
+                        <!-- Dados Básicos -->
+                        <div class="info-card">
+                            <h3 class="card-title">Dados Básicos</h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label class="info-label">RM:</label>
+                                    <span class="info-value" id="rm-value">-</span>
+                                </div>
+                                <div class="info-item">
+                                    <label class="info-label">Nome Completo:</label>
+                                    <span class="info-value" id="nome-value">-</span>
+                                </div>
+                                <div class="info-item">
+                                    <label class="info-label">Turma:</label>
+                                    <span class="info-value" id="turma-value">-</span>
+                                </div>
+                               
+                            </div>
+                        </div>
+
+                        <!-- Alteração de E-mail -->
+                        <div class="config-card">
+                           
+                            <div class="form-group">
+                                <label for="email-atual" class="form-label">E-mail Atual</label>
+                                <input type="email" id="email-atual" class="cps-input" readonly>
+                            </div>
+                            
+                        </div>
+
+                        <!-- Endereço -->
+                        <div class="config-card">
+                            <h3 class="card-title">
+                                <i class="fas fa-home"></i>
+                                Dados de Endereço
+                            </h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="cep-input" class="form-label">CEP</label>
+                                    <input type="text" id="cep-input" class="cps-input" placeholder="00000-000">
+                                </div>
+                                <div class="form-group">
+                                    <label for="endereco-input" class="form-label">Endereço</label>
+                                    <input type="text" id="endereco-input" class="cps-input" placeholder="Rua, Avenida, etc.">
+                                </div>
+                                <div class="form-group">
+                                    <label for="numero-input" class="form-label">Número</label>
+                                    <input type="text" id="numero-input" class="cps-input" placeholder="Nº">
+                                </div>
+                                <div class="form-group">
+                                    <label for="complemento-input" class="form-label">Complemento</label>
+                                    <input type="text" id="complemento-input" class="cps-input" placeholder="Apto, Bloco, etc.">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bairro-input" class="form-label">Bairro</label>
+                                    <input type="text" id="bairro-input" class="cps-input" placeholder="Bairro">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cidade-input" class="form-label">Cidade</label>
+                                    <input type="text" id="cidade-input" class="cps-input" placeholder="Cidade">
+                                </div>
+                                <div class="form-group">
+                                    <label for="estado-select" class="form-label">Estado</label>
+                                    <select id="estado-select" class="cps-select">
+                                        <option value="">Selecione</option>
+                                        <option value="SP">São Paulo</option>
+                                        <option value="RJ">Rio de Janeiro</option>
+                                        <option value="MG">Minas Gerais</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="cps-button primary" onclick="salvarEndereco()">
+                                <i class="fas fa-save"></i>
+                                Salvar Endereço
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Seção Segurança -->
+
+                       
+                    <!-- Seção Contato -->
+                    <div class="content-section" id="contato">
+                        <div class="section-header">
+                            <h2>
+                                <i class="fas fa-phone-alt"></i>
+                                Informações de Contato
+                            </h2>
+                            <p>Telefones e meios de contato importantes</p>
+                        </div>
+
+                       
+
+                        <!-- Informações Adicionais -->
+                        <div class="config-card">
+                            <h3 class="card-title">
+                                <i class="fas fa-info-circle"></i>
+                                Informações Adicionais
+                            </h3>
+                            <div class="form-group">
+                                <label for="alergias" class="form-label">Alergias</label>
+                                <textarea id="alergias" class="cps-textarea" placeholder="Informe alergias conhecidas" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="medicamentos" class="form-label">Medicamentos</label>
+                                <textarea id="medicamentos" class="cps-textarea" placeholder="Medicamentos de uso contínuo" rows="3"></textarea>
+                            </div>
+                            <button class="cps-button primary" onclick="salvarInformacoesAdicionais()">
+                                <i class="fas fa-save"></i>
+                                Salvar Informações
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    
+
+    <!-- Modal de Confirmação -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Confirmação</h3>
+            <p id="modalMessage">Tem certeza que deseja realizar esta ação?</p>
+            <div class="modal-actions">
+                <button class="cps-button primary" onclick="confirmAction()">Confirmar</button>
+                <button class="cps-button secondary" onclick="cancelAction()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="configuracao.js"></script>
+</body>
+</html>

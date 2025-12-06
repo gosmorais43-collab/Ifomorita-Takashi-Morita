@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professores - Etec TM</title>
+    <link rel="stylesheet" href="professores.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header CPS -->
+    <header class="cps-header">
+        <!-- Faixa do Governo SP -->
+        <div class="governo-sp-banner">
+            <div class="governo-banner-container">
+                <div class="governo-content">
+                    <div class="governo-logo-container">
+                        <img src="logo-governo-do-estado-sp.png" 
+                             alt="Governo do Estado de São Paulo" class="governo-logo">
+                    </div>
+                    <span class="governo-text">Governo do Estado de São Paulo</span>
+                </div>
+                
+                <!-- Controles de Redes Sociais e Zoom -->
+                <div class="header-controls">
+                    <div class="social-icons">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" id="zoom-out" title="Diminuir zoom">
+                            <i class="fas fa-search-minus"></i>
+                        </button>
+                        <button class="zoom-btn" id="zoom-in" title="Aumentar zoom">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Header Principal CPS -->
+        <div class="cps-main-header">
+            <div class="container">
+                <div class="header-main-content">
+                    <!-- Logos CPS + ETEC -->
+                    <div class="logos-container">
+                        <a href="https://www.cps.sp.gov.br" class="logo-link">
+                            <img src="centro-paula-souza-logo.svg" 
+                                 alt="Centro Paula Souza" class="cps-logo">
+                        </a>
+
+                        <div class="divider"></div>
+
+                        <a href="#" class="logo-link">
+                            <img src="Etec.png" alt="ETEC Takashi Morita" class="etec-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Informação da Escola -->
+    <div class="school-info">
+        <div class="container">
+            <h1>Etec Takashi Morita</h1>
+            <p>Lista de Contatos dos Professores</p>
+        </div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h2><i class="fas fa-chalkboard-teacher"></i> Corpo Docente</h2>
+                <p>Lista completa de professores e seus contatos</p>
+            </div>
+
+            <!-- Barra de Pesquisa -->
+            <div class="search-section">
+                <div class="search-container">
+                    <i class="search-icon fas fa-search"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Buscar professor...">
+                </div>
+            </div>
+
+            <!-- Botões de Administração (visíveis apenas para admin) -->
+            <div id="adminControls" class="admin-controls" style="display: none;">
+                <button class="admin-btn add-btn" onclick="openAddModal()">
+                    <i class="fas fa-plus"></i> Adicionar Professor
+                </button>
+                <button class="admin-btn edit-btn" onclick="enableEditMode()">
+                    <i class="fas fa-edit"></i> Editar Professores
+                </button>
+            </div>
+
+            <!-- Tabela de Professores -->
+            <div class="teachers-table-container">
+                <table class="teachers-table">
+                    <thead>
+                        <tr>
+                            <th>Professor</th>
+                            <th>E-mail</th>
+                            <th>Site</th>
+                            <th>Lattes</th>
+                            <th id="actionsHeader" style="display: none;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="teacherTableBody">
+                        <!-- Os dados dos professores serão inseridos aqui via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mensagem Sem Resultados -->
+            <div class="no-results" id="noResults">
+                <i class="fas fa-search"></i>
+                <h3>Nenhum professor encontrado</h3>
+                <p>Tente alterar os termos da busca</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para Adicionar/Editar Professor -->
+    <div id="teacherModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Adicionar Professor</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="teacherForm">
+                    <div class="form-group">
+                        <label for="teacherName">Nome do Professor:</label>
+                        <input type="text" id="teacherName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="teacherEmail">E-mail:</label>
+                        <input type="email" id="teacherEmail">
+                    </div>
+                    <div class="form-group">
+                        <label for="teacherSite">Site:</label>
+                        <input type="url" id="teacherSite">
+                    </div>
+                    <div class="form-group">
+                        <label for="teacherLattes">Lattes:</label>
+                        <input type="url" id="teacherLattes">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeModal()">Cancelar</button>
+                        <button type="submit" class="btn-save">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script src="professores.js"></script>
+</body>
+</html>

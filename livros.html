@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Digital - Centro Paula Souza</title>
+    <link rel="stylesheet" href="livros.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Oficial CPS Atualizado -->
+    <header class="cps-header">
+        <!-- Faixa do Governo SP -->
+        <div class="governo-sp-banner">
+            <div class="governo-banner-container">
+                <div class="governo-content">
+                    <div class="governo-logo-container">
+                        <img src="logo-governo-do-estado-sp.png" 
+                             alt="Governo do Estado de São Paulo" class="governo-logo">
+                    </div>
+                    <span class="governo-text">Governo do Estado de São Paulo</span>
+                </div>
+                
+                <!-- Controles de Redes Sociais e Zoom -->
+                <div class="header-controls">
+                    <div class="social-icons">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" id="zoom-out" title="Diminuir zoom">
+                            <i class="fas fa-search-minus"></i>
+                        </button>
+                        <button class="zoom-btn" id="zoom-in" title="Aumentar zoom">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Header Principal CPS -->
+        <div class="cps-main-header">
+            <div class="container">
+                <div class="header-main-content">
+                    <!-- Logos CPS + ETEC -->
+                    <div class="logos-container">
+                        <a href="https://www.cps.sp.gov.br" class="logo-link">
+                            <img src="centro-paula-souza-logo.svg" 
+                                 alt="Centro Paula Souza" class="cps-logo">
+                        </a>
+
+                        <div class="divider"></div>
+
+                        <a href="#" class="logo-link">
+                            <img src="Etec.png" alt="ETEC Takashi Morita" class="etec-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="layout-container">
+        <!-- Conteúdo Principal -->
+        <main class="library-main-content">
+            <div class="library-header">
+                <h1>
+                    <i class="fas fa-book"></i>
+                    BIBLIOTECA DIGITAL
+                </h1>
+                <p class="library-subtitle">Livros das matérias da grade curricular</p>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="stats-section">
+                <div class="cps-card stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Total de Livros</h3>
+                        <p id="totalBooks">0</p>
+                    </div>
+                </div>
+                <div class="cps-card stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Matérias</h3>
+                        <p id="totalSubjects">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controles de Administração (visíveis apenas para admin) -->
+            <div id="adminControls" class="admin-controls" style="display: none;">
+                <button class="admin-btn add-book-btn" onclick="openAddBookModal()">
+                    <i class="fas fa-plus"></i> Adicionar Livro
+                </button>
+                <button class="admin-btn edit-mode-btn" onclick="enableEditMode()">
+                    <i class="fas fa-edit"></i> Modo Edição
+                </button>
+                <button class="admin-btn manage-files-btn" onclick="openFileManager()">
+                    <i class="fas fa-folder"></i> Gerenciar Arquivos
+                </button>
+            </div>
+
+            <!-- Filtros -->
+            <div class="filters-section cps-card">
+                <div class="filter-group">
+                    <label for="subjectFilter" class="cps-label">Filtrar por Matéria:</label>
+                    <select id="subjectFilter" class="cps-select">
+                        <option value="all">Todas as Matérias</option>
+                        <option value="matematica">Matemática</option>
+                        <option value="portugues">Português</option>
+                        <option value="fisica">Física</option>
+                        <option value="quimica">Química</option>
+                        <option value="biologia">Biologia</option>
+                        <option value="historia">História</option>
+                        <option value="geografia">Geografia</option>
+                        <option value="ingles">Inglês</option>
+                        <option value="espanhol">Espanhol</option>
+                        <option value="filosofia">Filosofia</option>
+                        <option value="sociologia">Sociologia</option>
+                        <option value="artes">Artes</option>
+                        <option value="educacao-fisica">Educação Física</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="searchBooks" class="cps-label">Buscar Livros:</label>
+                    <div class="search-container">
+                        <input type="text" id="searchBooks" class="cps-input" placeholder="Digite o nome do livro ou autor...">
+                        <i class="search-icon fas fa-search"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Container de Livros -->
+            <div class="books-container" id="booksContainer">
+                <!-- Os livros serão carregados via JavaScript -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para Adicionar/Editar Livro -->
+    <div id="bookFormModal" class="modal">
+        <div class="modal-content cps-card">
+            <div class="modal-header">
+                <h2 id="bookFormTitle">Adicionar Livro</h2>
+                <button class="close-modal" onclick="closeBookFormModal()">&times;</button>
+            </div>
+            <form id="bookForm">
+                <div class="form-group">
+                    <label for="bookTitle"><i class="fas fa-book"></i> Título do Livro:</label>
+                    <input type="text" id="bookTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookAuthor"><i class="fas fa-user-edit"></i> Autor:</label>
+                    <input type="text" id="bookAuthor" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookSubject"><i class="fas fa-tag"></i> Matéria:</label>
+                    <select id="bookSubject" required>
+                        <option value="matematica">Matemática</option>
+                        <option value="portugues">Português</option>
+                        <option value="fisica">Física</option>
+                        <option value="quimica">Química</option>
+                        <option value="biologia">Biologia</option>
+                        <option value="historia">História</option>
+                        <option value="geografia">Geografia</option>
+                        <option value="ingles">Inglês</option>
+                        <option value="espanhol">Espanhol</option>
+                        <option value="filosofia">Filosofia</option>
+                        <option value="sociologia">Sociologia</option>
+                        <option value="artes">Artes</option>
+                        <option value="educacao-fisica">Educação Física</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bookFile"><i class="fas fa-file-pdf"></i> Escolher PDF:</label>
+                    <select id="bookFile" required>
+                        <option value="">Selecione um arquivo PDF</option>
+                        <!-- Os arquivos PDF serão carregados aqui via JavaScript -->
+                    </select>
+                    <small class="file-help">Arquivos disponíveis na pasta "pdfs/" do projeto</small>
+                </div>
+                <div class="form-group">
+                    <label for="bookDescription"><i class="fas fa-align-left"></i> Descrição (opcional):</label>
+                    <textarea id="bookDescription" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" onclick="closeBookFormModal()">Cancelar</button>
+                    <button type="submit" class="btn-save">Salvar Livro</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Gerenciamento de Arquivos -->
+    <div id="fileManagerModal" class="modal">
+        <div class="modal-content cps-card large">
+            <div class="modal-header">
+                <h2><i class="fas fa-folder"></i> Gerenciar Arquivos PDF</h2>
+                <button class="close-modal" onclick="closeFileManager()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="file-manager-controls">
+                    <button class="cps-btn cps-btn-primary" onclick="uploadNewFile()">
+                        <i class="fas fa-upload"></i> Novo Upload
+                    </button>
+                    <input type="file" id="fileUploadInput" accept=".pdf" multiple style="display: none;" onchange="handleFileUpload(event)">
+                    <button class="cps-btn cps-btn-secondary" onclick="refreshFileList()">
+                        <i class="fas fa-sync"></i> Atualizar Lista
+                    </button>
+                </div>
+                
+                <div class="files-section">
+                    <h3>Arquivos na Pasta "pdfs/"</h3>
+                    <div class="files-list" id="filesList">
+                        <!-- Lista de arquivos será carregada aqui -->
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Visualização Rápida do PDF -->
+    <div id="quickViewModal" class="modal">
+        <div class="modal-content cps-card large">
+            <div class="modal-header">
+                <h3 id="quickViewTitle">Visualização Rápida</h3>
+                <button class="close-modal" onclick="closeQuickView()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <iframe id="quickViewFrame" class="pdf-viewer-frame"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button class="cps-btn cps-btn-primary" onclick="closeQuickView()">
+                    <i class="fas fa-times"></i> Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="livros.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+</body>
+</html>

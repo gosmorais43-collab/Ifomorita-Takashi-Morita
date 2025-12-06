@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notícias Escolares - Etec TM</title>
+    <link rel="stylesheet" href="noticias.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header CPS -->
+    <header class="cps-header">
+        <!-- Faixa do Governo SP -->
+        <div class="governo-sp-banner">
+            <div class="governo-banner-container">
+                <div class="governo-content">
+                    <div class="governo-logo-container">
+                        <img src="logo-governo-do-estado-sp.png" 
+                             alt="Governo do Estado de São Paulo" class="governo-logo">
+                    </div>
+                    <span class="governo-text">Governo do Estado de São Paulo</span>
+                </div>
+                
+                <!-- Controles de Redes Sociais e Zoom -->
+                <div class="header-controls">
+                    <div class="social-icons">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" id="zoom-out" title="Diminuir zoom">
+                            <i class="fas fa-search-minus"></i>
+                        </button>
+                        <button class="zoom-btn" id="zoom-in" title="Aumentar zoom">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Header Principal CPS -->
+        <div class="cps-main-header">
+            <div class="container">
+                <div class="header-main-content">
+                    <!-- Logos CPS + ETEC -->
+                    <div class="logos-container">
+                        <a href="https://www.cps.sp.gov.br" class="logo-link">
+                            <img src="centro-paula-souza-logo.svg" 
+                                 alt="Centro Paula Souza" class="cps-logo">
+                        </a>
+
+                        <div class="divider"></div>
+
+                        <a href="#" class="logo-link">
+                            <img src="Etec.png" alt="ETEC Takashi Morita" class="etec-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Informação da Escola -->
+    <div class="school-info">
+        <div class="container">
+            <h1>Etec Takashi Morita</h1>
+            <p>Portal de Notícias Escolares</p>
+        </div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Estatísticas -->
+            <div class="stats-section">
+                <div class="cps-card stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Próximo Evento</h3>
+                        <p id="nextEvent">Feira de Ciências</p>
+                    </div>
+                </div>
+                <div class="cps-card stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Notícias Ativas</h3>
+                        <p id="activeNews">12</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controles de Administração (visíveis apenas para admin) -->
+            <div id="adminControls" class="admin-controls" style="display: none;">
+                <button class="admin-btn add-news-btn" onclick="openAddNewsModal()">
+                    <i class="fas fa-plus"></i> Adicionar Notícia
+                </button>
+                <button class="admin-btn add-event-btn" onclick="openAddEventModal()">
+                    <i class="fas fa-calendar-plus"></i> Adicionar Evento
+                </button>
+                <button class="admin-btn edit-mode-btn" onclick="enableEditMode()">
+                    <i class="fas fa-edit"></i> Modo Edição
+                </button>
+            </div>
+
+            <!-- Controles -->
+            <div class="controls-section cps-card">
+                <div class="controls-grid">
+                    <div class="control-group">
+                        <label for="categoryFilter" class="cps-label">Filtrar por Categoria:</label>
+                        <select id="categoryFilter" class="cps-select">
+                            <option value="all">Todas as Categorias</option>
+                            <option value="events">Eventos</option>
+                            <option value="trips">Passeios</option>
+                            <option value="academic">Acadêmico</option>
+                            <option value="sports">Esportes</option>
+                            <option value="cultural">Cultural</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="searchNews" class="cps-label">Buscar Notícias:</label>
+                        <div class="search-container">
+                            <input type="text" id="searchNews" class="cps-input" placeholder="Digite para buscar...">
+                            <i class="search-icon fas fa-search"></i>
+                        </div>
+                    </div>
+                    <button id="refreshBtn" class="cps-btn cps-btn-secondary">
+                        <i class="fas fa-sync-alt"></i>
+                        Atualizar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Notícia em Destaque -->
+            <div class="featured-section">
+                <h2 class="section-title">
+                    <i class="fas fa-star"></i>
+                    Destaque da Semana
+                </h2>
+                <div class="featured-news cps-card" id="featuredNews">
+                    <!-- Conteúdo será preenchido via JavaScript -->
+                </div>
+            </div>
+
+            <!-- Grid de Notícias -->
+            <div class="news-section">
+                <h2 class="section-title">
+                    <i class="fas fa-newspaper"></i>
+                    Todas as Notícias
+                </h2>
+                
+                <div class="news-grid" id="newsGrid">
+                    <!-- Notícias serão geradas via JavaScript -->
+                </div>
+            </div>
+
+            <!-- Calendário de Eventos -->
+            <div class="events-section">
+                <h2 class="section-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    Calendário de Eventos
+                </h2>
+                
+                <div class="events-timeline cps-card" id="eventsTimeline">
+                    <!-- Eventos serão gerados via JavaScript -->
+                </div>
+            </div>
+
+            <!-- Ações Rápidas -->
+            <div class="actions-section">
+                <h2 class="section-title">
+                    <i class="fas fa-bolt"></i>
+                    Ações Rápidas
+                </h2>
+                
+                <div class="actions-grid">
+                    <div class="action-card cps-card" onclick="showCategory('events')">
+                        <div class="action-icon">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <h3>Eventos</h3>
+                        <p>Próximos eventos escolares</p>
+                    </div>
+                    <div class="action-card cps-card" onclick="showCategory('trips')">
+                        <div class="action-icon">
+                            <i class="fas fa-bus"></i>
+                        </div>
+                        <h3>Passeios</h3>
+                        <p>Visitas técnicas e culturais</p>
+                    </div>
+                    <div class="action-card cps-card" onclick="showCategory('sports')">
+                        <div class="action-icon">
+                            <i class="fas fa-futbol"></i>
+                        </div>
+                        <h3>Esportes</h3>
+                        <p>Competições e jogos</p>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+    </main>
+
+   
+
+    <!-- Modal para detalhes da notícia -->
+    <div id="newsModal" class="modal">
+        <div class="modal-content cps-card large">
+            <span class="close-modal">&times;</span>
+            <div id="modalContent">
+                <!-- Conteúdo será preenchido via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de inscrição -->
+    <div id="subscribeModal" class="modal">
+        <div class="modal-content cps-card">
+            <span class="close-modal">&times;</span>
+            <h2><i class="fas fa-envelope"></i> Receba Notificações</h2>
+            <div class="subscribe-form">
+                <p>Cadastre-se para receber as últimas notícias da escola por email:</p>
+                <input type="email" placeholder="seu@email.com" class="cps-input">
+                <div class="preference-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" checked>
+                        <span class="checkmark"></span>
+                        Eventos Escolares
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" checked>
+                        <span class="checkmark"></span>
+                        Passeios e Visitas
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox">
+                        <span class="checkmark"></span>
+                        Notas e Resultados
+                    </label>
+                </div>
+                <button class="cps-btn cps-btn-primary subscribe-btn">Cadastrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Adicionar/Editar Notícia -->
+    <div id="newsFormModal" class="modal">
+        <div class="modal-content cps-card">
+            <span class="close-modal">&times;</span>
+            <h2 id="newsFormTitle">Adicionar Notícia</h2>
+            <form id="newsForm">
+                <div class="form-group">
+                    <label for="newsTitle">Título:</label>
+                    <input type="text" id="newsTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="newsCategory">Categoria:</label>
+                    <select id="newsCategory" required>
+                        <option value="events">Eventos</option>
+                        <option value="trips">Passeios</option>
+                        <option value="academic">Acadêmico</option>
+                        <option value="sports">Esportes</option>
+                        <option value="cultural">Cultural</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="newsExcerpt">Resumo:</label>
+                    <textarea id="newsExcerpt" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="newsContent">Conteúdo:</label>
+                    <textarea id="newsContent" rows="6" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="newsAuthor">Autor:</label>
+                    <input type="text" id="newsAuthor" required>
+                </div>
+                <div class="form-group">
+                    <label for="newsDate">Data:</label>
+                    <input type="date" id="newsDate" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" onclick="closeNewsFormModal()">Cancelar</button>
+                    <button type="submit" class="btn-save">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Adicionar/Editar Evento -->
+    <div id="eventFormModal" class="modal">
+        <div class="modal-content cps-card">
+            <span class="close-modal">&times;</span>
+            <h2 id="eventFormTitle">Adicionar Evento</h2>
+            <form id="eventForm">
+                <div class="form-group">
+                    <label for="eventTitle">Título:</label>
+                    <input type="text" id="eventTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventDate">Data:</label>
+                    <input type="date" id="eventDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventTime">Horário:</label>
+                    <input type="text" id="eventTime" placeholder="Ex: 08:00 - 17:00" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventLocation">Local:</label>
+                    <input type="text" id="eventLocation" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" onclick="closeEventFormModal()">Cancelar</button>
+                    <button type="submit" class="btn-save">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="noticias.js"></script>
+</body>
+</html>
