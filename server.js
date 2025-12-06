@@ -18,11 +18,14 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.static("public"));
 const path = require("path");
 
+// Servir todos os arquivos estáticos da raiz
+app.use(express.static(__dirname));
+
+// Rota principal para abrir o index.html
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 
@@ -302,5 +305,6 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+
 
 
