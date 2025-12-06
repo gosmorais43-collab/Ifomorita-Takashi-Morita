@@ -13,10 +13,11 @@ app.use(express.json());
 app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
-    "default-src 'self'; style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://translate.googleapis.com"
+    "default-src 'self'; style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; script-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://translate.googleapis.com"
   );
   next();
 });
+
 
 // Servir todos os arquivos estáticos da raiz
 app.use(express.static(__dirname));
@@ -145,3 +146,4 @@ app.post('/reset-password-by-rm-cpf', async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+
