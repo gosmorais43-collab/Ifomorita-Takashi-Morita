@@ -8,6 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
 // === Configuração de Content Security Policy (CSP) ===
 app.use((req, res, next) => {
   res.setHeader(
@@ -16,6 +17,14 @@ app.use((req, res, next) => {
   );
   next();
 });
+
+app.use(express.static("public"));
+const path = require("path");
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 
 // === Configurar o Supabase ===
 const SUPABASE_URL = 'https://caadqubmelbbdnzdmqpf.supabase.co';
@@ -293,4 +302,5 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+
 
