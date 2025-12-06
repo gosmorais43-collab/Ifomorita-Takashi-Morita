@@ -3,6 +3,18 @@ const SUPABASE_URL = 'https://caadqubmelbbdnzdmqpf.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_LcLLXnNaNUkhgIxv9Uh3Gg_bhoWkHAG';
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+const API_BASE = "https://lfomorita.onrender.com";
+
+async function login(rm, senha) {
+  const response = await fetch(`${API_BASE}/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ rm, senha })
+  });
+  const data = await response.json();
+  console.log(data);
+}
+
 // SENHA DA DIRETORIA
 const ADMIN_PASSWORD = "diretor123";
 
@@ -420,4 +432,5 @@ if (result.sucesso) {
     // INICIAR
     initializeAllSystems();
 });
+
 
