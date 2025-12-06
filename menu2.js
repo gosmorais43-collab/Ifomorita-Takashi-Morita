@@ -1,7 +1,9 @@
 // CONFIGURAÇÃO DO SUPABASE
 const SUPABASE_URL = 'https://caadqubmelbbdnzdmqpf.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_LcLLXnNaNUkhgIxv9Uh3Gg_bhoWkHAG';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const SUPABASE_KEY = 'sb.publishable.LcLXLnNaNUkhyIxv9Uh3Gg_bhoIkWHAG';
+
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 
 const API_BASE = "https://lfomorita.onrender.com";
 
@@ -432,5 +434,6 @@ if (result.sucesso) {
     // INICIAR
     initializeAllSystems();
 });
+
 
 
