@@ -5,35 +5,7 @@ const crypto = require('crypto');
 const { createClient } = require('@supabase/supabase-js');
 const path = require('path');
 const app = express();
-const http = require('http');
-const { Server } = require('socket.io');
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: { origin: "*" }
-});
-io.on('connection', (socket) => {
-  console.log('🟢 Dispositivo conectado:', socket.id);
 
-  // Receber mensagem do cliente
-  socket.on('chat-message', async (data) => {
-    console.log('💬 Mensagem recebida:', data);
-
-    // Salvar no Supabase
-    const { error } = await supabase
-      .from('mensagens')
-      .insert([{
-        autor: data.autor,
-        texto: data.texto,
-        created_at: new Date().toISOString(),
-        sender_id: data.sender_id,
-        receiver_id: data.receiver_id,
-        sender_role: data.sender_role,
-        is_read: false
-      }]);
-
-    if (error) {
-      console.error('❌ Erro ao salvar no Supabase:', error);
-    }
 
     // Repassar para todos os dispositivos conectados
     io.emit('chat-message', data);
@@ -221,6 +193,7 @@ app.get('/aluno/:id', async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`🚀 Servidor rodando na porta ${PORT}`));
+
 
 
 
