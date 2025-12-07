@@ -148,9 +148,31 @@ app.post('/reset-password-by-rm-cpf', async (req, res) => {
     res.status(500).json({ sucesso: false, erro: 'Erro interno do servidor' });
   }
 });
+// === ROTA PARA BUSCAR DADOS DO ALUNO POR ID ===
+app.get('/aluno/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const { data, error } = await supabase
+      .from('alunos')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error || !data) {
+      return res.status(404).json({ sucesso: false, erro: 'Aluno não encontrado' });
+    }
+
+    res.json({ sucesso: true, aluno: data });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ sucesso: false, erro: 'Erro interno ao buscar aluno' });
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+
 
 
 
