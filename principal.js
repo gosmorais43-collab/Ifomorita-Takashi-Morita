@@ -675,6 +675,26 @@ function carregarRecadosEnviados() {
 function previewRecado() {
     showNotification('Pré-visualização de recado não implementada ainda', 'info');
 }
+function openPageAsAdmin(pageId) {
+    console.log(`👑 Redirecionando para: ${pageId}`);
+    showNotification(`Abrindo ${pageId}...`, 'info');
+
+    const pageMap = {
+        'admin-noticias': 'noticias.html',
+        'admin-chat': 'chat.html',
+        'admin-professores': 'professores.html',
+        'admin-biblioteca': 'livros.html',
+       
+    };
+
+    const targetUrl = pageMap[pageId];
+    if (targetUrl) {
+        window.location.href = targetUrl;
+    } else {
+        showNotification('Página não encontrada para esse botão', 'error');
+    }
+}
+
 
 
 
