@@ -123,11 +123,6 @@ this.alunoData = result.aluno;
 console.log('✅ Dados do aluno carregados:', this.alunoData);
 
 
-            if (error) {
-                console.error('Erro ao buscar dados do aluno:', error);
-                showNotification('Erro ao carregar dados do aluno', 'error');
-                return;
-            }
 
             if (alunoBanco) {
                 this.alunoData = alunoBanco;
@@ -785,3 +780,4 @@ function preloadHeaderImages() {
 
 // Iniciar preload quando a página carregar
 window.addEventListener('load', preloadHeaderImages);
+
