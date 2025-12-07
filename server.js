@@ -4,8 +4,13 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const { createClient } = require('@supabase/supabase-js');
 const path = require('path');
-
 const app = express();
+const http = require('http');
+const { Server } = require('socket.io');
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: { origin: "*" }
+});
 
 
 // ✅ CORS primeiro
@@ -172,7 +177,8 @@ app.get('/aluno/:id', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+server.listen(PORT, () => console.log(`🚀 Servidor rodando na porta ${PORT}`));
+
 
 
 
