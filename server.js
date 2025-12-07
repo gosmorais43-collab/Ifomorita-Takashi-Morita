@@ -7,13 +7,6 @@ const path = require('path');
 
 const app = express();
 
-socket.on('admin-login', (data) => {
-  if (data.password === 'diretor123') {
-    socket.emit('admin-authenticated', { sucesso: true });
-  } else {
-    socket.emit('admin-authenticated', { sucesso: false });
-  }
-});
 
 // ✅ CORS primeiro
 app.use(cors({
