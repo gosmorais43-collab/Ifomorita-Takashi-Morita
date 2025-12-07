@@ -672,6 +672,29 @@ function carregarRecadosEnviados() {
     `).join('');
 }
 
+function openPageAsAdmin(pageId) {
+    console.log(`👑 Redirecionando para: ${pageId}`);
+    showNotification(`Abrindo ${pageId}...`, 'info');
+
+    const pageMap = {
+        'admin-dashboard': 'principal.html',
+        'admin-noticias': 'noticias.html',
+        'admin-chat': 'chat.html',
+        'admin-professores': 'professores.html',
+        'admin-biblioteca': 'livros.html',
+        'admin-configuracao': 'configuracao.html',
+        'admin-conteudo': 'principal.html#admin-conteudo',
+        'admin-recados': 'principal.html#admin-recados'
+    };
+
+    const targetUrl = pageMap[pageId];
+    if (targetUrl) {
+        window.location.href = targetUrl;
+    } else {
+        showNotification('Página não encontrada para esse botão', 'error');
+    }
+}
+
 
 
 
