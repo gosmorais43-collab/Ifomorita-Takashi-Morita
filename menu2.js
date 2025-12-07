@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 });
 
-const API_BASE = "https://lfomorita.onrender.com";
+const API_BASE = "https://ifomorita.onrender.com";
 
 async function login(rm, senha) {
   const response = await fetch(`${API_BASE}/login`, {
@@ -312,7 +312,7 @@ function initializeLoginSystem() {
                     }
                     
                     // Envie os dados para o seu backend local
-const response = await fetch("https://lfomorita.onrender.com", {
+const response = await fetch("https://ifomorita.onrender.com", {
   method: "POST",
   headers: {
     "Content-Type": "application/json"
@@ -437,6 +437,7 @@ if (result.sucesso) {
     // INICIAR
     initializeAllSystems();
 });
+
 
 
 
