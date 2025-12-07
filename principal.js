@@ -93,27 +93,6 @@ function initializeStudentSystems() {
     initializeCardsInteractivity();
     document.getElementById('logoutBtn').addEventListener('click', logout);
 }
-function loadUserInfo() {
-    const userData = localStorage.getItem('alunoLogado');
-    const userInfo = document.querySelector('.user-info');
-
-    if (userData && userInfo) {
-        try {
-            const user = JSON.parse(userData);
-            userInfo.innerHTML = `
-                <div class="user-welcome">
-                    <div class="user-name">Bem-vindo, ${user.nome.split(' ')[0]}</div>
-                    <div class="user-extra">DAL 2018/01</div>
-                </div>
-            `;
-        } catch (error) {
-            console.error('❌ Erro ao carregar informações do usuário:', error);
-            userInfo.innerHTML = `<div class="user-welcome">👋 Bem-vindo ao InfoMorita</div>`;
-        }
-    } else if (userInfo) {
-        userInfo.innerHTML = `<div class="user-welcome">👋 Bem-vindo ao InfoMorita</div>`;
-    }
-}
 
 // ===== SISTEMAS DO ADMINISTRADOR =====
 function initializeAdminSystems() {
@@ -159,9 +138,7 @@ function initializeAdminSystems() {
     updateAdminStats();
 }
 
-// ===== SISTEMA DE RECADOS =====
-// (mantido igual, mas sem inline onclick — usamos addEventListener nos botões)
-
+// ===== USUÁRIOS =====
 function loadUsersTable() {
     const usersTableBody = document.getElementById('usersTableBody');
     const users = [
@@ -207,7 +184,51 @@ function loadUsersTable() {
     });
 }
 
-// ===== Ajuste de estilos inline =====
+function editUser(rm) { showNotification(`Editando usuário RM: ${rm}`, 'info'); }
+function makeAdmin(rm) {
+    if (confirm(`Tornar RM: ${rm} administrador?`)) {
+        showNotification(`Usuário RM: ${rm} agora é administrador`, 'success');
+        loadUsersTable();
+    }
+}
+function deleteUser(rm) {
+    if (confirm(`Excluir RM: ${rm}?`)) {
+        showNotification(`Usuário RM: ${rm} excluído`, 'success');
+        loadUsersTable();
+    }
+}
+
+// ===== SISTEMA DE RECADOS =====
+// (mantido igual, mas sem onclick inline — usamos addEventListener nos botões)
+
+// ===== FUNÇÃO DE INTERATIVIDADE DOS CARDS =====
+function initializeCardsInteractivity() {
+    const cards = document.querySelectorAll('.cps-card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-8px)';
+            this.style.boxShadow = '0 12px 30px rgba(0, 120, 215, 0.15)';
+        });
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+        });
+    });
+}
+
+// ===== FUNÇÃO DE NAVEGAÇÃO =====
+function navigateTo(page) {
+    console.log(`📍 Navegando para: ${page}`);
+    showNotification(`Abrindo ${page}...`, 'info');
+
+    const section = document.getElementById(page);
+    if (section) {
+        document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+        section.classList.add('active');
+    }
+}
+
+// ===== BLOCO DE BOAS-VINDAS DO USUÁRIO =====
 function loadUserInfo() {
     const userData = localStorage.getItem('alunoLogado');
     const userInfo = document.querySelector('.user-info');
@@ -217,14 +238,4 @@ function loadUserInfo() {
             const user = JSON.parse(userData);
             userInfo.innerHTML = `
                 <div class="user-welcome">
-                    <div class="user-name">Bem-vindo, ${user.nome.split(' ')[0]}</div>
-                    <div class="user-extra">DAL 2018/01</div>
-                </div>
-            `;
-        } catch {
-            userInfo.innerHTML = `<div class="user-welcome">👋 Bem-vindo ao InfoMorita</div>`;
-        }
-    } else if (userInfo) {
-        userInfo.innerHTML = `<div class="user-welcome">👋 Bem-vindo ao InfoMorita</div>`;
-    }
-}
+                    <div class="user-name">Bem-vindo, ${user.nome.split('
