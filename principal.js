@@ -684,7 +684,7 @@ function openPageAsAdmin(pageId) {
         'admin-chat': 'chat.html',
         'admin-professores': 'professores.html',
         'admin-biblioteca': 'livros.html',
-       
+   
     };
 
     const targetUrl = pageMap[pageId];
@@ -694,6 +694,9 @@ function openPageAsAdmin(pageId) {
         showNotification('Página não encontrada para esse botão', 'error');
     }
 }
+
+}
+
 
 
 
