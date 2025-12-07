@@ -111,11 +111,17 @@ class ConfiguracoesSistema {
 
             console.log('🔍 Buscando dados do aluno ID:', alunoLogado.id);
 
-            const { data: alunoBanco, error } = await supabase
-                .from('alunos')
-                .select('*')
-                .eq('id', alunoLogado.id)
-                .single();
+           const response = await fetch(`https://ifomorita.onrender.com/aluno/${alunoLogado.id}`);
+const result = await response.json();
+
+if (!result.sucesso) {
+    showNotification(result.erro || 'Erro ao carregar dados do aluno', 'error');
+    return;
+}
+
+this.alunoData = result.aluno;
+console.log('✅ Dados do aluno carregados:', this.alunoData);
+
 
             if (error) {
                 console.error('Erro ao buscar dados do aluno:', error);
@@ -778,4 +784,5 @@ function preloadHeaderImages() {
 }
 
 // Iniciar preload quando a página carregar
+
 window.addEventListener('load', preloadHeaderImages);
