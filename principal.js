@@ -236,12 +236,21 @@ function loadUserInfo() {
     if (userData && userInfo) {
         try {
             const user = JSON.parse(userData);
-           userInfo.innerHTML = `
-    <div class="user-welcome">
-        <div class="user-name">Bem-vindo, ${user.nome.split(' ')[0]}</div>
-        <div class="user-extra">DAL 2018/01</div>
-    </div>
-`;
+            userInfo.innerHTML = `
+                <div class="user-welcome">
+                    <div class="user-name">Bem-vindo, ${user.nome.split(' ')[0]}</div>
+                    <div class="user-extra">DAL 2018/01</div>
+                </div>
+            `;
+        } catch (error) {
+            console.error('❌ Erro ao carregar informações do usuário:', error);
+            userInfo.innerHTML = `<div class="user-welcome">👋 Bem-vindo ao InfoMorita</div>`;
+        }
+    } else if (userInfo) {
+        userInfo.innerHTML = `<div class="user-welcome">👋 Bem-vindo ao InfoMorita</div>`;
+    }
+}
+
 
 function navigateTo(page) {
     console.log(`📍 Navegando para: ${page}`);
@@ -254,6 +263,7 @@ function navigateTo(page) {
         section.classList.add('active');
     }
 }
+
 
 
 
