@@ -14,6 +14,9 @@ async function login(rm, senha) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ rm, senha })
   });
+
+  const ADMIN_PASSWORD = "diretor123";
+  
   const data = await response.json();
   console.log(data);
 }
@@ -432,4 +435,5 @@ if (result.sucesso) {
     // INICIAR
     initializeAllSystems();
 });
+
 
