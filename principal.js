@@ -530,6 +530,50 @@ function saveAdminContent() {
     contentInput.value = '';
 }
 
+function initializeRecadosSystem() {
+    const recadoForm = document.getElementById('recadoForm');
+    const recadoTitulo = document.getElementById('recadoTitulo');
+    const recadoMensagem = document.getElementById('recadoMensagem');
+    const recadoTipo = document.getElementById('recadoTipo');
+
+    if (!recadoForm) return;
+
+    recadoForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const titulo = recadoTitulo.value.trim();
+        const mensagem = recadoMensagem.value.trim();
+        const tipo = recadoTipo.value;
+
+        if (!titulo || !mensagem) {
+            showNotification('Preencha título e mensagem do recado', 'warning');
+            return;
+        }
+
+        const recados = JSON.parse(localStorage.getItem('recados_globais')) || [];
+
+        const novoRecado = {
+            titulo,
+            mensagem,
+            tipo,
+            dataFormatada: new Date().toLocaleString('pt-BR')
+        };
+
+        recados.unshift(novoRecado); // adiciona no início
+        localStorage.setItem('recados_globais', JSON.stringify(recados));
+
+        showNotification('Recado enviado com sucesso!', 'success');
+
+        // Limpar formulário
+        recadoTitulo.value = '';
+        recadoMensagem.value = '';
+        recadoTipo.value = 'info';
+
+        // Atualizar lista de recados
+        carregarRecadosEnviados();
+    });
+}
+
 
 
 
