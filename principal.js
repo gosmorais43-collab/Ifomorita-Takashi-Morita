@@ -311,6 +311,39 @@ function carregarRecadosAluno() {
 }
 
 
+function initializeThemeSystem() {
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme') || 'light';
+
+    // Aplicar tema salvo
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeButton(savedTheme);
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+
+            showNotification(`Modo ${newTheme === 'dark' ? 'Escuro' : 'Claro'} ativado`, 'info');
+        });
+    }
+}
+
+function updateThemeButton(theme) {
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        if (theme === 'dark') {
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i><span>Modo Claro</span>';
+        } else {
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i><span>Modo Escuro</span>';
+        }
+    }
+}
+
 
 
 
