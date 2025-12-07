@@ -300,39 +300,40 @@
                 
                 <!-- Links para páginas como administrador -->
                 
-                <div class="admin-menu-item" onclick="openPageAsAdmin('noticias')">
-                    <i class="fas fa-newspaper"></i>
-                    <span>Eventos/Notícias (Admin)</span>
-                </div>
-                <div class="admin-menu-item" onclick="openPageAsAdmin('chat')">
-                    <i class="fas fa-comments"></i>
-                    <span>Chat (Admin)</span>
-                </div>
-                <div class="admin-menu-item" onclick="openPageAsAdmin('professores')">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                    <span>Professores (Admin)</span>
-                </div>
-                <div class="admin-menu-item" onclick="openPageAsAdmin('biblioteca')">
-                    <i class="fas fa-book"></i>
-                    <span>Biblioteca (Admin)</span>
-                </div>
-                
+                <!-- Links para páginas como administrador -->
+<div class="admin-menu-item" onclick="openPageAsAdmin('admin-noticias')">
+    <i class="fas fa-newspaper"></i>
+    <span>Eventos/Notícias (Admin)</span>
+</div>
+<div class="admin-menu-item" onclick="openPageAsAdmin('admin-chat')">
+    <i class="fas fa-comments"></i>
+    <span>Chat (Admin)</span>
+</div>
+<div class="admin-menu-item" onclick="openPageAsAdmin('admin-professores')">
+    <i class="fas fa-chalkboard-teacher"></i>
+    <span>Professores (Admin)</span>
+</div>
+<div class="admin-menu-item" onclick="openPageAsAdmin('admin-biblioteca')">
+    <i class="fas fa-book"></i>
+    <span>Biblioteca (Admin)</span>
+</div>
+<div class="admin-menu-item" onclick="openPageAsAdmin('admin-configuracao')">
+    <i class="fas fa-cogs"></i>
+    <span>Configurações</span>
+</div>
+<div class="admin-menu-item" onclick="openPageAsAdmin('admin-conteudo')">
+    <i class="fas fa-edit"></i>
+    <span>Editar Conteúdo</span>
+</div>
+<div class="admin-menu-item" onclick="openPageAsAdmin('admin-recados')">
+    <i class="fas fa-bullhorn"></i>
+    <span>Enviar Recados</span>
+</div>
+<div class="admin-menu-item logout-item" id="adminLogoutBtn">
+    <i class="fas fa-sign-out-alt"></i>
+    <span>Sair</span>
+</div>
 
-                <div class="admin-menu-item" data-target="admin-conteudo">
-                    <i class="fas fa-edit"></i>
-                    <span>Editar Conteúdo</span>
-                </div>
-                
-                <div class="admin-menu-item" data-target="admin-recados">
-                    <i class="fas fa-bullhorn"></i>
-                    <span>Enviar Recados</span>
-                </div>
-                
-                <div class="admin-menu-item logout-item" id="adminLogoutBtn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Sair</span>
-                </div>
-            </div>
         </nav>
 
         <!-- Conteúdo Admin -->
@@ -523,4 +524,5 @@
 
     <script src="principal.js"></script>
 </body>
+
 </html>
