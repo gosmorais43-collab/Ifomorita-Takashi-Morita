@@ -375,6 +375,17 @@ function initializeZoomControls() {
 }
 
 
+function initializeSocialLinks() {
+    const socialLinks = document.querySelectorAll('.social-link');
+    socialLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const platform = this.querySelector('i').className.split('-')[1];
+            showNotification(`Abrindo ${platform}...`, 'info');
+        });
+    });
+}
+
 
 
 
