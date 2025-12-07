@@ -440,6 +440,49 @@ function loadSavedContent() {
         </div>
     `).join('');
 }
+function showNotification(message, type = 'info') {
+    // Cria container se não existir
+    let container = document.getElementById('notification-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'notification-container';
+        container.style.position = 'fixed';
+        container.style.top = '20px';
+        container.style.right = '20px';
+        container.style.zIndex = '9999';
+        document.body.appendChild(container);
+    }
+
+    // Cria notificação
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <span>${message}</span>
+        </div>
+    `;
+
+    // Estilo básico (pode mover para CSS)
+    notification.style.background = type === 'success' ? '#4CAF50' :
+                                    type === 'warning' ? '#FFC107' :
+                                    type === 'error'   ? '#F44336' : '#2196F3';
+    notification.style.color = '#fff';
+    notification.style.padding = '10px 16px';
+    notification.style.marginTop = '10px';
+    notification.style.borderRadius = '6px';
+    notification.style.boxShadow = '0 2px 8px rgba(0,0,0,0.2)';
+    notification.style.fontSize = '0.9rem';
+    notification.style.transition = 'opacity 0.5s ease';
+
+    container.appendChild(notification);
+
+    // Remove depois de 3 segundos
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => notification.remove(), 500);
+    }, 3000);
+}
+
 
 
 
