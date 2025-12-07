@@ -4,28 +4,8 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const { createClient } = require('@supabase/supabase-js');
 const path = require('path');
+
 const app = express();
-
-
-    // Repassar para todos os dispositivos conectados
-    io.emit('chat-message', data);
-  });
-
-  // Carregar histórico
-  socket.on('load-history', async () => {
-    const { data, error } = await supabase
-      .from('mensagens')
-      .select('*')
-      .order('created_at', { ascending: true });
-
-    if (error) {
-      console.error('❌ Erro ao carregar histórico:', error);
-      socket.emit('history', []);
-    } else {
-      socket.emit('history', data);
-    }
-  });
-});
 
 
 // ✅ CORS primeiro
@@ -192,7 +172,9 @@ app.get('/aluno/:id', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => console.log(`🚀 Servidor rodando na porta ${PORT}`));
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+
+
 
 
 
