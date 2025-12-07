@@ -343,6 +343,37 @@ function updateThemeButton(theme) {
         }
     }
 }
+function initializeZoomControls() {
+    const zoomIn = document.getElementById('zoom-in');
+    const zoomOut = document.getElementById('zoom-out');
+
+    let currentZoom = 100;
+
+    if (zoomIn && zoomOut) {
+        zoomIn.addEventListener('click', function () {
+            if (currentZoom < 150) {
+                currentZoom += 10;
+                document.body.style.transform = `scale(${currentZoom / 100})`;
+                document.body.style.transformOrigin = 'top center';
+                showNotification(`Zoom: ${currentZoom}%`, 'info');
+            } else {
+                showNotification('Zoom máximo atingido (150%)', 'info');
+            }
+        });
+
+        zoomOut.addEventListener('click', function () {
+            if (currentZoom > 80) {
+                currentZoom -= 10;
+                document.body.style.transform = `scale(${currentZoom / 100})`;
+                document.body.style.transformOrigin = 'top center';
+                showNotification(`Zoom: ${currentZoom}%`, 'info');
+            } else {
+                showNotification('Zoom mínimo atingido (80%)', 'info');
+            }
+        });
+    }
+}
+
 
 
 
