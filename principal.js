@@ -574,6 +574,29 @@ function initializeRecadosSystem() {
     });
 }
 
+function updateAdminStats() {
+    const statsUsers = document.getElementById('statsUsers');
+    const statsRecados = document.getElementById('statsRecados');
+    const statsConteudo = document.getElementById('statsConteudo');
+
+    // Pega dados do localStorage
+    const users = [
+        { rm: '12345', nome: 'Gabriel Silva', tipo: 'Aluno' },
+        { rm: '12346', nome: 'Maria Santos', tipo: 'Aluno' },
+        { rm: '12347', nome: 'João Oliveira', tipo: 'Aluno' },
+        { rm: 'admin1', nome: 'Administrador', tipo: 'Administrador' }
+    ];
+    const recados = JSON.parse(localStorage.getItem('recados_globais')) || [];
+    const conteudo = JSON.parse(localStorage.getItem('conteudo_salvo')) || [];
+
+    // Atualiza estatísticas
+    if (statsUsers) statsUsers.textContent = users.length;
+    if (statsRecados) statsRecados.textContent = recados.length;
+    if (statsConteudo) statsConteudo.textContent = conteudo.length;
+
+    console.log('📊 Estatísticas do administrador atualizadas');
+}
+
 
 
 
