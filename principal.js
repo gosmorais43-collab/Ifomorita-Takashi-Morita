@@ -482,6 +482,21 @@ function showNotification(message, type = 'info') {
         setTimeout(() => notification.remove(), 500);
     }, 3000);
 }
+function saveAllAdminData() {
+    // Aqui você pode salvar recados, conteúdo e estatísticas de uma vez
+    showNotification('Salvando todas as informações do administrador...', 'info');
+
+    // Exemplo: salvar recados e conteúdo
+    const recados = JSON.parse(localStorage.getItem('recados_globais')) || [];
+    const conteudo = JSON.parse(localStorage.getItem('conteudo_salvo')) || [];
+
+    // Simulação de persistência (poderia ser um fetch para o backend)
+    localStorage.setItem('recados_globais', JSON.stringify(recados));
+    localStorage.setItem('conteudo_salvo', JSON.stringify(conteudo));
+
+    showNotification('Todos os dados foram salvos com sucesso!', 'success');
+}
+
 
 
 
