@@ -496,6 +496,40 @@ function saveAllAdminData() {
 
     showNotification('Todos os dados foram salvos com sucesso!', 'success');
 }
+function saveAdminContent() {
+    const contentInput = document.getElementById('adminContentInput');
+    if (!contentInput) {
+        showNotification('Campo de conteúdo não encontrado', 'error');
+        return;
+    }
+
+    const conteudo = contentInput.value.trim();
+    if (!conteudo) {
+        showNotification('Digite algum conteúdo antes de salvar', 'warning');
+        return;
+    }
+
+    // Recupera conteúdos já salvos
+    const savedContent = JSON.parse(localStorage.getItem('conteudo_salvo')) || [];
+
+    // Adiciona novo conteúdo
+    const novoConteudo = {
+        titulo: `Conteúdo ${savedContent.length + 1}`,
+        descricao: conteudo,
+        data: new Date().toLocaleString('pt-BR')
+    };
+
+    savedContent.push(novoConteudo);
+
+    // Salva no localStorage
+    localStorage.setItem('conteudo_salvo', JSON.stringify(savedContent));
+
+    showNotification('Conteúdo salvo com sucesso!', 'success');
+
+    // Limpa campo
+    contentInput.value = '';
+}
+
 
 
 
