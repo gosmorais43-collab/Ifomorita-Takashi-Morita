@@ -386,6 +386,35 @@ function initializeSocialLinks() {
     });
 }
 
+function initializeSearchSystem() {
+    const searchInput = document.querySelector('.search-input');
+    const searchBtn = document.querySelector('.search-btn');
+
+    function performSearch() {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+
+        if (!searchTerm) {
+            showNotification('Digite algo para pesquisar', 'warning');
+            return;
+        }
+
+        showNotification(`Buscando por: ${searchTerm}`, 'info');
+        // Aqui você pode adicionar lógica real de busca se quiser
+    }
+
+    if (searchBtn) {
+        searchBtn.addEventListener('click', performSearch);
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+    }
+}
+
 
 
 
