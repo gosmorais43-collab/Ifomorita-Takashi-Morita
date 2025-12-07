@@ -19,7 +19,6 @@ async function login(rm, senha) {
 }
 
 // SENHA DA DIRETORIA
-const ADMIN_PASSWORD = "diretor123";
 
 console.log('🚀 Sistema ETEC Takashi Morita iniciado!');
 
@@ -433,3 +432,4 @@ if (result.sucesso) {
     // INICIAR
     initializeAllSystems();
 });
+
