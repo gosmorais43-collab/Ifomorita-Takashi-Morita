@@ -3,13 +3,19 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const { createClient } = require('@supabase/supabase-js');
-const path = require("path");
+const path = require('path');
 
 const app = express();
-app.use(cors());
+
+// ✅ CORS primeiro
+app.use(cors({
+  origin: 'https://lfomorita.onrender.com'
+}));
+
+// ✅ JSON parser
 app.use(express.json());
 
-// === Configuração de Content Security Policy (CSP) ===
+// ✅ CSP depois
 app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
@@ -18,12 +24,8 @@ app.use((req, res, next) => {
   next();
 });
 
-
-
-// Servir todos os arquivos estáticos da raiz
+// ✅ Arquivos estáticos e rotas
 app.use(express.static(__dirname));
-
-// Rota principal para abrir o index.html
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
@@ -147,5 +149,6 @@ app.post('/reset-password-by-rm-cpf', async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+
 
 
