@@ -477,6 +477,22 @@ function loadAdminContentForm() {
         saveBtn.addEventListener('click', saveAdminContent);
     }
 }
+function openPageAsAdmin(pageId) {
+    console.log(`👑 Abrindo página do admin: ${pageId}`);
+    showNotification(`Abrindo ${pageId}...`, 'info');
+
+    // Esconde todas as seções do admin
+    document.querySelectorAll('.admin-content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+
+    // Mostra a seção escolhida
+    const targetSection = document.getElementById(pageId);
+    if (targetSection) {
+        targetSection.classList.add('active');
+    }
+}
+
 
 
 
