@@ -231,11 +231,9 @@ function initializeLoginSystem() {
 
             try {
                 // CHAMAR O BACKEND (rota /login) em vez de buscar diretamente do Supabase
-                const response = await fetch('https://ifomorita.onrender.com', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
+                const response = await fetch('https://ifomorita.onrender.com/login', {
+  method: "POST",
+ headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ rm, senha: password })
 });
 
@@ -312,11 +310,9 @@ function initializeLoginSystem() {
                     }
                     
                     // Envie os dados para o seu backend local
-const response = await fetch("https://ifomorita.onrender.com", {
+const response = await fetch("https://ifomorita.onrender.com/registrar", {
   method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
+  headers: {"Content-Type": "application/json"},
   body: JSON.stringify(alunoData)
 });
 
@@ -437,6 +433,7 @@ if (result.sucesso) {
     // INICIAR
     initializeAllSystems();
 });
+
 
 
 
