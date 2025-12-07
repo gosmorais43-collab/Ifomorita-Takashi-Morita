@@ -416,6 +416,31 @@ function initializeSearchSystem() {
 }
 
 
+function loadSavedContent() {
+    const savedContent = JSON.parse(localStorage.getItem('conteudo_salvo')) || [];
+
+    const container = document.getElementById('savedContentContainer');
+    if (!container) return;
+
+    if (savedContent.length === 0) {
+        container.innerHTML = `
+            <div class="sem-conteudo">
+                <i class="fas fa-folder-open"></i>
+                <p>Nenhum conteúdo salvo</p>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = savedContent.map(item => `
+        <div class="conteudo-salvo-item">
+            <h4>${item.titulo}</h4>
+            <p>${item.descricao}</p>
+            <span class="data">${item.data}</span>
+        </div>
+    `).join('');
+}
+
 
 
 
