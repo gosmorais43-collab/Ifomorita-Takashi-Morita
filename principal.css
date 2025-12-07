@@ -1,4 +1,27 @@
 /* ===== VARIÁVEIS OFICIAIS CPS ===== */
+
+/* ===== Estilos para o bloco de boas-vindas do usuário ===== */
+.user-welcome {
+  background: var(--cps-azul-claro);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(0, 120, 215, 0.3);
+  display: inline-block;
+}
+
+/* Nome do usuário em destaque */
+.user-name {
+  font-weight: 600;
+}
+
+/* Texto extra (ex: turma, ano) */
+.user-extra {
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
 :root {
     /* Cores Oficiais CPS - Azuis para elementos estratégicos */
     --cps-azul-escuro: #004A80;
@@ -2295,4 +2318,5 @@ body {
     margin-bottom: var(--spacing-md);
     color: var(--border-color);
 }
+
 }
