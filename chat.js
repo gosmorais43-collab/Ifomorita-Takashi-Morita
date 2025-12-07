@@ -1314,4 +1314,26 @@ window.addEventListener('resize', function() {
     if (chatState.userRole === 'student') {
         adjustStudentLayout();
     }
+
+});
+
+const socket = io("http://localhost:3000"); // ou seu domínio online
+
+const form = document.getElementById('chatForm');
+const input = document.getElementById('chatInput');
+const messages = document.getElementById('messages');
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const msg = input.value.trim();
+  if (msg) {
+    socket.emit('chat-message', { autor: 'Gabriel', texto: msg });
+    input.value = '';
+  }
+});
+
+socket.on('chat-message', (data) => {
+  const li = document.createElement('li');
+  li.textContent = `${data.autor}: ${data.texto}`;
+  messages.appendChild(li);
 });
