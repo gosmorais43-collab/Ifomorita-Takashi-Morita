@@ -362,18 +362,7 @@ console.log('✅ Dados do aluno carregados:', this.alunoData);
                     if (error) throw error;
 
                     // Atualizar dados locais
-                    this.alunoData.email = novoEmail;
-                    document.getElementById('email-atual').value = novoEmail;
-                    document.getElementById('novo-email').value = '';
-                    
-                    showNotification('E-mail alterado com sucesso!', 'success');
-                } catch (error) {
-                    console.error('Erro ao alterar e-mail:', error);
-                    showNotification('Erro ao alterar e-mail', 'error');
-                }
-            }
-        );
-    }
+                   
 
     async salvarEndereco() {
         if (!this.alunoData) {
@@ -422,60 +411,7 @@ console.log('✅ Dados do aluno carregados:', this.alunoData);
         );
     }
 
-    async alterarSenha() {
-        if (!this.alunoData) {
-            showNotification('Erro: Dados do aluno não carregados', 'error');
-            return;
-        }
-
-        const senhaAtual = document.getElementById('senha-atual').value;
-        const novaSenha = document.getElementById('nova-senha').value;
-        const confirmarSenha = document.getElementById('confirmar-senha').value;
-
-        if (!senhaAtual || !novaSenha || !confirmarSenha) {
-            showNotification('Preencha todos os campos de senha', 'warning');
-            return;
-        }
-
-        if (novaSenha !== confirmarSenha) {
-            showNotification('As senhas não coincidem', 'error');
-            return;
-        }
-
-        if (novaSenha.length < 6) {
-            showNotification('A nova senha deve ter pelo menos 6 caracteres', 'warning');
-            return;
-        }
-
-        this.showConfirmModal(
-            'Alterar Senha',
-            'Tem certeza que deseja alterar sua senha?',
-            async () => {
-                try {
-                    // SOLUÇÃO SIMPLES: Atualizar direto no banco
-                    const { error } = await supabase
-                        .from('alunos')
-                        .update({ senha: novaSenha })
-                        .eq('id', this.alunoData.id);
-
-                    if (error) throw error;
-
-                    this.alunoData.senha = novaSenha;
-
-                    // Limpar campos
-                    document.getElementById('senha-atual').value = '';
-                    document.getElementById('nova-senha').value = '';
-                    document.getElementById('confirmar-senha').value = '';
-
-                    showNotification('Senha alterada com sucesso!', 'success');
-
-                } catch (error) {
-                    console.error('Erro ao alterar senha:', error);
-                    showNotification('Erro ao alterar senha', 'error');
-                }
-            }
-        );
-    }
+   
 
     async salvarContatos() {
         if (!this.alunoData) {
@@ -718,17 +654,13 @@ function showNotification(message, type = 'info') {
 // ===== FUNÇÕES GLOBAIS =====
 let sistema;
 
-function alterarEmail() {
-    sistema.alterarEmail();
-}
+
 
 function salvarEndereco() {
     sistema.salvarEndereco();
 }
 
-function alterarSenha() {
-    sistema.alterarSenha();
-}
+
 
 function salvarContatos() {
     sistema.salvarContatos();
@@ -786,3 +718,4 @@ function preloadHeaderImages() {
 // Iniciar preload quando a página carregar
 
 window.addEventListener('load', preloadHeaderImages);
+
