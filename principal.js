@@ -93,6 +93,27 @@ function initializeStudentSystems() {
     initializeCardsInteractivity();
     document.getElementById('logoutBtn').addEventListener('click', logout);
 }
+function loadUserInfo() {
+    const userData = localStorage.getItem('alunoLogado');
+    const userInfo = document.querySelector('.user-info');
+
+    if (userData && userInfo) {
+        try {
+            const user = JSON.parse(userData);
+            userInfo.innerHTML = `
+                <div class="user-welcome">
+                    <div class="user-name">Bem-vindo, ${user.nome.split(' ')[0]}</div>
+                    <div class="user-extra">DAL 2018/01</div>
+                </div>
+            `;
+        } catch (error) {
+            console.error('❌ Erro ao carregar informações do usuário:', error);
+            userInfo.innerHTML = `<div class="user-welcome">👋 Bem-vindo ao InfoMorita</div>`;
+        }
+    } else if (userInfo) {
+        userInfo.innerHTML = `<div class="user-welcome">👋 Bem-vindo ao InfoMorita</div>`;
+    }
+}
 
 // ===== SISTEMAS DO ADMINISTRADOR =====
 function initializeAdminSystems() {
