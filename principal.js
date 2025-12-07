@@ -37,7 +37,7 @@ function checkAuthentication() {
     const adminLoggedIn = localStorage.getItem('adminLoggedIn');
 
     if (!userType && !alunoLogado && !adminLoggedIn) {
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
         return;
     }
 
@@ -440,6 +440,7 @@ function loadSavedContent() {
         </div>
     `).join('');
 }
+
 
 
 
