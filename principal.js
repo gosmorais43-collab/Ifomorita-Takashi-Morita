@@ -263,6 +263,20 @@ function navigateTo(page) {
         section.classList.add('active');
     }
 }
+function logout() {
+    // Limpar dados de login
+    localStorage.removeItem('alunoLogado');
+    localStorage.removeItem('userType');
+    localStorage.removeItem('adminLoggedIn');
+    localStorage.removeItem('adminMode');
+
+    showNotification('Saindo do sistema...', 'info');
+
+    setTimeout(() => {
+        window.location.href = 'index.html';
+    }, 1500);
+}
+
 
 
 
