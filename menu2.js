@@ -433,53 +433,10 @@ if (result.sucesso) {
     // INICIAR
     initializeAllSystems();
 });
+
 function openPageAsAdmin(pageId) {
     console.log(`👑 Abrindo página do admin: ${pageId}`);
-    showNotification(`Abrindo ${pageId}...`, 'info');
-
-    // Esconde todas as seções do admin
-    document.querySelectorAll('.admin-content-section').forEach(sec => sec.classList.remove('active'));
-
-    // Mostra a seção escolhida
-    const section = document.getElementById(pageId);
-    if (section) {
-        section.classList.add('active');
-    }
-}
-function openPageAsAdmin(pageId) {
-    console.log(`🛠️ Abrindo a página do administrador: ${pageId}`);
-    showNotification(`Abrindo ${pageId}...`, 'info');
-
-    // Esconde todas as seções do admin
-    document.querySelectorAll('.admin-content-section').forEach(sec => sec.classList.remove('active'));
-
-    // Mostra a seção escolhida
-    const section = document.getElementById(pageId);
-    if (section) {
-        section.classList.add('active');
-    }
-}
-
-function loadAdminContentForm() {
-    const formContainer = document.getElementById('adminContentFormContainer');
-    if (!formContainer) return;
-
-    formContainer.innerHTML = `
-        <form id="adminContentForm">
-            <input type="text" id="adminContentInput" placeholder="Digite o conteúdo..." />
-            <button type="button" id="saveContentBtn" class="cps-button primary">Salvar Conteúdo</button>
-        </form>
-    `;
-    
-    // Reaplica evento de salvar
-    const saveBtn = document.getElementById('saveContentBtn');
-    if (saveBtn) {
-        saveBtn.addEventListener('click', saveAdminContent);
-    }
-}
-function openPageAsAdmin(pageId) {
-    console.log(`👑 Abrindo página do admin: ${pageId}`);
-    showNotification(`Abrindo ${pageId}...`, 'info');
+    showMessage(`Abrindo ${pageId}...`, 'info'); // use showMessage, não showNotification
 
     // Esconde todas as seções do admin
     document.querySelectorAll('.admin-content-section').forEach(section => {
@@ -491,6 +448,47 @@ function openPageAsAdmin(pageId) {
     if (targetSection) {
         targetSection.classList.add('active');
     }
+}
+function loadAdminContentForm() {
+    const formContainer = document.getElementById('adminContentFormContainer');
+    if (!formContainer) return;
+
+    formContainer.innerHTML = `
+        <form id="adminContentForm">
+            <input type="text" id="adminContentInput" placeholder="Digite o conteúdo..." />
+            <button type="button" id="saveContentBtn" class="cps-button primary">Salvar Conteúdo</button>
+        </form>
+    `;
+
+    // Reaplica evento de salvar
+    const saveBtn = document.getElementById('saveContentBtn');
+    if (saveBtn) {
+        saveBtn.addEventListener('click', saveAdminContent);
+    }
+}
+function saveAdminContent() {
+    const contentInput = document.getElementById('adminContentInput');
+    if (!contentInput) {
+        showMessage('Campo de conteúdo não encontrado', 'error');
+        return;
+    }
+
+    const conteudo = contentInput.value.trim();
+    if (!conteudo) {
+        showMessage('Digite algum conteúdo antes de salvar', 'warning');
+        return;
+    }
+
+    const savedContent = JSON.parse(localStorage.getItem('conteudo_salvo')) || [];
+    savedContent.push({
+        titulo: `Conteúdo ${savedContent.length + 1}`,
+        descricao: conteudo,
+        data: new Date().toLocaleString('pt-BR')
+    });
+
+    localStorage.setItem('conteudo_salvo', JSON.stringify(savedContent));
+    showMessage('Conteúdo salvo com sucesso!', 'success');
+    contentInput.value = '';
 }
 
 
