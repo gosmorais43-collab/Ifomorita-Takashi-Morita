@@ -125,11 +125,12 @@
     try {
       // Faz POST para a rota do backend que você precisa ter implementada:
       // POST /reset-password-by-rm-cpf  { rm, cpf, nova_senha }
-      const response = await fetch('http://localhost:3000/reset-password-by-rm-cpf', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ rm, cpf, nova_senha: novaSenha })
-      });
+      const response = await fetch('https://ifomorita.onrender.com/reset-password-by-rm-cpf', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ rm, cpf, nova_senha: novaSenha })
+});
+
 
       // Ler texto (evita erro se servidor retornar HTML)
       const text = await response.text();
@@ -179,6 +180,7 @@
       if (inline) inline.style.display = 'none';
     });
   });
+
 
 
 })();
