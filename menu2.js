@@ -231,7 +231,7 @@ function initializeLoginSystem() {
 
             try {
                 // CHAMAR O BACKEND (rota /login) em vez de buscar diretamente do Supabase
-                const response = await fetch('https://lfomorita.onrender.com/login', {
+                const response = await fetch('https://lfomorita.onrender.com', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
@@ -312,7 +312,7 @@ function initializeLoginSystem() {
                     }
                     
                     // Envie os dados para o seu backend local
-const response = await fetch("https://lfomorita.onrender.com/registrar", {
+const response = await fetch("https://lfomorita.onrender.com", {
   method: "POST",
   headers: {
     "Content-Type": "application/json"
@@ -437,6 +437,7 @@ if (result.sucesso) {
     // INICIAR
     initializeAllSystems();
 });
+
 
 
 
