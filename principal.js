@@ -236,6 +236,24 @@ function loadUserInfo() {
     if (userData && userInfo) {
         try {
             const user = JSON.parse(userData);
-            userInfo.innerHTML = `
-                <div class="user-welcome">
-                    <div class="user-name">Bem-vindo, ${user.nome.split('
+           userInfo.innerHTML = `
+    <div class="user-welcome">
+        <div class="user-name">Bem-vindo, ${user.nome.split(' ')[0]}</div>
+        <div class="user-extra">DAL 2018/01</div>
+    </div>
+`;
+
+function navigateTo(page) {
+    console.log(`📍 Navegando para: ${page}`);
+    showNotification(`Abrindo ${page}...`, 'info');
+
+    // Ativar a seção correspondente
+    const section = document.getElementById(page);
+    if (section) {
+        document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+        section.classList.add('active');
+    }
+}
+
+
+
