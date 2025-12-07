@@ -598,7 +598,83 @@ function updateAdminStats() {
 }
 
 
+function openPageAsAdmin(pageId) {
+    console.log(`👑 Abrindo página do admin: ${pageId}`);
+    showNotification(`Abrindo ${pageId}...`, 'info');
 
+    // Esconde todas as seções do admin
+    document.querySelectorAll('.admin-content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+
+    // Mostra a seção escolhida
+    const targetSection = document.getElementById(pageId);
+    if (targetSection) {
+        targetSection.classList.add('active');
+    }
+
+    // Se for admin-conteudo, carrega o formulário
+    if (pageId === 'admin-conteudo') {
+        loadAdminContentForm();
+    }
+    // Se for admin-recados, carrega recados
+    if (pageId === 'admin-recados') {
+        carregarRecadosEnviados();
+        previewRecado();
+    }
+}
+
+function loadAdminContentForm() {
+    const formContainer = document.getElementById('adminContentFormContainer');
+    if (!formContainer) return;
+
+    formContainer.innerHTML = `
+        <form id="adminContentForm">
+            <input type="text" id="adminContentInput" placeholder="Digite o conteúdo..." />
+            <button type="button" id="saveContentBtn" class="cps-button primary">Salvar Conteúdo</button>
+        </form>
+    `;
+
+    const saveBtn = document.getElementById('saveContentBtn');
+    if (saveBtn) {
+        saveBtn.addEventListener('click', saveAdminContent);
+    }
+}
+function carregarRecadosEnviados() {
+    const container = document.getElementById('recadosEnviadosContainer');
+    if (!container) return;
+
+    const recados = JSON.parse(localStorage.getItem('recados_globais')) || [];
+
+    if (recados.length === 0) {
+        container.innerHTML = `
+            <div class="sem-recados">
+                <i class="fas fa-bullhorn"></i>
+                <p>Nenhum recado enviado ainda</p>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = recados.map(recado => `
+        <div class="recado-item ${recado.tipo}">
+            <div class="recado-header">
+                <div class="recado-titulo">${recado.titulo}</div>
+                <div class="recado-data">${recado.dataFormatada}</div>
+            </div>
+            <div class="recado-mensagem">${recado.mensagem}</div>
+            <div class="recado-tipo">
+                ${recado.tipo === 'info' ? 'Informação' :
+                  recado.tipo === 'aviso' ? 'Aviso' :
+                  recado.tipo === 'urgente' ? 'Urgente' : 'Evento'}
+            </div>
+        </div>
+    `).join('');
+}
+
+function previewRecado() {
+    showNotification('Pré-visualização de recado não implementada ainda', 'info');
+}
 
 
 
