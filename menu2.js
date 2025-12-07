@@ -433,6 +433,37 @@ if (result.sucesso) {
     // INICIAR
     initializeAllSystems();
 });
+function openPageAsAdmin(pageId) {
+    console.log(`👑 Abrindo página do admin: ${pageId}`);
+    showNotification(`Abrindo ${pageId}...`, 'info');
+
+    // Esconde todas as seções do admin
+    document.querySelectorAll('.admin-content-section').forEach(sec => sec.classList.remove('active'));
+
+    // Mostra a seção escolhida
+    const section = document.getElementById(pageId);
+    if (section) {
+        section.classList.add('active');
+    }
+}
+function loadAdminContentForm() {
+    const formContainer = document.getElementById('adminContentFormContainer');
+    if (!formContainer) return;
+
+    formContainer.innerHTML = `
+        <form id="adminContentForm">
+            <input type="text" id="adminContentInput" placeholder="Digite o conteúdo..." />
+            <button type="button" id="saveContentBtn" class="cps-button primary">Salvar Conteúdo</button>
+        </form>
+    `;
+
+    // Reaplica evento de salvar
+    const saveBtn = document.getElementById('saveContentBtn');
+    if (saveBtn) {
+        saveBtn.addEventListener('click', saveAdminContent);
+    }
+}
+
 
 
 
