@@ -276,6 +276,40 @@ function logout() {
         window.location.href = 'index.html';
     }, 1500);
 }
+function carregarRecadosAluno() {
+    const recadosAlunoContainer = document.getElementById('recadosAlunoContainer');
+    if (!recadosAlunoContainer) return;
+
+    const recados = JSON.parse(localStorage.getItem('recados_globais')) || [];
+
+    if (recados.length === 0) {
+        recadosAlunoContainer.innerHTML = `
+            <div class="sem-recados">
+                <i class="fas fa-bullhorn"></i>
+                <p>Nenhum recado no momento</p>
+            </div>
+        `;
+        return;
+    }
+
+    const recadosRecentes = recados.slice(0, 3);
+
+    recadosAlunoContainer.innerHTML = recadosRecentes.map(recado => `
+        <div class="recado-aluno-item ${recado.tipo}">
+            <div class="recado-aluno-header">
+                <div class="recado-aluno-titulo">${recado.titulo}</div>
+                <div class="recado-aluno-data">${recado.dataFormatada}</div>
+            </div>
+            <div class="recado-aluno-mensagem">${recado.mensagem}</div>
+            <div class="recado-aluno-tipo">
+                ${recado.tipo === 'info' ? 'Informação' :
+                  recado.tipo === 'aviso' ? 'Aviso' :
+                  recado.tipo === 'urgente' ? 'Urgente' : 'Evento'}
+            </div>
+        </div>
+    `).join('');
+}
+
 
 
 
