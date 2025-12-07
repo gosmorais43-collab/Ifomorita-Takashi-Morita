@@ -1317,7 +1317,7 @@ window.addEventListener('resize', function() {
 
 });
 
-const socket = io("http://localhost:3000"); // ou seu domínio online
+const socket = io("https://ifomorita.onrender.com"); // ou seu domínio online
 
 const form = document.getElementById('chatForm');
 const input = document.getElementById('chatInput');
@@ -1337,3 +1337,4 @@ socket.on('chat-message', (data) => {
   li.textContent = `${data.autor}: ${data.texto}`;
   messages.appendChild(li);
 });
+
