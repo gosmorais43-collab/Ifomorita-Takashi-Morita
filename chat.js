@@ -216,6 +216,30 @@ function formatMessageText(text) {
 }
 
 // Salvar mensagem no localStorage
+
+
+function saveMessageToLocalStorage(message) {
+    try {
+        // Formatar o texto antes de salvar
+        message.message_text = formatMessageText(message.message_text);
+        
+        // Obter todas as mensagens
+        const allMessages = getAllMessagesFromLocalStorage();
+        
+        // Adicionar nova mensagem
+        allMessages.push(message);
+        
+        // Salvar de volta no localStorage (limitado a 1000 mensagens)
+        const toSave = allMessages.slice(-1000);
+        localStorage.setItem('chat_messages', JSON.stringify(toSave));
+        
+        console.log('💾 Mensagem salva:', message.id);
+        return true;
+    } catch (error) {
+        console.error('❌ Erro ao salvar mensagem:', error);
+        return false;
+    }
+}
 async function sendMessage(text) {
   const senderId = localStorage.getItem('sender_id');
   const senderName = localStorage.getItem('sender_name');
@@ -1331,4 +1355,5 @@ socket.on('chat-message', (data) => {
   li.textContent = `${data.autor}: ${data.texto}`;
   messages.appendChild(li);
 });
+
 
