@@ -673,19 +673,32 @@ function carregarRecadosEnviados() {
 }
 
 function openPageAsAdmin(pageId) {
-    console.log(`👑 Redirecionando para: ${pageId}`);
+    console.log(`👑 Abrindo página do admin: ${pageId}`);
     showNotification(`Abrindo ${pageId}...`, 'info');
 
-    const pageMap = {
-        'admin-dashboard': 'principal.html',
-        'admin-noticias': 'noticias.html',
-        'admin-chat': 'chat.html',
-        'admin-professores': 'professores.html',
-        'admin-biblioteca': 'livros.html',
-        'admin-configuracao': 'configuracao.html',
-         'admin-conteudo': 'principal.html#admin-conteudo',
-        'admin-recados': 'principal.html#admin-recados'
-    };
+    // Esconde todas as seções do admin
+    document.querySelectorAll('.admin-content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+
+    // Mostra a seção escolhida
+    const targetSection = document.getElementById(pageId);
+    if (targetSection) {
+        targetSection.classList.add('active');
+    }
+
+    // Se for admin-conteudo, carrega o formulário
+    if (pageId === 'admin-conteudo') {
+        loadAdminContentForm();
+    }
+
+    // Se for admin-recados, carrega recados
+    if (pageId === 'admin-recados') {
+        carregarRecadosEnviados();
+        initializeRecadosSystem();
+    }
+}
+
 
     const targetUrl = pageMap[pageId];
     if (targetUrl) {
@@ -772,6 +785,7 @@ window.sendQuickMessage = function(type) {
         showNotification('Mensagem rápida adicionada', 'info');
     }
 };
+
 
 
 
