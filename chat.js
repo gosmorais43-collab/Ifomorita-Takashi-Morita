@@ -1,7 +1,4 @@
-// CONFIGURAÇÃO DO SUPABASE
-const SUPABASE_URL = 'https://caadqubmelbbdnzdmqpf.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_LcLLXnNaNUkhgIxv9Uh3Gg_bhoWkHAG';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// chat.js - ATUALIZADO PARA SUA ESTRUTURA DE BANCO DE DADOS
 
 // ===== ESTADO GLOBAL =====
 let chatState = {
@@ -20,20 +17,14 @@ let chatState = {
     studentsList: [],
     
     refreshInterval: null,
-    isInitialized: false
+    isInitialized: false,
+    backendURL: 'https://ifomorita.onrender.com' // URL do seu backend
 };
 
 // ===== INICIALIZAÇÃO =====
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Sistema de Chat iniciado...');
-    
-    // Inicializar sistemas do header
-    initializeHeaderSystems();
-    
-    // Inicializar chat baseado na autenticação
     initializeFromYourSystem();
-    
-    // Adicionar estilos dinâmicos
     addDynamicStyles();
 });
 
@@ -76,6 +67,203 @@ function addDynamicStyles() {
     document.head.appendChild(style);
 }
 
+// ===== FUNÇÕES DE COMUNICAÇÃO COM BACKEND =====
+
+// Função para fazer requisições ao backend
+async function makeBackendRequest(endpoint, method = 'POST', data = null) {
+    try {
+        const url = `${chatState.backendURL}${endpoint}`;
+        
+        const options = {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include'
+        };
+        
+        if (data && (method === 'POST' || method === 'PUT')) {
+            options.body = JSON.stringify(data);
+        }
+        
+        console.log(`📤 Enviando requisição para: ${url}`, data);
+        const response = await fetch(url, options);
+        
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        console.log(`📥 Resposta recebida de ${endpoint}:`, result);
+        return result;
+    } catch (error) {
+        console.error(`❌ Erro na requisição para ${endpoint}:`, error);
+        throw error;
+    }
+}
+
+// 1. Enviar mensagem via backend
+async function sendMessageToBackend(message) {
+    try {
+        // Ajustar para a estrutura do seu banco
+        const messageForDB = {
+            sender_id: message.sender_id,
+            receiver_id: message.receiver_id,
+            sender_rm: message.sender_rm || (message.sender_role === 'admin' ? 'ADMIN' : message.sender_rm),
+            sender_role: message.sender_role,
+            sender_name: message.sender_name,
+            receiver_rm: message.receiver_rm || (message.receiver_role === 'admin' ? 'ADMIN' : message.receiver_rm),
+            message_text: message.message_text,
+            department: message.department || 'all',
+            is_read: false
+        };
+        
+        console.log('📤 Enviando mensagem para backend:', messageForDB);
+        const result = await makeBackendRequest('/chat/send', 'POST', messageForDB);
+        
+        if (!result.sucesso) {
+            throw new Error(result.erro || 'Erro ao enviar mensagem');
+        }
+        
+        console.log('✅ Mensagem enviada via backend:', result.data.id);
+        return result.data;
+    } catch (error) {
+        console.error('❌ Erro ao enviar mensagem via backend:', error);
+        throw error;
+    }
+}
+
+// 2. Obter mensagens entre dois usuários (adaptado para sua estrutura)
+async function getMessagesBetweenUsers(user1, user2) {
+    try {
+        const result = await makeBackendRequest('/chat/messages-between', 'POST', {
+            user1: user1,
+            user2: user2
+        });
+        
+        if (!result.sucesso) {
+            throw new Error(result.erro || 'Erro ao buscar mensagens');
+        }
+        
+        console.log(`✅ ${result.mensagens.length} mensagens carregadas entre ${user1} e ${user2}`);
+        return result.mensagens;
+    } catch (error) {
+        console.error('❌ Erro ao buscar mensagens via backend:', error);
+        // Fallback: buscar do localStorage
+        const localMessages = getAllMessagesFromLocalStorage();
+        return localMessages.filter(msg => 
+            (msg.sender_id === user1 && msg.receiver_id === user2) ||
+            (msg.sender_id === user2 && msg.receiver_id === user1)
+        );
+    }
+}
+
+// 3. Obter mensagens de um usuário
+async function getMessagesForUserBackend(userId) {
+    try {
+        const result = await makeBackendRequest('/chat/messages-for-user', 'POST', {
+            userId: userId
+        });
+        
+        if (!result.sucesso) {
+            throw new Error(result.erro || 'Erro ao buscar mensagens');
+        }
+        
+        console.log(`✅ ${result.mensagens.length} mensagens do usuário ${userId} via backend`);
+        return result.mensagens;
+    } catch (error) {
+        console.error('❌ Erro ao buscar mensagens do usuário via backend:', error);
+        // Fallback: buscar do localStorage
+        return getMessagesForUserLocalStorage(userId);
+    }
+}
+
+// 4. Obter alunos com mensagens (para admin)
+async function getStudentsWithMessages() {
+    try {
+        const result = await makeBackendRequest('/chat/students-with-messages', 'GET');
+        
+        if (!result.sucesso) {
+            throw new Error(result.erro || 'Erro ao buscar alunos');
+        }
+        
+        console.log(`✅ ${result.alunos.length} alunos carregados via backend`);
+        return result.alunos;
+    } catch (error) {
+        console.error('❌ Erro ao buscar alunos via backend:', error);
+        return getStudentsFromMessagesLocalStorage();
+    }
+}
+
+// 5. Marcar mensagens como lidas
+async function markMessagesAsReadBackend(messageIds) {
+    try {
+        const result = await makeBackendRequest('/chat/mark-as-read', 'POST', {
+            messageIds: messageIds
+        });
+        
+        if (!result.sucesso) {
+            console.warn('⚠️ Não foi possível marcar mensagens como lidas:', result.erro);
+        } else {
+            console.log('✅ Mensagens marcadas como lidas:', messageIds);
+        }
+    } catch (error) {
+        console.error('❌ Erro ao marcar mensagens como lidas:', error);
+    }
+}
+
+// ===== FUNÇÕES DE FALLBACK (localStorage) =====
+
+function getAllMessagesFromLocalStorage() {
+    try {
+        const messages = localStorage.getItem('chat_messages_fallback');
+        return messages ? JSON.parse(messages) : [];
+    } catch (error) {
+        console.error('❌ Erro ao obter mensagens do localStorage:', error);
+        return [];
+    }
+}
+
+function getMessagesForUserLocalStorage(userId) {
+    const allMessages = getAllMessagesFromLocalStorage();
+    return allMessages.filter(message => 
+        message.sender_id === userId || message.receiver_id === userId
+    );
+}
+
+function getStudentsFromMessagesLocalStorage() {
+    const allMessages = getAllMessagesFromLocalStorage();
+    const studentsMap = new Map();
+    
+    allMessages.forEach(message => {
+        if (message.sender_role === 'student' && message.sender_rm && message.sender_rm !== 'ADMIN') {
+            if (!studentsMap.has(message.sender_rm)) {
+                studentsMap.set(message.sender_rm, {
+                    rm: message.sender_rm,
+                    nome_completo: message.sender_name || `Aluno ${message.sender_rm}`,
+                    id: message.sender_id,
+                    turma_id: message.sender_class || 'Não informada',
+                    lastMessage: message.created_at
+                });
+            }
+        }
+    });
+    
+    return Array.from(studentsMap.values());
+}
+
+function saveMessageToLocalStorage(message) {
+    try {
+        const allMessages = getAllMessagesFromLocalStorage();
+        allMessages.push(message);
+        localStorage.setItem('chat_messages_fallback', JSON.stringify(allMessages));
+        return true;
+    } catch (error) {
+        console.error('❌ Erro ao salvar mensagem no localStorage:', error);
+        return false;
+    }
+}
+
 // ===== INICIALIZAÇÃO DO SISTEMA =====
 function initializeFromYourSystem() {
     console.log('🔐 Verificando autenticação do sistema...');
@@ -88,9 +276,10 @@ function initializeFromYourSystem() {
         console.log('👔 Usuário identificado como ADMINISTRADOR');
         
         const userData = {
-            id: 'admin',
+            id: 'admin_001',
             name: 'Administrador',
-            role: 'admin'
+            role: 'admin',
+            rm: 'ADMIN'
         };
         
         initializeChat(userData);
@@ -110,7 +299,7 @@ function initializeFromYourSystem() {
                 const userData = {
                     id: `aluno_${alunoData.rm}`,
                     rm: alunoData.rm.toString(),
-                    name: alunoData.nome || `Aluno ${alunoData.rm}`,
+                    name: alunoData.nome_completo || `Aluno ${alunoData.rm}`,
                     role: 'student'
                 };
                 
@@ -123,26 +312,7 @@ function initializeFromYourSystem() {
         }
     }
     
-    // 3. Verificar localStorage direto
-    const directRM = localStorage.getItem('studentRM') || localStorage.getItem('rm');
-    const directName = localStorage.getItem('studentName') || localStorage.getItem('nome');
-    
-    if (directRM) {
-        console.log('📦 Dados encontrados no localStorage');
-        
-        const userData = {
-            id: `aluno_${directRM}`,
-            rm: directRM,
-            name: directName || `Aluno ${directRM}`,
-            role: 'student'
-        };
-        
-        initializeChat(userData);
-        showNotification(`Bem-vindo, ${userData.name}!`, 'success');
-        return;
-    }
-    
-    // 4. Mostrar opções de autenticação
+    // 3. Mostrar opções de autenticação
     showAuthenticationOptions();
 }
 
@@ -150,7 +320,6 @@ function initializeFromYourSystem() {
 function initializeChat(userData) {
     console.log('👤 Inicializando chat para:', userData);
     
-    // Evitar inicialização dupla
     if (chatState.isInitialized) {
         console.log('⚠️ Chat já inicializado');
         return;
@@ -181,120 +350,6 @@ function initializeChat(userData) {
     console.log('✅ Chat inicializado com sucesso');
 }
 
-// ===== SISTEMA DE ARMAZENAMENTO LOCAL =====
-
-// Gerar ID único para mensagens
-function generateMessageId() {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2);
-}
-
-// Formatar texto para garantir quebras adequadas
-function formatMessageText(text) {
-    if (!text || typeof text !== 'string') return '';
-    
-    // Remover espaços em branco extras
-    text = text.trim();
-    
-    // Se for texto muito longo sem espaços, adicionar quebras
-    if (text.length > 50 && !text.includes(' ')) {
-        // Quebrar a cada 30 caracteres
-        return text.match(/.{1,30}/g).join(' ');
-    }
-    
-    // Para textos muito longos, garantir quebras
-    if (text.length > 200) {
-        return text.split(' ').map(word => {
-            if (word.length > 30) {
-                // Quebrar palavras muito longas
-                return word.match(/.{1,30}/g).join(' ');
-            }
-            return word;
-        }).join(' ');
-    }
-    
-    return text;
-}
-
-// Salvar mensagem no localStorage
-function saveMessageToLocalStorage(message) {
-    try {
-        // Formatar o texto antes de salvar
-        message.message_text = formatMessageText(message.message_text);
-        
-        // Obter todas as mensagens
-        const allMessages = getAllMessagesFromLocalStorage();
-        
-        // Adicionar nova mensagem
-        allMessages.push(message);
-        
-        // Salvar de volta no localStorage (limitado a 1000 mensagens)
-        const toSave = allMessages.slice(-1000);
-        localStorage.setItem('chat_messages', JSON.stringify(toSave));
-        
-        console.log('💾 Mensagem salva:', message.id);
-        return true;
-    } catch (error) {
-        console.error('❌ Erro ao salvar mensagem:', error);
-        return false;
-    }
-}
-
-// Obter todas as mensagens do localStorage
-function getAllMessagesFromLocalStorage() {
-    try {
-        const messages = localStorage.getItem('chat_messages');
-        return messages ? JSON.parse(messages) : [];
-    } catch (error) {
-        console.error('❌ Erro ao obter mensagens:', error);
-        return [];
-    }
-}
-
-// Obter mensagens de um usuário específico
-function getMessagesForUser(userId) {
-    const allMessages = getAllMessagesFromLocalStorage();
-    return allMessages.filter(message => 
-        message.sender_id === userId || message.receiver_id === userId
-    );
-}
-
-// Obter mensagens entre admin e um aluno específico
-function getMessagesBetweenAdminAndStudent(studentRm) {
-    const allMessages = getAllMessagesFromLocalStorage();
-    return allMessages.filter(message => 
-        (message.sender_id === 'admin' && message.receiver_id === `aluno_${studentRm}`) ||
-        (message.sender_id === `aluno_${studentRm}` && message.receiver_id === 'admin')
-    );
-}
-
-// Obter todos os alunos que enviaram mensagens
-function getStudentsFromMessages() {
-    const allMessages = getAllMessagesFromLocalStorage();
-    const studentsMap = new Map();
-    
-    allMessages.forEach(message => {
-        if (message.sender_role === 'student' && message.sender_rm) {
-            if (!studentsMap.has(message.sender_rm)) {
-                studentsMap.set(message.sender_rm, {
-                    id: message.sender_id,
-                    rm: message.sender_rm,
-                    nome_completo: message.sender_name || `Aluno ${message.sender_rm}`,
-                    turma_id: message.sender_class || 'Não informada',
-                    lastMessage: message.created_at
-                });
-            } else {
-                // Atualizar última mensagem se for mais recente
-                const existing = studentsMap.get(message.sender_rm);
-                if (new Date(message.created_at) > new Date(existing.lastMessage)) {
-                    existing.lastMessage = message.created_at;
-                }
-            }
-        }
-    });
-    
-    return Array.from(studentsMap.values());
-}
-
 // ===== CHAT DO ALUNO =====
 function initializeStudentChat() {
     console.log('🎓 Inicializando chat do aluno...');
@@ -303,71 +358,14 @@ function initializeStudentChat() {
     loadStudentMessages();
     setupDepartments();
     
-    // Garantir que o layout seja ajustado
     setTimeout(adjustStudentLayout, 100);
 }
 
-function setupStudentEventListeners() {
-    console.log('🎓 Configurando event listeners do aluno...');
-    
-    const messageInput = document.getElementById('messageInput');
-    const sendBtn = document.querySelector('.send-btn');
-    
-    if (messageInput) {
-        // Auto-expandir textarea
-        messageInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            const newHeight = Math.min(this.scrollHeight, 120);
-            this.style.height = newHeight + 'px';
-            
-            // Ajustar layout se necessário
-            adjustStudentLayout();
-        });
-
-        // Enviar com Enter (sem Shift)
-        messageInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendStudentMessage();
-            }
-        });
-        
-        // Focar no input
-        setTimeout(() => {
-            messageInput.focus();
-            showNotification('Digite sua mensagem e pressione Enter para enviar', 'info');
-        }, 500);
-    }
-    
-    if (sendBtn) {
-        sendBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            sendStudentMessage();
-        });
-    }
-}
-
-function adjustStudentLayout() {
-    const messagesContainer = document.getElementById('messagesContainer');
-    const inputArea = document.querySelector('.message-input-area');
-    
-    if (messagesContainer && inputArea) {
-        // Calcular altura disponível
-        const chatArea = document.querySelector('.chat-main-area');
-        const header = document.querySelector('.chat-conversation-header');
-        
-        if (chatArea && header) {
-            const availableHeight = chatArea.clientHeight - header.clientHeight - inputArea.clientHeight;
-            messagesContainer.style.maxHeight = availableHeight + 'px';
-        }
-    }
-}
-
-function loadStudentMessages() {
+async function loadStudentMessages() {
     try {
         console.log('📥 Carregando mensagens do aluno...');
         
-        chatState.messages = getMessagesForUser(chatState.userId);
+        chatState.messages = await getMessagesForUserBackend(chatState.userId);
         
         // Ordenar por data
         chatState.messages.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
@@ -389,7 +387,6 @@ function renderStudentMessages() {
         return;
     }
     
-    // Limpar container
     container.innerHTML = '';
     
     if (chatState.messages.length === 0) {
@@ -405,174 +402,12 @@ function renderStudentMessages() {
         return;
     }
     
-    // Adicionar mensagens
     chatState.messages.forEach((message, index) => {
         const messageElement = createMessageElement(message, index);
         container.appendChild(messageElement);
     });
     
-    // Rolagem para baixo
     scrollToBottom('messagesContainer');
-}
-
-function createMessageElement(message, index) {
-    const isUserMessage = message.sender_id === chatState.userId;
-    const isLongMessage = message.message_text && message.message_text.length > 100;
-    const isVeryLongMessage = message.message_text && message.message_text.length > 200;
-    
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${isUserMessage ? 'user' : 'admin'}`;
-    
-    if (isLongMessage) messageDiv.classList.add('message-long');
-    if (isVeryLongMessage) messageDiv.classList.add('message-very-long');
-    if (index === chatState.messages.length - 1) messageDiv.classList.add('message-new');
-    
-    messageDiv.dataset.id = message.id;
-    messageDiv.dataset.index = index;
-
-    // Avatar
-    const avatar = document.createElement('div');
-    avatar.className = 'message-avatar';
-    avatar.innerHTML = isUserMessage ? '<i class="fas fa-user"></i>' : '<i class="fas fa-user-tie"></i>';
-
-    // Conteúdo
-    const content = document.createElement('div');
-    content.className = 'message-content force-text-break';
-    
-    // Header
-    const header = document.createElement('div');
-    header.className = 'message-header';
-    
-    const senderName = document.createElement('span');
-    senderName.className = 'message-sender';
-    senderName.textContent = isUserMessage ? 'Você' : (message.sender_name || 'Diretoria');
-    
-    const time = document.createElement('span');
-    time.className = 'message-time';
-    time.textContent = formatTime(message.created_at);
-    
-    header.appendChild(senderName);
-    header.appendChild(time);
-    
-    // Texto
-    const text = document.createElement('div');
-    text.className = 'message-text force-text-break';
-    text.textContent = message.message_text || '';
-    
-    // Se for texto sem espaços, forçar quebra
-    if (message.message_text && !message.message_text.includes(' ')) {
-        text.classList.add('break-all');
-    }
-    
-    content.appendChild(header);
-    content.appendChild(text);
-    
-    // Status (apenas para mensagens do usuário)
-    if (isUserMessage) {
-        const status = document.createElement('div');
-        status.className = 'message-status';
-        status.innerHTML = message.is_read ? 
-            '<i class="fas fa-check-double"></i> Lida' : 
-            '<i class="fas fa-check"></i> Enviada';
-        content.appendChild(status);
-    }
-    
-    // Montar mensagem
-    if (isUserMessage) {
-        messageDiv.appendChild(content);
-        messageDiv.appendChild(avatar);
-    } else {
-        messageDiv.appendChild(avatar);
-        messageDiv.appendChild(content);
-    }
-    
-    return messageDiv;
-}
-
-function sendStudentMessage() {
-    const input = document.getElementById('messageInput');
-    const sendBtn = document.querySelector('.send-btn');
-    
-    if (!input) {
-        showNotification('Erro: campo de mensagem não encontrado', 'error');
-        return;
-    }
-    
-    const text = input.value.trim();
-    
-    if (!text) {
-        showNotification('Digite uma mensagem antes de enviar', 'warning');
-        return;
-    }
-    
-    // Desabilitar input temporariamente
-    input.disabled = true;
-    if (sendBtn) sendBtn.disabled = true;
-    
-    try {
-        // Criar mensagem
-        const newMessage = {
-            id: generateMessageId(),
-            sender_id: chatState.userId,
-            receiver_id: 'admin',
-            sender_rm: chatState.userRM,
-            sender_role: 'student',
-            sender_name: chatState.userName,
-            receiver_role: 'admin',
-            message_text: text,
-            department: chatState.currentDepartment,
-            is_read: false,
-            created_at: new Date().toISOString()
-        };
-        
-        // Salvar
-        const saved = saveMessageToLocalStorage(newMessage);
-        
-        if (!saved) {
-            throw new Error('Falha ao salvar mensagem');
-        }
-        
-        // Adicionar ao estado
-        chatState.messages.push(newMessage);
-        
-        // Renderizar
-        renderStudentMessages();
-        
-        // Limpar input
-        input.value = '';
-        input.style.height = 'auto';
-        
-        // Feedback visual
-        showNotification('✅ Mensagem enviada!', 'success');
-        
-        // Simular notificação para admin
-        simulateAdminNotification(newMessage);
-        
-    } catch (error) {
-        console.error('❌ Erro ao enviar mensagem:', error);
-        showNotification('Erro ao enviar mensagem. Tente novamente.', 'error');
-    } finally {
-        // Reabilitar input
-        input.disabled = false;
-        if (sendBtn) sendBtn.disabled = false;
-        input.focus();
-    }
-}
-
-function simulateAdminNotification(message) {
-    // Simular notificação para admin
-    if (localStorage.getItem('adminLoggedIn') === 'true') {
-        const notifications = JSON.parse(localStorage.getItem('admin_notifications') || '[]');
-        notifications.push({
-            id: message.id,
-            student_rm: message.sender_rm,
-            student_name: message.sender_name,
-            message_preview: message.message_text.substring(0, 50) + '...',
-            timestamp: new Date().toISOString(),
-            read: false
-        });
-        localStorage.setItem('admin_notifications', JSON.stringify(notifications));
-    }
 }
 
 // ===== CHAT DO ADMINISTRADOR =====
@@ -582,88 +417,33 @@ async function initializeAdminChat() {
     await loadStudentsList();
     setupAdminEventListeners();
     startAdminPolling();
-    
-    // Mostrar notificações pendentes
-    showAdminNotifications();
-}
-
-function showAdminNotifications() {
-    try {
-        const notifications = JSON.parse(localStorage.getItem('admin_notifications') || '[]');
-        const unread = notifications.filter(n => !n.read);
-        
-        if (unread.length > 0) {
-            showNotification(`Você tem ${unread.length} nova(s) mensagem(ns) de alunos`, 'info');
-            
-            // Marcar como lidas
-            notifications.forEach(n => n.read = true);
-            localStorage.setItem('admin_notifications', JSON.stringify(notifications));
-        }
-    } catch (error) {
-        console.error('Erro ao verificar notificações:', error);
-    }
-}
-
-function setupAdminEventListeners() {
-    const adminInput = document.getElementById('adminMessageInput');
-    const adminSendBtn = document.getElementById('adminSendBtn');
-    
-    if (adminInput) {
-        adminInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-        });
-
-        adminInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendAdminMessage();
-            }
-        });
-    }
-    
-    if (adminSendBtn) {
-        adminSendBtn.addEventListener('click', sendAdminMessage);
-    }
 }
 
 async function loadStudentsList() {
     try {
         console.log('📥 Carregando lista de alunos...');
         
-        // Tentar do Supabase
-        const { data: alunos, error } = await supabase
-            .from('alunos')
-            .select('id, rm, nome_completo, turma_id')
-            .order('nome_completo');
-
-        if (!error && alunos && alunos.length > 0) {
-            chatState.studentsList = alunos;
-        } else {
-            // Buscar das mensagens no localStorage
-            chatState.studentsList = getStudentsFromMessages();
-        }
+        chatState.studentsList = await getStudentsWithMessages();
         
-        // Adicionar alunos únicos do localStorage
-        const localStudents = getStudentsFromMessages();
-        const existingRMs = new Set(chatState.studentsList.map(s => s.rm));
-        
-        localStudents.forEach(student => {
-            if (!existingRMs.has(student.rm)) {
-                chatState.studentsList.push(student);
+        // Se não encontrar alunos nas mensagens, buscar da tabela alunos
+        if (chatState.studentsList.length === 0) {
+            console.log('📥 Buscando alunos da tabela principal...');
+            const { data: alunos, error } = await supabase
+                .from('alunos')
+                .select('rm, nome_completo, turma_id')
+                .order('nome_completo');
+            
+            if (!error && alunos) {
+                chatState.studentsList = alunos.map(aluno => ({
+                    rm: aluno.rm,
+                    nome_completo: aluno.nome_completo,
+                    turma_id: aluno.turma_id || 'Não informada'
+                }));
             }
-        });
-        
-        // Ordenar por última mensagem (mais recente primeiro)
-        chatState.studentsList.sort((a, b) => {
-            const dateA = new Date(a.lastMessage || 0);
-            const dateB = new Date(b.lastMessage || 0);
-            return dateB - dateA;
-        });
+        }
         
         renderStudentsList();
         
-        // Atualizar contadores
         const totalEl = document.getElementById('totalStudents');
         if (totalEl) totalEl.textContent = chatState.studentsList.length;
         
@@ -671,88 +451,9 @@ async function loadStudentsList() {
         
     } catch (error) {
         console.error('❌ Erro ao carregar alunos:', error);
-        chatState.studentsList = getStudentsFromMessages();
+        chatState.studentsList = [];
         renderStudentsList();
     }
-}
-
-function renderStudentsList() {
-    const container = document.getElementById('studentsList');
-    if (!container) return;
-    
-    if (chatState.studentsList.length === 0) {
-        container.innerHTML = `
-            <div class="no-students">
-                <i class="fas fa-users-slash"></i>
-                <span>Nenhum aluno encontrado</span>
-            </div>
-        `;
-        return;
-    }
-
-    container.innerHTML = '';
-    
-    chatState.studentsList.forEach(aluno => {
-        const studentElement = createStudentElement(aluno);
-        container.appendChild(studentElement);
-    });
-
-    setupStudentSearch();
-}
-
-function createStudentElement(aluno) {
-    const studentDiv = document.createElement('div');
-    studentDiv.className = 'student-item';
-    studentDiv.dataset.studentRm = aluno.rm;
-    
-    studentDiv.addEventListener('click', () => selectStudent(aluno));
-
-    const avatar = document.createElement('div');
-    avatar.className = 'student-avatar';
-    avatar.innerHTML = '<i class="fas fa-user"></i>';
-
-    const info = document.createElement('div');
-    info.className = 'student-info';
-
-    const name = document.createElement('div');
-    name.className = 'student-name';
-    name.textContent = aluno.nome_completo || `Aluno RM ${aluno.rm}`;
-
-    const details = document.createElement('div');
-    details.className = 'student-details';
-
-    const rm = document.createElement('div');
-    rm.className = 'student-rm';
-    rm.textContent = `RM: ${aluno.rm}`;
-
-    const turma = document.createElement('div');
-    turma.className = 'student-turma';
-    turma.textContent = aluno.turma_id || 'Turma não informada';
-
-    details.appendChild(rm);
-    details.appendChild(turma);
-    info.appendChild(name);
-    info.appendChild(details);
-    studentDiv.appendChild(avatar);
-    studentDiv.appendChild(info);
-
-    return studentDiv;
-}
-
-function setupStudentSearch() {
-    const searchInput = document.getElementById('studentSearch');
-    if (!searchInput) return;
-    
-    searchInput.addEventListener('input', function() {
-        const term = this.value.toLowerCase();
-        const items = document.querySelectorAll('.student-item');
-        
-        items.forEach(item => {
-            const name = item.querySelector('.student-name').textContent.toLowerCase();
-            const rm = item.querySelector('.student-rm').textContent.toLowerCase();
-            item.style.display = (name.includes(term) || rm.includes(term)) ? 'flex' : 'none';
-        });
-    });
 }
 
 async function selectStudent(aluno) {
@@ -781,26 +482,9 @@ async function selectStudent(aluno) {
     await loadAdminMessages(aluno);
 }
 
-function updateSelectedStudentInfo(aluno) {
-    const container = document.getElementById('selectedStudentInfo');
-    if (!container) return;
-    
-    container.innerHTML = `
-        <div class="student-avatar large">
-            <i class="fas fa-user"></i>
-        </div>
-        <div class="student-details">
-            <h3>${aluno.nome_completo || `Aluno RM ${aluno.rm}`}</h3>
-            <span class="student-status">
-                RM: ${aluno.rm} • ${aluno.turma_id || 'Turma não informada'}
-            </span>
-        </div>
-    `;
-}
-
 async function loadAdminMessages(aluno) {
     try {
-        const messages = getMessagesBetweenAdminAndStudent(aluno.rm);
+        const messages = await getMessagesBetweenUsers('admin_001', `aluno_${aluno.rm}`);
         
         // Ordenar
         const sortedMessages = messages.sort((a, b) => 
@@ -817,104 +501,92 @@ async function loadAdminMessages(aluno) {
     }
 }
 
-function renderAdminMessages(messages) {
-    const container = document.getElementById('adminMessagesContainer');
-    if (!container) return;
+// ===== ENVIO DE MENSAGENS =====
+async function sendStudentMessage() {
+    const input = document.getElementById('messageInput');
+    const sendBtn = document.querySelector('.send-btn');
     
-    container.innerHTML = '';
-    
-    if (messages.length === 0) {
-        const aluno = chatState.selectedStudent;
-        container.innerHTML = `
-            <div class="welcome-message">
-                <div class="welcome-icon">
-                    <i class="fas fa-user-tie"></i>
-                </div>
-                <h3>Modo Administrativo</h3>
-                <p>Inicie uma conversa com ${aluno?.nome_completo || 'o aluno'}</p>
-            </div>
-        `;
+    if (!input) {
+        showNotification('Erro: campo de mensagem não encontrado', 'error');
         return;
     }
     
-    messages.forEach((message, index) => {
-        const messageElement = createAdminMessageElement(message, index);
-        container.appendChild(messageElement);
-    });
+    const text = input.value.trim();
     
-    scrollToBottom('adminMessagesContainer');
+    if (!text) {
+        showNotification('Digite uma mensagem antes de enviar', 'warning');
+        return;
+    }
+    
+    input.disabled = true;
+    if (sendBtn) sendBtn.disabled = true;
+    
+    try {
+        // Criar mensagem na estrutura do seu banco
+        const newMessage = {
+            sender_id: chatState.userId,
+            receiver_id: 'admin_001',
+            sender_rm: chatState.userRM,
+            sender_role: 'student',
+            sender_name: chatState.userName,
+            receiver_rm: 'ADMIN',
+            receiver_role: 'admin',
+            message_text: text,
+            department: chatState.currentDepartment || 'all',
+            is_read: false,
+            created_at: new Date().toISOString()
+        };
+        
+        // Enviar via backend
+        const savedMessage = await sendMessageToBackend(newMessage);
+        
+        // Adicionar ao estado
+        chatState.messages.push(savedMessage);
+        
+        // Salvar no localStorage como fallback
+        saveMessageToLocalStorage(savedMessage);
+        
+        // Renderizar
+        renderStudentMessages();
+        
+        // Limpar input
+        input.value = '';
+        input.style.height = 'auto';
+        
+        showNotification('✅ Mensagem enviada!', 'success');
+        
+    } catch (error) {
+        console.error('❌ Erro ao enviar mensagem:', error);
+        
+        // Fallback: salvar apenas no localStorage
+        const tempId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+        const tempMessage = {
+            id: tempId,
+            sender_id: chatState.userId,
+            receiver_id: 'admin_001',
+            sender_rm: chatState.userRM,
+            sender_role: 'student',
+            sender_name: chatState.userName,
+            receiver_rm: 'ADMIN',
+            message_text: text,
+            department: chatState.currentDepartment || 'all',
+            is_read: false,
+            created_at: new Date().toISOString()
+        };
+        
+        saveMessageToLocalStorage(tempMessage);
+        chatState.messages.push(tempMessage);
+        renderStudentMessages();
+        
+        showNotification('⚠️ Mensagem salva localmente (sem conexão)', 'warning');
+    } finally {
+        input.disabled = false;
+        if (sendBtn) sendBtn.disabled = false;
+        input.focus();
+    }
 }
 
-function createAdminMessageElement(message, index) {
-    const isAdminMessage = message.sender_id === 'admin';
-    const isLongMessage = message.message_text && message.message_text.length > 100;
-    const isVeryLongMessage = message.message_text && message.message_text.length > 200;
-    
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${isAdminMessage ? 'admin' : 'user'}`;
-    
-    if (isLongMessage) messageDiv.classList.add('message-long');
-    if (isVeryLongMessage) messageDiv.classList.add('message-very-long');
-    if (index === chatState.adminMessages.get(chatState.selectedStudent.rm).length - 1) {
-        messageDiv.classList.add('message-new');
-    }
-    
-    messageDiv.dataset.id = message.id;
-
-    const avatar = document.createElement('div');
-    avatar.className = 'message-avatar';
-    avatar.innerHTML = isAdminMessage ? '<i class="fas fa-user-tie"></i>' : '<i class="fas fa-user"></i>';
-
-    const content = document.createElement('div');
-    content.className = 'message-content force-text-break';
-
-    const header = document.createElement('div');
-    header.className = 'message-header';
-    
-    const senderName = document.createElement('span');
-    senderName.className = 'message-sender';
-    senderName.textContent = isAdminMessage ? 'Você (Administrador)' : (message.sender_name || 'Aluno');
-
-    const time = document.createElement('span');
-    time.className = 'message-time';
-    time.textContent = formatTime(message.created_at);
-    
-    header.appendChild(senderName);
-    header.appendChild(time);
-
-    const text = document.createElement('div');
-    text.className = 'message-text force-text-break';
-    text.textContent = message.message_text || '';
-    
-    // Se for texto sem espaços
-    if (message.message_text && !message.message_text.includes(' ')) {
-        text.classList.add('break-all');
-    }
-
-    content.appendChild(header);
-    content.appendChild(text);
-    
-    if (isAdminMessage) {
-        const status = document.createElement('div');
-        status.className = 'message-status';
-        status.innerHTML = message.is_read ? 
-            '<i class="fas fa-check-double"></i> Lida' : 
-            '<i class="fas fa-check"></i> Enviada';
-        content.appendChild(status);
-    }
-
-    if (isAdminMessage) {
-        messageDiv.appendChild(content);
-        messageDiv.appendChild(avatar);
-    } else {
-        messageDiv.appendChild(avatar);
-        messageDiv.appendChild(content);
-    }
-
-    return messageDiv;
-}
-
-function sendAdminMessage() {
+async function sendAdminMessage() {
     if (!chatState.selectedStudent) {
         showNotification('Selecione um aluno primeiro', 'warning');
         return;
@@ -932,7 +604,6 @@ function sendAdminMessage() {
         return;
     }
 
-    // Desabilitar temporariamente
     input.disabled = true;
     if (sendBtn) sendBtn.disabled = true;
 
@@ -940,29 +611,29 @@ function sendAdminMessage() {
         const aluno = chatState.selectedStudent;
         
         const newMessage = {
-            id: generateMessageId(),
-            sender_id: 'admin',
+            sender_id: 'admin_001',
             receiver_id: `aluno_${aluno.rm}`,
+            sender_rm: 'ADMIN',
             sender_role: 'admin',
             sender_name: 'Administrador',
             receiver_rm: aluno.rm,
             receiver_role: 'student',
             message_text: text,
+            department: 'all',
             is_read: false,
             created_at: new Date().toISOString()
         };
 
-        // Salvar
-        const saved = saveMessageToLocalStorage(newMessage);
-        
-        if (!saved) {
-            throw new Error('Falha ao salvar mensagem');
-        }
+        // Enviar via backend
+        const savedMessage = await sendMessageToBackend(newMessage);
 
         // Adicionar ao estado
         const studentMessages = chatState.adminMessages.get(aluno.rm) || [];
-        studentMessages.push(newMessage);
+        studentMessages.push(savedMessage);
         chatState.adminMessages.set(aluno.rm, studentMessages);
+        
+        // Salvar no localStorage como fallback
+        saveMessageToLocalStorage(savedMessage);
         
         // Renderizar
         renderAdminMessages(studentMessages);
@@ -975,9 +646,31 @@ function sendAdminMessage() {
 
     } catch (error) {
         console.error('❌ Erro ao enviar mensagem:', error);
-        showNotification('Erro ao enviar mensagem', 'error');
+        
+        // Fallback: salvar apenas no localStorage
+        const tempId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+        const tempMessage = {
+            id: tempId,
+            sender_id: 'admin_001',
+            receiver_id: `aluno_${aluno.rm}`,
+            sender_rm: 'ADMIN',
+            sender_role: 'admin',
+            sender_name: 'Administrador',
+            receiver_rm: aluno.rm,
+            message_text: text,
+            department: 'all',
+            is_read: false,
+            created_at: new Date().toISOString()
+        };
+        
+        saveMessageToLocalStorage(tempMessage);
+        const studentMessages = chatState.adminMessages.get(aluno.rm) || [];
+        studentMessages.push(tempMessage);
+        chatState.adminMessages.set(aluno.rm, studentMessages);
+        renderAdminMessages(studentMessages);
+        
+        showNotification('⚠️ Mensagem salva localmente (sem conexão)', 'warning');
     } finally {
-        // Reabilitar
         input.disabled = false;
         if (sendBtn) sendBtn.disabled = false;
         input.focus();
@@ -985,33 +678,30 @@ function sendAdminMessage() {
 }
 
 // ===== SISTEMA DE ATUALIZAÇÃO AUTOMÁTICA =====
-function setupAutoRefresh() {
-    // Limpar intervalo anterior
-    if (chatState.refreshInterval) {
-        clearInterval(chatState.refreshInterval);
-    }
-    
-    // Atualizar a cada 3 segundos
-    chatState.refreshInterval = setInterval(refreshMessages, 3000);
-    
-    console.log('🔄 Sistema de atualização automática iniciado');
-}
-
-function refreshMessages() {
+async function refreshMessages() {
     if (chatState.userRole === 'admin') {
         if (chatState.selectedStudent) {
             const aluno = chatState.selectedStudent;
             const currentMessages = chatState.adminMessages.get(aluno.rm) || [];
-            const newMessages = getMessagesBetweenAdminAndStudent(aluno.rm);
+            const newMessages = await getMessagesBetweenUsers('admin_001', `aluno_${aluno.rm}`);
             
             if (newMessages.length !== currentMessages.length) {
                 chatState.adminMessages.set(aluno.rm, newMessages);
                 renderAdminMessages(newMessages);
+                
+                // Marcar mensagens recebidas como lidas
+                const unreadIds = newMessages
+                    .filter(msg => msg.sender_id === `aluno_${aluno.rm}` && !msg.is_read)
+                    .map(msg => msg.id);
+                
+                if (unreadIds.length > 0) {
+                    await markMessagesAsReadBackend(unreadIds);
+                }
             }
         }
     } else {
         const currentCount = chatState.messages.length;
-        const newMessages = getMessagesForUser(chatState.userId);
+        const newMessages = await getMessagesForUserBackend(chatState.userId);
         
         if (newMessages.length !== currentCount) {
             chatState.messages = newMessages;
@@ -1019,33 +709,48 @@ function refreshMessages() {
             
             // Notificar sobre novas mensagens
             const newFromAdmin = newMessages.filter(msg => 
-                msg.sender_id === 'admin' && 
+                msg.sender_id === 'admin_001' && 
                 !chatState.messages.some(m => m.id === msg.id)
             );
             
             if (newFromAdmin.length > 0 && !document.hidden) {
                 showNotification('📩 Nova mensagem da diretoria!', 'info');
+                
+                // Marcar como lidas
+                const unreadIds = newFromAdmin
+                    .filter(msg => !msg.is_read)
+                    .map(msg => msg.id);
+                
+                if (unreadIds.length > 0) {
+                    await markMessagesAsReadBackend(unreadIds);
+                }
             }
         }
     }
 }
 
+function setupAutoRefresh() {
+    if (chatState.refreshInterval) {
+        clearInterval(chatState.refreshInterval);
+    }
+    
+    chatState.refreshInterval = setInterval(refreshMessages, 3000);
+    console.log('🔄 Sistema de atualização automática iniciado');
+}
+
 function startAdminPolling() {
     setInterval(() => {
         if (chatState.userRole === 'admin') {
-            const allMessages = getAllMessagesFromLocalStorage();
-            const newMessagesFromStudents = allMessages.filter(msg => 
-                msg.receiver_id === 'admin' && !msg.is_read
-            );
-            
-            if (newMessagesFromStudents.length > 0) {
-                loadStudentsList();
-            }
+            loadStudentsList();
         }
-    }, 5000);
+    }, 10000); // Atualizar lista a cada 10 segundos
 }
 
 // ===== FUNÇÕES AUXILIARES =====
+function generateMessageId() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+}
+
 function formatTime(timestamp) {
     try {
         const date = new Date(timestamp);
@@ -1075,124 +780,139 @@ function scrollToBottom(containerId) {
     }
 }
 
-function setupDepartments() {
-    const items = document.querySelectorAll('.department-item');
+function createMessageElement(message, index) {
+    const isUserMessage = message.sender_id === chatState.userId;
+    const isAdmin = message.sender_role === 'admin';
+    const isLongMessage = message.message_text && message.message_text.length > 100;
     
-    items.forEach(item => {
-        item.addEventListener('click', function() {
-            items.forEach(i => i.classList.remove('active'));
-            this.classList.add('active');
-            
-            const dept = this.dataset.department;
-            chatState.currentDepartment = dept;
-            
-            showNotification(`Setor: ${this.querySelector('h4').textContent}`, 'info');
-        });
-    });
-}
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${isUserMessage ? 'user' : (isAdmin ? 'admin' : 'other')}`;
+    
+    if (isLongMessage) messageDiv.classList.add('message-long');
+    if (index === chatState.messages.length - 1) messageDiv.classList.add('message-new');
+    
+    messageDiv.dataset.id = message.id;
 
-function updateUserInterface() {
-    const userNameElement = document.getElementById('userName');
-    const userRoleElement = document.getElementById('userRole');
-    
-    if (userNameElement) {
-        userNameElement.textContent = chatState.userName || 'Usuário';
-    }
-    
-    if (userRoleElement) {
-        userRoleElement.textContent = chatState.userRole === 'admin' ? 'Administrador' : 'Aluno';
-        userRoleElement.className = `user-role ${chatState.userRole}`;
-    }
-    
-    if (chatState.userRole === 'student' && chatState.userRM) {
-        const rmDisplay = document.getElementById('studentRMDisplay');
-        if (rmDisplay) {
-            rmDisplay.textContent = chatState.userRM;
-        }
-    }
-}
+    // Avatar
+    const avatar = document.createElement('div');
+    avatar.className = 'message-avatar';
+    avatar.innerHTML = isUserMessage ? '<i class="fas fa-user"></i>' : 
+                       isAdmin ? '<i class="fas fa-user-tie"></i>' : '<i class="fas fa-user"></i>';
 
-function setupChatInterface() {
-    const studentChat = document.getElementById('studentChat');
-    const adminChat = document.getElementById('adminChat');
+    // Conteúdo
+    const content = document.createElement('div');
+    content.className = 'message-content force-text-break';
     
-    if (chatState.userRole === 'admin') {
-        if (studentChat) studentChat.style.display = 'none';
-        if (adminChat) adminChat.style.display = 'block';
+    // Header
+    const header = document.createElement('div');
+    header.className = 'message-header';
+    
+    const senderName = document.createElement('span');
+    senderName.className = 'message-sender';
+    senderName.textContent = isUserMessage ? 'Você' : 
+                            (isAdmin ? 'Administrador' : (message.sender_name || 'Aluno'));
+    
+    const time = document.createElement('span');
+    time.className = 'message-time';
+    time.textContent = formatTime(message.created_at);
+    
+    header.appendChild(senderName);
+    header.appendChild(time);
+    
+    // Texto
+    const text = document.createElement('div');
+    text.className = 'message-text force-text-break';
+    text.textContent = message.message_text || '';
+    
+    content.appendChild(header);
+    content.appendChild(text);
+    
+    // Status (apenas para mensagens do usuário)
+    if (isUserMessage) {
+        const status = document.createElement('div');
+        status.className = 'message-status';
+        status.innerHTML = message.is_read ? 
+            '<i class="fas fa-check-double"></i> Lida' : 
+            '<i class="fas fa-check"></i> Enviada';
+        content.appendChild(status);
+    }
+    
+    // Montar mensagem
+    if (isUserMessage) {
+        messageDiv.appendChild(content);
+        messageDiv.appendChild(avatar);
     } else {
-        if (studentChat) studentChat.style.display = 'block';
-        if (adminChat) adminChat.style.display = 'none';
+        messageDiv.appendChild(avatar);
+        messageDiv.appendChild(content);
     }
+    
+    return messageDiv;
 }
 
-// ===== SISTEMA DE HEADER =====
-function initializeHeaderSystems() {
-    const zoomIn = document.getElementById('zoom-in');
-    const zoomOut = document.getElementById('zoom-out');
+function createAdminMessageElement(message, index) {
+    const isAdminMessage = message.sender_role === 'admin';
+    const isLongMessage = message.message_text && message.message_text.length > 100;
     
-    let currentZoom = 100;
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${isAdminMessage ? 'admin' : 'user'}`;
     
-    if (zoomIn && zoomOut) {
-        zoomIn.addEventListener('click', function() {
-            if (currentZoom < 150) {
-                currentZoom += 10;
-                document.body.style.zoom = currentZoom + '%';
-                showNotification(`Zoom: ${currentZoom}%`, 'info');
-            }
-        });
-        
-        zoomOut.addEventListener('click', function() {
-            if (currentZoom > 50) {
-                currentZoom -= 10;
-                document.body.style.zoom = currentZoom + '%';
-                showNotification(`Zoom: ${currentZoom}%`, 'info');
-            }
-        });
+    if (isLongMessage) messageDiv.classList.add('message-long');
+    if (index === chatState.adminMessages.get(chatState.selectedStudent.rm)?.length - 1) {
+        messageDiv.classList.add('message-new');
     }
+    
+    messageDiv.dataset.id = message.id;
+
+    const avatar = document.createElement('div');
+    avatar.className = 'message-avatar';
+    avatar.innerHTML = isAdminMessage ? '<i class="fas fa-user-tie"></i>' : '<i class="fas fa-user"></i>';
+
+    const content = document.createElement('div');
+    content.className = 'message-content force-text-break';
+
+    const header = document.createElement('div');
+    header.className = 'message-header';
+    
+    const senderName = document.createElement('span');
+    senderName.className = 'message-sender';
+    senderName.textContent = isAdminMessage ? 'Você (Administrador)' : (message.sender_name || 'Aluno');
+
+    const time = document.createElement('span');
+    time.className = 'message-time';
+    time.textContent = formatTime(message.created_at);
+    
+    header.appendChild(senderName);
+    header.appendChild(time);
+
+    const text = document.createElement('div');
+    text.className = 'message-text force-text-break';
+    text.textContent = message.message_text || '';
+
+    content.appendChild(header);
+    content.appendChild(text);
+    
+    if (isAdminMessage) {
+        const status = document.createElement('div');
+        status.className = 'message-status';
+        status.innerHTML = message.is_read ? 
+            '<i class="fas fa-check-double"></i> Lida' : 
+            '<i class="fas fa-check"></i> Enviada';
+        content.appendChild(status);
+    }
+
+    if (isAdminMessage) {
+        messageDiv.appendChild(content);
+        messageDiv.appendChild(avatar);
+    } else {
+        messageDiv.appendChild(avatar);
+        messageDiv.appendChild(content);
+    }
+
+    return messageDiv;
 }
 
-// ===== SISTEMA DE NOTIFICAÇÕES =====
-function showNotification(message, type = 'info') {
-    // Remover notificação existente
-    const existing = document.querySelector('.notification');
-    if (existing) existing.remove();
-    
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    
-    const icons = {
-        success: 'check-circle',
-        error: 'exclamation-circle',
-        info: 'info-circle',
-        warning: 'exclamation-triangle'
-    };
-    
-    notification.innerHTML = `
-        <i class="fas fa-${icons[type]}"></i>
-        <span>${message}</span>
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Animar entrada
-    setTimeout(() => {
-        notification.style.opacity = '1';
-        notification.style.transform = 'translateX(0)';
-    }, 10);
-    
-    // Remover após 4 segundos
-    setTimeout(() => {
-        notification.style.opacity = '0';
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
-            }
-        }, 300);
-    }, 4000);
-}
+// ... (mantenha as outras funções como renderAdminMessages, renderStudentsList, etc.) ...
 
-// ===== FUNÇÕES DE AUTENTICAÇÃO =====
 function showAuthenticationOptions() {
     const container = document.querySelector('.chat-container') || document.body;
     
@@ -1228,65 +948,93 @@ function showAuthenticationOptions() {
     }
 }
 
-// ===== FUNÇÕES GLOBAIS =====
-window.sendQuickMessage = function(type) {
-    const messages = {
-        'agendamento': 'Gostaria de agendar uma reunião com a diretoria.',
-        'documento': 'Preciso solicitar um documento escolar.',
-        'duvida': 'Tenho uma dúvida que gostaria de esclarecer.'
-    };
+// ===== LISTENERS DE EVENTOS =====
+function setupStudentEventListeners() {
+    const messageInput = document.getElementById('messageInput');
+    const sendBtn = document.querySelector('.send-btn');
+    
+    if (messageInput) {
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            const newHeight = Math.min(this.scrollHeight, 120);
+            this.style.height = newHeight + 'px';
+            adjustStudentLayout();
+        });
 
-    const input = document.getElementById('messageInput');
-    if (input) {
-        input.value = messages[type] || 'Mensagem rápida';
-        input.focus();
-        showNotification('Mensagem rápida adicionada', 'info');
+        messageInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendStudentMessage();
+            }
+        });
+        
+        setTimeout(() => {
+            messageInput.focus();
+        }, 500);
     }
-};
+    
+    if (sendBtn) {
+        sendBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            sendStudentMessage();
+        });
+    }
+}
 
-window.refreshChat = function() {
+function setupAdminEventListeners() {
+    const adminInput = document.getElementById('adminMessageInput');
+    const adminSendBtn = document.getElementById('adminSendBtn');
+    
+    if (adminInput) {
+        adminInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+
+        adminInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendAdminMessage();
+            }
+        });
+    }
+    
+    if (adminSendBtn) {
+        adminSendBtn.addEventListener('click', sendAdminMessage);
+    }
+}
+
+// ===== FUNÇÕES DE INTERFACE =====
+function updateUserInterface() {
+    const userNameElement = document.getElementById('userName');
+    const userRoleElement = document.getElementById('userRole');
+    
+    if (userNameElement) {
+        userNameElement.textContent = chatState.userName || 'Usuário';
+    }
+    
+    if (userRoleElement) {
+        userRoleElement.textContent = chatState.userRole === 'admin' ? 'Administrador' : 'Aluno';
+        userRoleElement.className = `user-role ${chatState.userRole}`;
+    }
+}
+
+function setupChatInterface() {
+    const studentChat = document.getElementById('studentChat');
+    const adminChat = document.getElementById('adminChat');
+    
     if (chatState.userRole === 'admin') {
-        loadStudentsList();
-        if (chatState.selectedStudent) {
-            loadAdminMessages(chatState.selectedStudent);
-        }
+        if (studentChat) studentChat.style.display = 'none';
+        if (adminChat) adminChat.style.display = 'block';
     } else {
-        loadStudentMessages();
+        if (studentChat) studentChat.style.display = 'block';
+        if (adminChat) adminChat.style.display = 'none';
     }
-    showNotification('Chat atualizado', 'info');
-};
+}
 
-// Modal
-window.showConfirmModal = function(message, callback) {
-    const modal = document.getElementById('confirmModal');
-    const messageElement = document.getElementById('confirmMessage');
-    
-    if (modal && messageElement) {
-        messageElement.textContent = message;
-        modal.style.display = 'flex';
-        window.confirmActionCallback = callback;
-    }
-};
-
-window.confirmAction = function() {
-    const modal = document.getElementById('confirmModal');
-    if (modal) {
-        modal.style.display = 'none';
-    }
-    
-    if (typeof window.confirmActionCallback === 'function') {
-        window.confirmActionCallback();
-        window.confirmActionCallback = null;
-    }
-};
-
-window.closeModal = function() {
-    const modal = document.getElementById('confirmModal');
-    if (modal) {
-        modal.style.display = 'none';
-    }
-    window.confirmActionCallback = null;
-};
+function showNotification(message, type = 'info') {
+    // ... (seu código de notificação existente)
+}
 
 // ===== INICIALIZAÇÃO COMPLETA =====
 console.log('✅ Sistema de Chat carregado!');
@@ -1301,40 +1049,3 @@ document.addEventListener('keydown', function(e) {
         }
     }
 });
-
-// Ajustar layout na inicialização
-window.addEventListener('load', function() {
-    if (chatState.userRole === 'student') {
-        setTimeout(adjustStudentLayout, 200);
-    }
-});
-
-// Ajustar layout no redimensionamento
-window.addEventListener('resize', function() {
-    if (chatState.userRole === 'student') {
-        adjustStudentLayout();
-    }
-
-});
-
-const socket = io("https://ifomorita.onrender.com"); // ou seu domínio online
-
-const form = document.getElementById('chatForm');
-const input = document.getElementById('chatInput');
-const messages = document.getElementById('messages');
-
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const msg = input.value.trim();
-  if (msg) {
-    socket.emit('chat-message', { autor: 'Gabriel', texto: msg });
-    input.value = '';
-  }
-});
-
-socket.on('chat-message', (data) => {
-  const li = document.createElement('li');
-  li.textContent = `${data.autor}: ${data.texto}`;
-  messages.appendChild(li);
-});
-
