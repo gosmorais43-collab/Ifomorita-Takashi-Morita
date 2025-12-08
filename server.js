@@ -174,3 +174,31 @@ app.get('/aluno/:id', async (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
 
+// === RECADOS ===
+app.post('/recados', async (req, res) => {
+  const { titulo, mensagem, tipo } = req.body;
+  const { error } = await supabase.from('recados').insert([{ titulo, mensagem, tipo }]);
+  if (error) return res.status(500).json({ sucesso: false, erro: error.message });
+  res.json({ sucesso: true });
+});
+
+app.get('/recados', async (req, res) => {
+  const { data, error } = await supabase.from('recados').select('*').order('dataFormatada', { ascending: false });
+  if (error) return res.status(500).json({ sucesso: false, erro: error.message });
+  res.json({ sucesso: true, recados: data });
+});
+
+// === CONTEÚDO ===
+app.post('/conteudos', async (req, res) => {
+  const { titulo, descricao } = req.body;
+  const { error } = await supabase.from('conteudos').insert([{ titulo, descricao }]);
+  if (error) return res.status(500).json({ sucesso: false, erro: error.message });
+  res.json({ sucesso: true });
+});
+
+app.get('/conteudos', async (req, res) => {
+  const { data, error } = await supabase.from('conteudos').select('*').order('data', { ascending: false });
+  if (error) return res.status(500).json({ sucesso: false, erro: error.message });
+  res.json({ sucesso: true, conteudos: data });
+});
+
