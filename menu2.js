@@ -14,13 +14,11 @@ async function login(rm, senha) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ rm, senha })
   });
-
-  const ADMIN_PASSWORD = "diretor123";
   
   const data = await response.json();
   console.log(data);
 }
-
+  const ADMIN_PASSWORD = "diretor123";
 // SENHA DA DIRETORIA
 
 console.log('🚀 Sistema ETEC Takashi Morita iniciado!');
@@ -435,5 +433,6 @@ if (result.sucesso) {
     // INICIAR
     initializeAllSystems();
 });
+
 
 
