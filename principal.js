@@ -14,6 +14,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const data = await response.json();
         console.log(data);
     }
+localStorage.setItem('userType', 'admin');
+localStorage.setItem('adminLoggedIn', 'true');
+localStorage.setItem('sender_id', 'admin_001');
+localStorage.setItem('sender_name', 'Administrador');
 
     // Verificar se o usuário está logado
     checkAuthentication();
@@ -687,6 +691,7 @@ function carregarRecadosEnviados() {
         </div>
     `).join('');
 }
+
 
 
 
