@@ -202,3 +202,138 @@ app.get('/conteudos', async (req, res) => {
   res.json({ sucesso: true, conteudos: data });
 });
 
+// === ROTAS PARA O CHAT ===
+
+// Rota para enviar mensagem
+app.post('/chat/send', async (req, res) => {
+  try {
+    const messageData = req.body;
+    
+    // Validar dados obrigatórios
+    if (!messageData.sender_id || !messageData.receiver_id || !messageData.message_text) {
+      return res.status(400).json({ sucesso: false, erro: 'Dados obrigatórios faltando' });
+    }
+
+    const { data, error } = await supabase
+      .from('messages')
+      .insert([messageData])
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Erro ao salvar mensagem:', error);
+      return res.status(500).json({ sucesso: false, erro: 'Erro ao salvar mensagem' });
+    }
+
+    res.json({ sucesso: true, mensagem: data });
+  } catch (err) {
+    console.error('Erro no servidor:', err);
+    res.status(500).json({ sucesso: false, erro: 'Erro interno do servidor' });
+  }
+});
+
+// Rota para buscar mensagens entre usuários
+app.get('/chat/messages/:sender_id/:receiver_id', async (req, res) => {
+  try {
+    const { sender_id, receiver_id } = req.params;
+    const { limit = 100, offset = 0 } = req.query;
+
+    const { data, error } = await supabase
+      .from('messages')
+      .select('*')
+      .or(`and(sender_id.eq.${sender_id},receiver_id.eq.${receiver_id}),and(sender_id.eq.${receiver_id},receiver_id.eq.${sender_id})`)
+      .order('created_at', { ascending: true })
+      .range(offset, offset + limit - 1);
+
+    if (error) {
+      console.error('Erro ao buscar mensagens:', error);
+      return res.status(500).json({ sucesso: false, erro: 'Erro ao buscar mensagens' });
+    }
+
+    res.json({ sucesso: true, mensagens: data });
+  } catch (err) {
+    console.error('Erro no servidor:', err);
+    res.status(500).json({ sucesso: false, erro: 'Erro interno do servidor' });
+  }
+});
+
+// Rota para buscar todas as conversas de um usuário
+app.get('/chat/conversations/:user_id', async (req, res) => {
+  try {
+    const { user_id } = req.params;
+
+    const { data, error } = await supabase
+      .from('messages')
+      .select('*')
+      .or(`sender_id.eq.${user_id},receiver_id.eq.${user_id}`)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Erro ao buscar conversas:', error);
+      return res.status(500).json({ sucesso: false, erro: 'Erro ao buscar conversas' });
+    }
+
+    // Agrupar por conversa
+    const conversations = {};
+    data.forEach(message => {
+      const otherUserId = message.sender_id === user_id ? message.receiver_id : message.sender_id;
+      if (!conversations[otherUserId] || new Date(message.created_at) > new Date(conversations[otherUserId].lastMessage)) {
+        conversations[otherUserId] = {
+          user_id: otherUserId,
+          lastMessage: message.created_at,
+          lastMessageText: message.message_text,
+          unreadCount: 0 // Você pode adicionar lógica para contar não lidas
+        };
+      }
+    });
+
+    res.json({ sucesso: true, conversas: Object.values(conversations) });
+  } catch (err) {
+    console.error('Erro no servidor:', err);
+    res.status(500).json({ sucesso: false, erro: 'Erro interno do servidor' });
+  }
+});
+
+// Rota para marcar mensagens como lidas
+app.put('/chat/mark-read/:message_id', async (req, res) => {
+  try {
+    const { message_id } = req.params;
+
+    const { data, error } = await supabase
+      .from('messages')
+      .update({ is_read: true })
+      .eq('id', message_id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Erro ao marcar como lida:', error);
+      return res.status(500).json({ sucesso: false, erro: 'Erro ao marcar mensagem' });
+    }
+
+    res.json({ sucesso: true, mensagem: data });
+  } catch (err) {
+    console.error('Erro no servidor:', err);
+    res.status(500).json({ sucesso: false, erro: 'Erro interno do servidor' });
+  }
+});
+
+// Rota para buscar alunos (para admin)
+app.get('/chat/students', async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('alunos')
+      .select('id, rm, nome_completo, turma_id')
+      .order('nome_completo');
+
+    if (error) {
+      console.error('Erro ao buscar alunos:', error);
+      return res.status(500).json({ sucesso: false, erro: 'Erro ao buscar alunos' });
+    }
+
+    res.json({ sucesso: true, alunos: data });
+  } catch (err) {
+    console.error('Erro no servidor:', err);
+    res.status(500).json({ sucesso: false, erro: 'Erro interno do servidor' });
+  }
+});
