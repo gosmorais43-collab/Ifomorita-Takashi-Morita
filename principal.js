@@ -683,8 +683,8 @@ function openPageAsAdmin(pageId) {
         'admin-professores': 'professores.html',
         'admin-biblioteca': 'livros.html',
         'admin-configuracao': 'configuracao.html',
-        'admin-conteudo': 'principal.html',
-        'admin-recados': 'principal.html'
+         'admin-conteudo': 'principal.html#admin-conteudo',
+        'admin-recados': 'principal.html#admin-recados'
     };
 
     const targetUrl = pageMap[pageId];
@@ -772,6 +772,7 @@ window.sendQuickMessage = function(type) {
         showNotification('Mensagem rápida adicionada', 'info');
     }
 };
+
 
 
 
