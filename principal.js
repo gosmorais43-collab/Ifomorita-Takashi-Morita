@@ -602,12 +602,26 @@ function openPageAsAdmin(pageId) {
     console.log(`👑 Abrindo página do admin: ${pageId}`);
     showNotification(`Abrindo ${pageId}...`, 'info');
 
-    // Esconde todas as seções do admin
+    // Mapear quais páginas devem abrir em nova aba
+    const pageMap = {
+        'admin-chat': 'chat.html',
+        'admin-noticias': 'noticias.html',
+        'admin-configuracao': 'configuracao.html',
+        'admin-professores': 'professores.html',
+        'admin-biblioteca': 'livros.html'
+    };
+
+    // Se for uma dessas páginas, redireciona
+    if (pageMap[pageId]) {
+        window.location.href = pageMap[pageId];
+        return;
+    }
+
+    // Caso contrário, mantém dentro do principal.html
     document.querySelectorAll('.admin-content-section').forEach(section => {
         section.classList.remove('active');
     });
 
-    // Mostra a seção escolhida
     const targetSection = document.getElementById(pageId);
     if (targetSection) {
         targetSection.classList.add('active');
@@ -617,12 +631,14 @@ function openPageAsAdmin(pageId) {
     if (pageId === 'admin-conteudo') {
         loadAdminContentForm();
     }
+
     // Se for admin-recados, carrega recados
     if (pageId === 'admin-recados') {
         carregarRecadosEnviados();
-        previewRecado();
+        initializeRecadosSystem();
     }
 }
+
 
 function loadAdminContentForm() {
     const formContainer = document.getElementById('adminContentFormContainer');
@@ -671,6 +687,7 @@ function carregarRecadosEnviados() {
         </div>
     `).join('');
 }
+
 
 
 
