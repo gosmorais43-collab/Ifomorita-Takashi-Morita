@@ -672,57 +672,14 @@ function carregarRecadosEnviados() {
     `).join('');
 }
 
-function openPageAsAdmin(pageId) {
-    console.log(`👑 Abrindo página do admin: ${pageId}`);
-    showNotification(`Abrindo ${pageId}...`, 'info');
-
-    // Esconde todas as seções do admin
-    document.querySelectorAll('.admin-content-section').forEach(section => {
-        section.classList.remove('active');
-    });
-
-    // Mostra a seção escolhida
-    const targetSection = document.getElementById(pageId);
-    if (targetSection) {
-        targetSection.classList.add('active');
-    }
-
-    // Se for admin-conteudo, carrega o formulário
-    if (pageId === 'admin-conteudo') {
-        loadAdminContentForm();
-    }
-
-    // Se for admin-recados, carrega recados
-    if (pageId === 'admin-recados') {
-        carregarRecadosEnviados();
-        initializeRecadosSystem();
-    }
-}
 
 
-    const targetUrl = pageMap[pageId];
-    if (targetUrl) {
-        window.location.href = targetUrl;
-    } else {
-        showNotification('Página não encontrada para esse botão', 'error');
-    }
-}
 
-function loadAdminContentForm() {
-    const formContainer = document.getElementById('adminContentFormContainer');
-    if (!formContainer) return;
 
-    formContainer.innerHTML = `
-        <form id="adminContentForm">
-            <input type="text" id="adminContentInput" placeholder="Digite o conteúdo..." />
-            <button type="button" id="saveContentBtn" class="cps-button primary">Salvar Conteúdo</button>
-        </form>
-        <div id="savedContentContainer"></div>
-    `;
 
-    const saveBtn = document.getElementById('saveContentBtn');
-    if (saveBtn) {
-        saveBtn.addEventListener('click', saveAdminContent);
-    }
 
-    // Mostrar conteúdos já salvos
+
+
+
+
+
