@@ -695,7 +695,83 @@ function openPageAsAdmin(pageId) {
     }
 }
 
+function loadAdminContentForm() {
+    const formContainer = document.getElementById('adminContentFormContainer');
+    if (!formContainer) return;
 
+    formContainer.innerHTML = `
+        <form id="adminContentForm">
+            <input type="text" id="adminContentInput" placeholder="Digite o conteúdo..." />
+            <button type="button" id="saveContentBtn" class="cps-button primary">Salvar Conteúdo</button>
+        </form>
+        <div id="savedContentContainer"></div>
+    `;
+
+    const saveBtn = document.getElementById('saveContentBtn');
+    if (saveBtn) {
+        saveBtn.addEventListener('click', saveAdminContent);
+    }
+
+    // Mostrar conteúdos já salvos
+    loadSavedContent();
+}
+
+function carregarRecadosEnviados() {
+    const container = document.getElementById('recadosEnviadosContainer');
+    if (!container) return;
+
+    const recados = JSON.parse(localStorage.getItem('recados_globais')) || [];
+
+    if (recados.length === 0) {
+        container.innerHTML = `
+            <div class="sem-recados">
+                <i class="fas fa-bullhorn"></i>
+                <p>Nenhum recado enviado ainda</p>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = recados.map(recado => `
+        <div class="recado-item ${recado.tipo}">
+            <div class="recado-header">
+                <div class="recado-titulo">${recado.titulo}</div>
+                <div class="recado-data">${recado.dataFormatada}</div>
+            </div>
+            <div class="recado-mensagem">${recado.mensagem}</div>
+            <div class="recado-tipo">
+                ${recado.tipo === 'info' ? 'Informação' :
+                  recado.tipo === 'aviso' ? 'Aviso' :
+                  recado.tipo === 'urgente' ? 'Urgente' : 'Evento'}
+            </div>
+        </div>
+    `).join('');
+}
+function addQuickActions() {
+    const quickActionsContainer = document.getElementById('quickActions');
+    if (!quickActionsContainer) return;
+
+    quickActionsContainer.innerHTML = `
+        <button class="cps-button secondary" onclick="sendQuickMessage('agendamento')">📅 Agendamento</button>
+        <button class="cps-button secondary" onclick="sendQuickMessage('documento')">📄 Documento</button>
+        <button class="cps-button secondary" onclick="sendQuickMessage('duvida')">❓ Dúvida</button>
+    `;
+}
+
+window.sendQuickMessage = function(type) {
+    const messages = {
+        'agendamento': 'Gostaria de agendar uma reunião com a diretoria.',
+        'documento': 'Preciso solicitar um documento escolar.',
+        'duvida': 'Tenho uma dúvida que gostaria de esclarecer.'
+    };
+
+    const input = document.getElementById('recadoMensagem') || document.getElementById('adminContentInput');
+    if (input) {
+        input.value = messages[type] || 'Mensagem rápida';
+        input.focus();
+        showNotification('Mensagem rápida adicionada', 'info');
+    }
+};
 
 
 
